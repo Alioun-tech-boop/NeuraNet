@@ -9,6 +9,7 @@ import { authenticateApiKey } from '../middleware/auth.js';
 import { agentRoutes } from '../routes/agents.js';
 import { taskRoutes } from '../routes/tasks.js';
 import { experienceRoutes } from '../routes/experiences.js';
+import { knowledgeRoutes } from '../routes/knowledge.js';
 // import { auditLog } from '../middleware/audit.js'; // TODO: implement
 
 const app = express();
@@ -62,6 +63,9 @@ app.use('/v1/agents', agentRoutes);
 app.use('/v1/tasks', taskRoutes);
 // Experience routes
 app.use('/v1/experiences', experienceRoutes);
+// Knowledge routes - Continuous Knowledge Engine (§18)
+app.use('/v1/knowledge', knowledgeRoutes);
+app.use('/knowledge', knowledgeRoutes);
 
 // ========================================
 // Root route

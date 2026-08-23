@@ -232,7 +232,7 @@ export class AgentC {
     console.log('[Agent C] RESEARCH PLAN AFTER:');
     for (const s of planWithProvenance.afterSteps) console.log(`  - ${s.action} (${s.origin} ${s.type||''})`);
     console.log(`[Agent C] Plan diff: added=${planWithProvenance.diff.addedQueries} removed=${planWithProvenance.diff.removedQueries} unchanged=${planWithProvenance.diff.unchangedQueries} influenced=${planWithProvenance.diff.strategyInfluenced} score=${planWithProvenance.influenceScore}`);
-    console.log(`[Agent C] Query provenance:`, planWithProvenance.provenance.map(p=> `${p.query?.slice(0,40)||p.query}→${p.origin}`).join(' | ').slice(0,200));
+    console.log(`[Agent C] Query provenance:`, planWithProvenance.provenance.map(p=> `${String(p.query||'').slice(0,40)}→${p.origin}`).join(' | ').slice(0,200));
     this.metrics.strategyInfluenceScore = planWithProvenance.influenceScore;
     this.metrics.planDiff = planWithProvenance.diff;
 
