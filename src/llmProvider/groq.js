@@ -3,6 +3,7 @@
  * OpenAI-compatible: https://api.groq.com/openai/v1/chat/completions
  */
 import { AIProvider } from './index.js';
+import { fetchWithRetry } from './retry.js';
 
 export class GroqProvider extends AIProvider {
   constructor(apiKey) {
@@ -41,22 +42,14 @@ export class GroqProvider extends AIProvider {
     const body = { model: this.model, messages: apiMessages, temperature, max_tokens: maxTokens };
 
     try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), this.timeoutMs);
-      const res = await fetch(this.apiUrl, {
+      const { res, retryCount, latencyMs, errText, errJson } = await fetchWithRetry(this.apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.apiKey}` },
-        body: JSON.stringify(body),
-        signal: controller.signal
-      });
-      clearTimeout(timeout);
-      const latencyMs = Date.now() - start;
+        body: JSON.stringify(body)
+      }, { maxRetries: 3, timeoutMs: this.timeoutMs });
 
       if (!res.ok) {
-        const errText = await res.text().catch(() => '');
-        let errJson = {};
-        try { errJson = JSON.parse(errText); } catch {}
-        const msg = errJson.error?.message || errText.slice(0, 300);
+        const msg = errJson?.error?.message || errText?.slice(0, 300) || `HTTP ${res.status}`;
         return {
           text: '',
           provider: 'groq',
@@ -65,11 +58,11 @@ export class GroqProvider extends AIProvider {
           outputTokens: 0,
           totalTokens: 0,
           latencyMs,
+          retryCount,
           success: false,
           error: msg,
-          errorType: errJson.error?.type || 'API_ERROR',
+          errorType: errJson?.error?.type || 'API_ERROR',
           statusCode: res.status,
-          // legacy fields for agent compatibility
           role: 'assistant',
           content: '',
           usage: { input_tokens: 0, output_tokens: 0 },
@@ -97,7 +90,7 @@ export class GroqProvider extends AIProvider {
         stopReason: choice?.finish_reason || 'stop'
       };
     } catch (err) {
-      const isAbort = err.name === 'AbortError';
+      const isTimeout = err.errorType === 'TIMEOUT' || err.name === 'AbortError';
       return {
         text: '',
         provider: 'groq',
@@ -106,10 +99,11 @@ export class GroqProvider extends AIProvider {
         outputTokens: 0,
         totalTokens: 0,
         latencyMs: Date.now() - start,
+        retryCount: err.retryCount || 0,
         success: false,
-        error: isAbort ? 'Groq request timeout' : err.message,
-        errorType: isAbort ? 'TIMEOUT' : 'NETWORK_ERROR',
-        statusCode: 0,
+        error: err.error || err.message || 'Groq request failed',
+        errorType: err.errorType || (isTimeout ? 'TIMEOUT' : 'NETWORK_ERROR'),
+        statusCode: err.statusCode || 0,
         role: 'assistant',
         content: '',
         usage: { input_tokens: 0, output_tokens: 0 },

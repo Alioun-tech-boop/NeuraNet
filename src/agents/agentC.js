@@ -219,18 +219,30 @@ export class AgentC {
     this.metrics.experiencesFiltered = relevanceResult.filteredCount;
 
     // ==================================----------------------
-    // Step 4: Research Planning (PRD §7 item 5)
+    // Step 4: Research Planning BEFORE/AFTER + Plan Diff + Influence (Phases 5-7)
     // ==================================----------------------
-    const researchPlan = this._createResearchPlan(
+    const planWithProvenance = this._createResearchPlanWithProvenance(
       ranking.selected,
       relevanceResult.relevantExperiences,
       task
     );
+    const researchPlan = planWithProvenance.after;
+    console.log('[Agent C] RESEARCH PLAN BEFORE:');
+    for (const s of planWithProvenance.before) console.log(`  - ${s.action} (${s.origin})`);
+    console.log('[Agent C] RESEARCH PLAN AFTER:');
+    for (const s of planWithProvenance.afterSteps) console.log(`  - ${s.action} (${s.origin} ${s.type||''})`);
+    console.log(`[Agent C] Plan diff: added=${planWithProvenance.diff.addedQueries} removed=${planWithProvenance.diff.removedQueries} unchanged=${planWithProvenance.diff.unchangedQueries} influenced=${planWithProvenance.diff.strategyInfluenced} score=${planWithProvenance.influenceScore}`);
+    console.log(`[Agent C] Query provenance:`, planWithProvenance.provenance.map(p=> `${p.query?.slice(0,40)||p.query}→${p.origin}`).join(' | ').slice(0,200));
+    this.metrics.strategyInfluenceScore = planWithProvenance.influenceScore;
+    this.metrics.planDiff = planWithProvenance.diff;
 
     // ==================================----------------------
-    // Step 5: Web Research (PRD §7)
+    // Step 5: Web Research (PRD §7) - with provenance
     // ==================================----------------------
     const researchResult = await this._conductResearch(task, researchPlan);
+    // Annotate search provenance
+    researchResult.queryProvenance = planWithProvenance.provenance;
+    researchResult.planInfluenceScore = planWithProvenance.influenceScore;
 
     // Step 5b: LLM Analysis with selected strategies (NO FALLBACK - RUN FAILED if provider fails per §2)
     const llmMessagesC = [
@@ -560,10 +572,46 @@ export class AgentC {
     return { selected, rejected, all: scored, selectionRate: selected.length / scored.length };
   }
 
+  /** Create BEFORE/AFTER plans and diff */
+  _createResearchPlanWithProvenance(strategies, relevantExperiences, task) {
+    const before = [
+      { order: 1, action: 'search_general', query: this._generateSearchQuery(task), origin: 'baseline_reasoning' },
+      { order: 2, action: 'filter_results', origin: 'baseline_reasoning' },
+      { order: 3, action: 'document_findings', origin: 'baseline_reasoning' }
+    ];
+    const afterResult = this._createResearchPlan(strategies, relevantExperiences, task);
+    // Add provenance to after steps
+    const after = afterResult.incorporatedSteps.map(s => ({
+      ...s,
+      origin: strategies.some(sel => (typeof sel === 'object' ? sel.strategy : sel) === s.action) ? 'neuranet_strategy' : 'baseline_reasoning',
+      strategyId: strategies.find(sel => (typeof sel === 'object' ? sel.strategy : sel) === s.action)?.strategy || null
+    }));
+    // Plan diff
+    const beforeActions = new Set(before.map(b => b.action));
+    const afterActions = new Set(after.map(a => a.action));
+    const added = after.filter(a => !beforeActions.has(a.action));
+    const removed = before.filter(b => !afterActions.has(b.action));
+    const unchanged = after.filter(a => beforeActions.has(a.action));
+    const diff = {
+      addedQueries: added.length,
+      removedQueries: removed.length,
+      modifiedQueries: 0,
+      unchangedQueries: unchanged.length,
+      added: added.map(a => a.action),
+      removed: removed.map(r => r.action),
+      strategyInfluenced: added.length > 0
+    };
+    // Influence score (0-1): planInfluence 0.4 + query 0.3 + source 0.2 + verification 0.1
+    const planInfluence = diff.strategyInfluenced ? 0.4 : 0;
+    const queryInfluence = after.some(a => a.origin === 'neuranet_strategy') ? 0.3 : 0;
+    const sourceInfluence = after.some(a => a.type === 'source_selection') ? 0.2 : 0;
+    const verificationInfluence = after.some(a => a.type === 'verification') ? 0.1 : 0;
+    const influenceScore = Math.round((planInfluence + queryInfluence + sourceInfluence + verificationInfluence) * 100) / 100;
+    return { before, after: afterResult, afterSteps: after, diff, influenceScore, provenance: after.map(a => ({ query: a.query || a.action, origin: a.origin, strategyId: a.strategyId })) };
+  }
+
   /** ----------------------------------------------------------- */
   _createResearchPlan(strategies, relevantExperiences, task) {
-    // PRD §7 item 5: Use relevant strategies to improve your research plan
-    
     const defaultSteps = [
       { order: 1, action: 'search_general', query: this._generateSearchQuery(task) },
       { order: 2, action: 'filter_results' },
