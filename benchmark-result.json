@@ -1,0 +1,144 @@
+{
+  "task": "Analyze the market for electric vehicles in Ghana",
+  "runs": 2,
+  "baseline": [
+    {
+      "durationMs": 5386,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "totalTokens": 0,
+      "searchCalls": 0,
+      "estimatedCost": 0,
+      "qualityScore": 0.7,
+      "experiences": [
+        {
+          "agent": "Agent A",
+          "experienceId": "5a7a2ba1-a2f2-497b-a858-f4de79ed6fc6",
+          "success": true
+        },
+        {
+          "agent": "Agent B",
+          "experienceId": "a00c75f6-1eda-47d5-8e59-1fc42cd5b146",
+          "success": true
+        },
+        {
+          "agent": "Agent C",
+          "experienceId": "7dcc5180-9453-457d-8595-e7d2cb212742",
+          "success": true
+        }
+      ],
+      "experiencesRetrieved": 0,
+      "strategiesExtracted": 0,
+      "allSuccess": true
+    },
+    {
+      "durationMs": 2121,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "totalTokens": 0,
+      "searchCalls": 0,
+      "estimatedCost": 0,
+      "qualityScore": 0.7,
+      "experiences": [
+        {
+          "agent": "Agent A",
+          "experienceId": "de13ec27-335d-4b18-b37e-160fd7c1dbed",
+          "success": true
+        },
+        {
+          "agent": "Agent B",
+          "experienceId": "ebf5acd3-51d7-477c-ac48-58267dd340fc",
+          "success": true
+        },
+        {
+          "agent": "Agent C",
+          "experienceId": "174e77df-c921-4346-8cce-b2c3737d28c8",
+          "success": true
+        }
+      ],
+      "experiencesRetrieved": 0,
+      "strategiesExtracted": 0,
+      "allSuccess": true
+    }
+  ],
+  "neuranet": [
+    {
+      "durationMs": 2408,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "totalTokens": 0,
+      "searchCalls": 0,
+      "estimatedCost": 0,
+      "qualityScore": 0.8,
+      "experiences": [
+        {
+          "agent": "Agent A",
+          "experienceId": "dbe2b4cc-e8f9-4ace-8e0a-ae1268459f6f",
+          "success": true
+        },
+        {
+          "agent": "Agent B",
+          "experienceId": "db8aac79-721a-41bf-a16c-2f157dd2e319",
+          "success": true
+        },
+        {
+          "agent": "Agent C",
+          "experienceId": "9d0007b0-a2df-43be-b0bb-d176ae9de34b",
+          "success": true
+        }
+      ],
+      "experiencesRetrieved": 10,
+      "strategiesExtracted": 0,
+      "allSuccess": true
+    },
+    {
+      "durationMs": 2389,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "totalTokens": 0,
+      "searchCalls": 0,
+      "estimatedCost": 0,
+      "qualityScore": 0.8,
+      "experiences": [
+        {
+          "agent": "Agent A",
+          "experienceId": "745e0ba3-129d-4426-bd70-8555d35823a9",
+          "success": true
+        },
+        {
+          "agent": "Agent B",
+          "experienceId": "2a47cbe9-635d-426b-ab2b-c1a5344754d7",
+          "success": true
+        },
+        {
+          "agent": "Agent C",
+          "experienceId": "1d5a15af-9afd-46b5-9089-064881d5860a",
+          "success": true
+        }
+      ],
+      "experiencesRetrieved": 10,
+      "strategiesExtracted": 0,
+      "allSuccess": true
+    }
+  ],
+  "avg": {
+    "baseline": {
+      "durationMs": 3753.5,
+      "totalTokens": 0,
+      "searchCalls": 0,
+      "estimatedCost": 0,
+      "qualityScore": 0.7,
+      "experiencesRetrieved": 0,
+      "strategiesExtracted": 0
+    },
+    "neuranet": {
+      "durationMs": 2398.5,
+      "totalTokens": 0,
+      "searchCalls": 0,
+      "estimatedCost": 0,
+      "qualityScore": 0.8,
+      "experiencesRetrieved": 10,
+      "strategiesExtracted": 0
+    }
+  }
+}
