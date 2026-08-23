@@ -23,16 +23,25 @@ export class GeminiProvider extends AIProvider {
   }
 
   async complete(messages, options = {}) {
+    const start = Date.now();
     if (!this.apiKey) {
-      console.warn('[GeminiProvider] GOOGLE_API_KEY / GEMINI_API_KEY not configured');
+      console.warn('[GeminiProvider] GEMINI_API_KEY not configured');
       return {
+        text: '',
+        provider: 'gemini',
+        model: this.model,
+        inputTokens: 0,
+        outputTokens: 0,
+        totalTokens: 0,
+        latencyMs: 0,
+        success: false,
+        error: 'MISSING_API_KEY: GEMINI_API_KEY not configured',
+        errorType: 'MISSING_API_KEY',
+        statusCode: 0,
         role: 'assistant',
         content: '',
-        model: this.model,
-        stopReason: 'error',
         usage: { input_tokens: 0, output_tokens: 0 },
-        success: false,
-        error: 'GOOGLE_API_KEY not configured'
+        stopReason: 'error'
       };
     }
 
@@ -89,36 +98,23 @@ export class GeminiProvider extends AIProvider {
 
       if (!res.ok) {
         const errText = await res.text().catch(() => '');
-        const isQuota = res.status === 429 || /quota|billing|credit|exceeded/i.test(errText);
-        const isModelNotFound = res.status === 404;
-        if (isQuota || isModelNotFound) {
-          console.warn(`[GeminiProvider] ${isModelNotFound ? 'Model not found' : 'Quota'} → fallback synthetic response`);
-          const lastContent = contents.length ? contents[contents.length - 1].parts[0].text.slice(0, 200) : 'research task';
-          // Try to auto-correct model for next call if it was model issue
-          if (isModelNotFound && this.model.includes('1.5')) {
-            console.warn(`[GeminiProvider] Auto-correcting model ${this.model} → gemini-2.5-flash for future calls`);
-            this.model = 'gemini-2.5-flash';
-          }
-          return {
-            role: 'assistant',
-            content: `[FALLBACK - Gemini ${isModelNotFound ? 'model not found' : 'quota'}] Synthetic research for: "${lastContent}".\n\nStructured analysis:\n- Findings: Market data indicates early-stage adoption.\n- Sources: See Tavily/Wikipedia results.\n- Confidence: 0.6 (synthetic)\n\nNote: Check GEMINI_MODEL and API key for real output.`,
-            model: this.model,
-            stopReason: 'fallback',
-            usage: { input_tokens: Math.ceil(lastContent.length / 4), output_tokens: 170 },
-            success: true,
-            isFallback: true,
-            fallbackReason: errText.slice(0, 200)
-          };
-        }
         console.error(`[GeminiProvider] HTTP ${res.status}: ${errText.slice(0, 500)}`);
         return {
+          text: '',
+          provider: 'gemini',
+          model: this.model,
+          inputTokens: 0,
+          outputTokens: 0,
+          totalTokens: 0,
+          latencyMs: Date.now() - start,
+          success: false,
+          error: errText.slice(0, 300),
+          errorType: 'API_ERROR',
+          statusCode: res.status,
           role: 'assistant',
           content: '',
-          model: this.model,
-          stopReason: 'error',
           usage: { input_tokens: 0, output_tokens: 0 },
-          success: false,
-          error: `Gemini API error ${res.status}: ${errText.slice(0, 300)}`
+          stopReason: 'error'
         };
       }
 
@@ -131,30 +127,42 @@ export class GeminiProvider extends AIProvider {
         content = candidate.content.parts.filter(p => p.text).map(p => p.text).join('\n');
       }
 
-      // Usage metadata (if provided)
       const usageMeta = data.usageMetadata || {};
+      const inputTokens = usageMeta.promptTokenCount || 0;
+      const outputTokens = usageMeta.candidatesTokenCount || 0;
       return {
+        text: content,
+        provider: 'gemini',
+        model: data.model || this.model,
+        inputTokens,
+        outputTokens,
+        totalTokens: inputTokens + outputTokens,
+        latencyMs: Date.now() - start,
+        success: true,
         role: 'assistant',
         content,
-        model: this.model,
-        stopReason: candidate?.finishReason || 'STOP',
-        usage: {
-          input_tokens: usageMeta.promptTokenCount || 0,
-          output_tokens: usageMeta.candidatesTokenCount || 0
-        },
-        success: true
+        usage: { input_tokens: inputTokens, output_tokens: outputTokens },
+        stopReason: candidate?.finishReason || 'STOP'
       };
     } catch (err) {
       const isAbort = err.name === 'AbortError';
       console.error('[GeminiProvider] Request failed:', isAbort ? 'timeout' : err.message);
       return {
+        text: '',
+        provider: 'gemini',
+        model: this.model,
+        inputTokens: 0,
+        outputTokens: 0,
+        totalTokens: 0,
+        latencyMs: Date.now() - start,
+        success: false,
+        error: isAbort ? 'Gemini request timeout' : err.message,
+        errorType: isAbort ? 'TIMEOUT' : 'NETWORK_ERROR',
+        statusCode: 0,
         role: 'assistant',
         content: '',
-        model: this.model,
-        stopReason: 'error',
         usage: { input_tokens: 0, output_tokens: 0 },
-        success: false,
-        error: isAbort ? 'Gemini request timeout' : err.message
+        stopReason: 'error'
       };
     }
   }

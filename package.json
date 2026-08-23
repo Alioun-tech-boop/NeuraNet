@@ -7,6 +7,13 @@
     "dev": "node src/api/index.js",
     "start": "node src/api/index.js",
     "test": "node --test",
+    "test:e2e": "node --test tests/e2e.test.js",
+    "benchmark": "node scripts/benchmark.js",
+    "benchmark:baseline": "node scripts/experimentRunner.js --mode baseline",
+    "benchmark:neuranet": "node scripts/experimentRunner.js --mode neuranet",
+    "benchmark:acceptance": "node scripts/gate1-acceptance.js",
+    "benchmark:all": "node scripts/benchmark-real.js",
+    "validate:env": "node scripts/validate-env.js",
     "lint": "echo 'No lint configured yet'"
   },
   "dependencies": {

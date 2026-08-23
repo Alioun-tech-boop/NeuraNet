@@ -56,32 +56,30 @@ export class ExperimentRunner {
       baseURL: process.env.NEURANET_API_BASE_URL || 'http://localhost:3000'
     };
 
-    // Agent A: Always runs first (creates experience)
+    // Agent A -> Gemini, Agent B -> Groq, Agent C -> OpenRouter per §11
     const agentA = new AgentA({
       agentId: 'researcher-a',
       name: 'Researcher Agent A',
-      model: options.agentAModel || process.env.AGENT_A_MODEL || 'claude-3-opus',
-      modelProvider: process.env.AGENT_A_PROVIDER || 'anthropic',
+      model: options.agentAModel || process.env.AGENT_A_MODEL || process.env.GEMINI_MODEL || 'gemini-flash-latest',
+      modelProvider: process.env.AGENT_A_PROVIDER || 'gemini',
       neuraNetConfig: neuraNetConfig,
       searchProvider: new WebSearchProvider()
     });
 
-    // Agent B: Runs independently
     const agentB = new AgentB({
       agentId: 'researcher-b',
       name: 'Independent Researcher Agent B',
-      model: options.agentBModel || process.env.AGENT_B_MODEL || 'gpt-4o',
-      modelProvider: process.env.AGENT_B_PROVIDER || 'openai',
+      model: options.agentBModel || process.env.AGENT_B_MODEL || process.env.GROQ_MODEL || 'llama-3.1-8b-instant',
+      modelProvider: process.env.AGENT_B_PROVIDER || 'groq',
       neuraNetConfig: neuraNetConfig,
       searchProvider: new WebSearchProvider()
     });
 
-    // Agent C: Runs last, uses/retrieves NeuraNet experiences (or not in baseline)
     const agentC = new AgentC({
       agentId: 'researcher-c',
       name: 'Collective Researcher Agent C',
-      model: options.agentCModel || process.env.AGENT_C_MODEL || 'gemini-1.5-flash',
-      modelProvider: process.env.AGENT_C_PROVIDER || 'gemini',
+      model: options.agentCModel || process.env.AGENT_C_MODEL || process.env.OPENROUTER_MODEL || 'meta-llama/llama-3.1-8b-instruct:free',
+      modelProvider: process.env.AGENT_C_PROVIDER || 'openrouter',
       neuraNetConfig: neuraNetConfig,
       searchProvider: new WebSearchProvider()
     });

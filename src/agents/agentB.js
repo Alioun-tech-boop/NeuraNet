@@ -34,6 +34,7 @@ import { NeuraNetClient } from '../neuraNetClient/index.js';
 import { WebSearchProvider } from '../searchProvider/webSearch.js';
 import agentBPrompt from '../agentPrompts/agentB.js';
 import { SearchProvider } from '../searchProvider/index.js';
+import { createLLMProvider } from '../llmProvider/factory.js';
 
 export class AgentB {
   /**
@@ -78,13 +79,18 @@ export class AgentB {
     });
 
     this.searchProvider = options.searchProvider || new WebSearchProvider();
+    this.llmProvider = options.llmProvider || createLLMProvider(this.modelProvider);
 
     // Metrics - specific to benchmark comparison
     this.metrics = {
       totalTasks: 0,
       experiencesSubmitted: 0,
-      baselineComparison: false, // Set to true when running A/B benchmark
-      experiencesReferenced: 0 // Count of experiences referenced (for analysis only)
+      baselineComparison: false,
+      experiencesReferenced: 0,
+      totalTokensInput: 0,
+      totalTokensOutput: 0,
+      totalEstimatedCost: 0,
+      totalSearchCalls: 0
     };
   }
 
@@ -126,6 +132,23 @@ export class AgentB {
 
     // Step 2: Conduct independent research (NOT using strategies from experiences as primary)
     const researchResult = await this._independentResearch(task, referencedExperiences);
+
+    // Step 2b: LLM Analysis (NO FALLBACK)
+    const llmMessagesB = [
+      { role: 'system', content: this.runtime.getSystemPrompt() },
+      { role: 'user', content: `Task: ${task}\nSearch results: ${JSON.stringify(researchResult.searchResults.slice(0,3).map(r=>({title:r.title, snippet:r.snippet.slice(0,200)})))}\nGenerate independent analysis (300 words) - do not copy other agents.` }
+    ];
+    const llmResB = await this.llmProvider.complete(llmMessagesB, { maxTokens: 600, temperature: 0.7 });
+    if (!llmResB.success) {
+      throw new Error(`LLM failed for ${this.modelProvider}/${this.model}: ${llmResB.error} [${llmResB.errorType||''} ${llmResB.statusCode||''}]`);
+    }
+    researchResult.outcome = llmResB.text || llmResB.content || '';
+    researchResult.llmMetrics = { inputTokens: llmResB.inputTokens, outputTokens: llmResB.outputTokens, totalTokens: llmResB.totalTokens, latencyMs: llmResB.latencyMs };
+    this.metrics.totalTokensInput += llmResB.inputTokens||0;
+    this.metrics.totalTokensOutput += llmResB.outputTokens||0;
+    this.metrics.totalSearchCalls += 1;
+    const pricingB = this.llmProvider.getPricing();
+    this.metrics.totalEstimatedCost += (llmResB.inputTokens||0)*pricingB.inputPricePer1k/1000 + (llmResB.outputTokens||0)*pricingB.outputPricePer1k/1000;
 
     // Step 3: Independent verification of important claims
     const verifiedResult = await this._independentVerification(researchResult.outcome, task);

@@ -17,16 +17,25 @@ export class AnthropicProvider extends AIProvider {
   }
 
   async complete(messages, options = {}) {
+    const start = Date.now();
     if (!this.apiKey) {
       console.warn('[AnthropicProvider] ANTHROPIC_API_KEY not configured');
       return {
+        text: '',
+        provider: 'anthropic',
+        model: this.model,
+        inputTokens: 0,
+        outputTokens: 0,
+        totalTokens: 0,
+        latencyMs: 0,
+        success: false,
+        error: 'MISSING_API_KEY: ANTHROPIC_API_KEY not configured',
+        errorType: 'MISSING_API_KEY',
+        statusCode: 0,
         role: 'assistant',
         content: '',
-        model: this.model,
-        stopReason: 'error',
         usage: { input_tokens: 0, output_tokens: 0 },
-        success: false,
-        error: 'ANTHROPIC_API_KEY not configured'
+        stopReason: 'error'
       };
     }
 
@@ -75,30 +84,23 @@ export class AnthropicProvider extends AIProvider {
 
       if (!res.ok) {
         const errText = await res.text().catch(() => '');
-        const isQuota = res.status === 429 || /credit balance|insufficient_quota|quota|billing/i.test(errText);
-        if (isQuota) {
-          console.warn(`[AnthropicProvider] Quota/billing error → fallback synthetic response`);
-          const lastUser = [...apiMessages].reverse().find(m => m.role === 'user')?.content || 'research task';
-          return {
-            role: 'assistant',
-            content: `[FALLBACK - Anthropic quota exceeded] Synthetic research for: "${lastUser.slice(0, 200)}".\n\nBased on general knowledge and the provided search context, here is a structured analysis:\n- Key findings: Market shows growing interest with infrastructure challenges.\n- Recommended approach: Verify via web search results and domain sources.\n- Confidence: 0.6 (synthetic due to billing quota)\n\nNote: Replace with funded API key for real Claude output.`,
-            model: this.model,
-            stopReason: 'fallback',
-            usage: { input_tokens: Math.ceil(lastUser.length / 4), output_tokens: 180 },
-            success: true,
-            isFallback: true,
-            fallbackReason: errText.slice(0, 200)
-          };
-        }
         console.error(`[AnthropicProvider] HTTP ${res.status}: ${errText.slice(0, 400)}`);
         return {
+          text: '',
+          provider: 'anthropic',
+          model: this.model,
+          inputTokens: 0,
+          outputTokens: 0,
+          totalTokens: 0,
+          latencyMs: Date.now() - start,
+          success: false,
+          error: errText.slice(0, 300),
+          errorType: 'API_ERROR',
+          statusCode: res.status,
           role: 'assistant',
           content: '',
-          model: this.model,
-          stopReason: 'error',
           usage: { input_tokens: 0, output_tokens: 0 },
-          success: false,
-          error: `Anthropic API error ${res.status}: ${errText.slice(0, 200)}`
+          stopReason: 'error'
         };
       }
 
@@ -112,28 +114,41 @@ export class AnthropicProvider extends AIProvider {
         content = data.content;
       }
 
+      const inputTokens = data.usage?.input_tokens || 0;
+      const outputTokens = data.usage?.output_tokens || 0;
       return {
+        text: content,
+        provider: 'anthropic',
+        model: data.model || this.model,
+        inputTokens,
+        outputTokens,
+        totalTokens: inputTokens + outputTokens,
+        latencyMs: Date.now() - start,
+        success: true,
         role: 'assistant',
         content,
-        model: data.model || this.model,
-        stopReason: data.stop_reason || 'end_turn',
-        usage: {
-          input_tokens: data.usage?.input_tokens || 0,
-          output_tokens: data.usage?.output_tokens || 0
-        },
-        success: true
+        usage: { input_tokens: inputTokens, output_tokens: outputTokens },
+        stopReason: data.stop_reason || 'end_turn'
       };
     } catch (err) {
       const isAbort = err.name === 'AbortError';
       console.error('[AnthropicProvider] Request failed:', isAbort ? 'timeout' : err.message);
       return {
+        text: '',
+        provider: 'anthropic',
+        model: this.model,
+        inputTokens: 0,
+        outputTokens: 0,
+        totalTokens: 0,
+        latencyMs: Date.now() - start,
+        success: false,
+        error: isAbort ? 'Anthropic request timeout' : err.message,
+        errorType: isAbort ? 'TIMEOUT' : 'NETWORK_ERROR',
+        statusCode: 0,
         role: 'assistant',
         content: '',
-        model: this.model,
-        stopReason: 'error',
         usage: { input_tokens: 0, output_tokens: 0 },
-        success: false,
-        error: isAbort ? 'Anthropic request timeout' : err.message
+        stopReason: 'error'
       };
     }
   }

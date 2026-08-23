@@ -54,6 +54,7 @@ import { NeuraNetClient } from '../neuraNetClient/index.js';
 import { WebSearchProvider } from '../searchProvider/webSearch.js';
 import agentCPrompt from '../agentPrompts/agentC.js';
 import { SearchProvider } from '../searchProvider/index.js';
+import { createLLMProvider } from '../llmProvider/factory.js';
 
 export class AgentC {
   /**
@@ -100,8 +101,9 @@ export class AgentC {
     });
 
     this.searchProvider = options.searchProvider || new WebSearchProvider();
+    this.llmProvider = options.llmProvider || createLLMProvider(this.modelProvider);
 
-    // Metrics specific to A/B benchmark + observability per Étapes 6-7
+    // Metrics specific to A/B benchmark
     this.metrics = {
       totalTasks: 0,
       experiencesRetrieved: 0,
@@ -113,7 +115,11 @@ export class AgentC {
       experiencesSubmitted: 0,
       baselineComparison: false,
       qualityScore: 0,
-      durationMs: 0
+      durationMs: 0,
+      totalTokensInput: 0,
+      totalTokensOutput: 0,
+      totalEstimatedCost: 0,
+      totalSearchCalls: 0
     };
   }
 
@@ -225,6 +231,25 @@ export class AgentC {
     // Step 5: Web Research (PRD §7)
     // ==================================----------------------
     const researchResult = await this._conductResearch(task, researchPlan);
+
+    // Step 5b: LLM Analysis with selected strategies (NO FALLBACK - RUN FAILED if provider fails per §2)
+    const llmMessagesC = [
+      { role: 'system', content: this.runtime.getSystemPrompt() },
+      { role: 'user', content: `Task: ${task}\nSelected strategies: ${ranking.selected.map(s=>s.strategy).join('; ')}\nResearch plan: ${JSON.stringify(researchPlan.incorporatedSteps)}\nSearch results: ${JSON.stringify(researchResult.searchResults.slice(0,3).map(r=>({title:r.title, snippet:r.snippet.slice(0,200)})))}\n\nGenerate research analysis (400 words) using the selected strategies, cite sources, then verify independently.` }
+    ];
+    const llmResC = await this.llmProvider.complete(llmMessagesC, { maxTokens: 800, temperature: 0.7 });
+    if (!llmResC.success) {
+      const err = `LLM failed for ${this.modelProvider}/${this.model}: ${llmResC.error} [${llmResC.errorType||'API_ERROR'} ${llmResC.statusCode||''}]`;
+      console.error(`[Agent C] ${err}`);
+      throw new Error(err);
+    }
+    researchResult.outcome = llmResC.text || llmResC.content || '';
+    researchResult.llmMetrics = { inputTokens: llmResC.inputTokens, outputTokens: llmResC.outputTokens, totalTokens: llmResC.totalTokens, latencyMs: llmResC.latencyMs, provider: llmResC.provider, model: llmResC.model };
+    this.metrics.totalTokensInput += llmResC.inputTokens||0;
+    this.metrics.totalTokensOutput += llmResC.outputTokens||0;
+    this.metrics.totalSearchCalls += 1;
+    const pricingC = this.llmProvider.getPricing();
+    this.metrics.totalEstimatedCost += (llmResC.inputTokens||0)*pricingC.inputPricePer1k/1000 + (llmResC.outputTokens||0)*pricingC.outputPricePer1k/1000;
 
     // ==================================----------------------
     // Step 6: Independent Verification (PRD §7 item 8, PRD §12 item 6-7)

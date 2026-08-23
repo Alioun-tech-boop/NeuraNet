@@ -37,6 +37,7 @@ import { NeuraNetClient } from '../neuraNetClient/index.js';
 import { WebSearchProvider } from '../searchProvider/webSearch.js';
 import agentAPrompt from '../agentPrompts/agentA.js';
 import { SearchProvider } from '../searchProvider/index.js';
+import { createLLMProvider } from '../llmProvider/factory.js';
 
 export class AgentA {
   /**
@@ -81,6 +82,7 @@ export class AgentA {
     });
 
     this.searchProvider = options.searchProvider || new WebSearchProvider();
+    this.llmProvider = options.llmProvider || createLLMProvider(this.modelProvider);
 
     // Metrics
     this.metrics = {
@@ -146,6 +148,25 @@ export class AgentA {
     } else {
       researchResult = await this._researchWithStrategy(task, strategy, experiences);
     }
+
+    // Step 4b: LLM Analysis (NO FALLBACK - RUN FAILED if provider fails per §2)
+    const llmMessages = [
+      { role: 'system', content: this.runtime.getSystemPrompt() },
+      { role: 'user', content: `Task: ${task}\nSearch query: ${researchResult.searchQuery}\nSearch results: ${JSON.stringify(researchResult.searchResults.slice(0,3).map(r=>({title:r.title, snippet:r.snippet.slice(0,200)})))}\n\nGenerate a concise research analysis (300 words) with findings and recommendations.` }
+    ];
+    const llmRes = await this.llmProvider.complete(llmMessages, { maxTokens: 600, temperature: 0.7 });
+    if (!llmRes.success) {
+      const err = `LLM failed for ${this.modelProvider}/${this.model}: ${llmRes.error} [${llmRes.errorType||'API_ERROR'} ${llmRes.statusCode||''}]`;
+      console.error(`[Agent A] ${err}`);
+      throw new Error(err);
+    }
+    researchResult.outcome = llmRes.text || llmRes.content || '';
+    researchResult.llmMetrics = { inputTokens: llmRes.inputTokens, outputTokens: llmRes.outputTokens, totalTokens: llmRes.totalTokens, latencyMs: llmRes.latencyMs, provider: llmRes.provider, model: llmRes.model };
+    this.metrics.totalTokensInput += llmRes.inputTokens || 0;
+    this.metrics.totalTokensOutput += llmRes.outputTokens || 0;
+    this.metrics.totalSearchCalls += 1;
+    const pricing = this.llmProvider.getPricing();
+    this.metrics.totalEstimatedCost += (llmRes.inputTokens||0)*pricing.inputPricePer1k/1000 + (llmRes.outputTokens||0)*pricing.outputPricePer1k/1000;
 
     // Step 5: Verify important claims independently
     const verifiedResult = await this._verifyClaims(researchResult.outcome, task);
