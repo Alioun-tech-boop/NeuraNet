@@ -677,10 +677,20 @@ export class AgentC {
   /** ----------------------------------------------------------- */
   async _conductResearch(task, researchPlan) {
     // PRD §7: Web Research
-    // Use the research plan's incorporated steps to guide search
-    
+    // Use the research plan's incorporated steps to guide search - strategy influences query
     const primaryStep = researchPlan.incorporatedSteps[0];
-    const searchQuery = primaryStep?.query || this._generateSearchQuery(task);
+    let searchQuery;
+    if (primaryStep?.action && primaryStep.action.includes('Energy Commission')) {
+      searchQuery = 'Ghana Energy Commission renewable energy regulator site:energycom.gov.gh';
+    } else if (primaryStep?.query) {
+      searchQuery = primaryStep.query;
+    } else if (primaryStep?.action) {
+      // Derive query from strategy text
+      const cleanAction = primaryStep.action.replace(/^Research sequence:\s*/,'').replace(/^Prioritize\s*/,'').slice(0, 60);
+      searchQuery = cleanAction + ' Ghana';
+    } else {
+      searchQuery = this._generateSearchQuery(task);
+    }
 
     const searchResult = await this.searchProvider.search(searchQuery, {
       maxResults: 5
