@@ -3,7 +3,7 @@
   "runs": 2,
   "baseline": [
     {
-      "durationMs": 5386,
+      "durationMs": 2483,
       "inputTokens": 0,
       "outputTokens": 0,
       "totalTokens": 0,
@@ -13,26 +13,32 @@
       "experiences": [
         {
           "agent": "Agent A",
-          "experienceId": "5a7a2ba1-a2f2-497b-a858-f4de79ed6fc6",
+          "experienceId": "898d27f8-d137-40e9-8f3e-bc7fd891a3f1",
           "success": true
         },
         {
           "agent": "Agent B",
-          "experienceId": "a00c75f6-1eda-47d5-8e59-1fc42cd5b146",
+          "experienceId": "b4a1fa29-f3a4-4d5b-ac06-a62c17ef24c3",
           "success": true
         },
         {
           "agent": "Agent C",
-          "experienceId": "7dcc5180-9453-457d-8595-e7d2cb212742",
+          "experienceId": "40d88db3-5871-4512-b2f7-859d3771ee5e",
           "success": true
         }
       ],
       "experiencesRetrieved": 0,
+      "experiencesEligible": 0,
+      "experiencesFiltered": 0,
       "strategiesExtracted": 0,
+      "strategiesSelected": 0,
+      "strategiesRejected": 0,
+      "extractionRate": 0,
+      "selectionRate": 0,
       "allSuccess": true
     },
     {
-      "durationMs": 2121,
+      "durationMs": 1993,
       "inputTokens": 0,
       "outputTokens": 0,
       "totalTokens": 0,
@@ -42,103 +48,127 @@
       "experiences": [
         {
           "agent": "Agent A",
-          "experienceId": "de13ec27-335d-4b18-b37e-160fd7c1dbed",
+          "experienceId": "ec78c0b9-aee9-4092-af7f-22cee414215f",
           "success": true
         },
         {
           "agent": "Agent B",
-          "experienceId": "ebf5acd3-51d7-477c-ac48-58267dd340fc",
+          "experienceId": "a8980858-b6c4-46ab-8363-def4cd6ef983",
           "success": true
         },
         {
           "agent": "Agent C",
-          "experienceId": "174e77df-c921-4346-8cce-b2c3737d28c8",
+          "experienceId": "eeff3142-1e05-46f5-8bac-7ff920ba499d",
           "success": true
         }
       ],
       "experiencesRetrieved": 0,
+      "experiencesEligible": 0,
+      "experiencesFiltered": 0,
       "strategiesExtracted": 0,
+      "strategiesSelected": 0,
+      "strategiesRejected": 0,
+      "extractionRate": 0,
+      "selectionRate": 0,
       "allSuccess": true
     }
   ],
   "neuranet": [
     {
-      "durationMs": 2408,
+      "durationMs": 2434,
       "inputTokens": 0,
       "outputTokens": 0,
       "totalTokens": 0,
       "searchCalls": 0,
       "estimatedCost": 0,
-      "qualityScore": 0.8,
+      "qualityScore": 0.7,
       "experiences": [
         {
           "agent": "Agent A",
-          "experienceId": "dbe2b4cc-e8f9-4ace-8e0a-ae1268459f6f",
+          "experienceId": "934e13c0-a106-4418-8a5f-bc8b69b8cb34",
           "success": true
         },
         {
           "agent": "Agent B",
-          "experienceId": "db8aac79-721a-41bf-a16c-2f157dd2e319",
+          "experienceId": "3b51e8a7-68f0-4cb2-a591-7a0a72339701",
           "success": true
         },
         {
           "agent": "Agent C",
-          "experienceId": "9d0007b0-a2df-43be-b0bb-d176ae9de34b",
+          "experienceId": "564dc20b-2fc8-4880-b8a1-d74d5e3c776d",
           "success": true
         }
       ],
       "experiencesRetrieved": 10,
-      "strategiesExtracted": 0,
+      "experiencesEligible": 10,
+      "experiencesFiltered": 0,
+      "strategiesExtracted": 5,
+      "strategiesSelected": 5,
+      "strategiesRejected": 0,
+      "extractionRate": 1,
+      "selectionRate": 1,
       "allSuccess": true
     },
     {
-      "durationMs": 2389,
+      "durationMs": 2297,
       "inputTokens": 0,
       "outputTokens": 0,
       "totalTokens": 0,
       "searchCalls": 0,
       "estimatedCost": 0,
-      "qualityScore": 0.8,
+      "qualityScore": 0.7,
       "experiences": [
         {
           "agent": "Agent A",
-          "experienceId": "745e0ba3-129d-4426-bd70-8555d35823a9",
+          "experienceId": "bd0da460-28b8-41eb-acdf-6bbeb598f271",
           "success": true
         },
         {
           "agent": "Agent B",
-          "experienceId": "2a47cbe9-635d-426b-ab2b-c1a5344754d7",
+          "experienceId": "dcd648f7-7134-4650-b6b4-32420745517a",
           "success": true
         },
         {
           "agent": "Agent C",
-          "experienceId": "1d5a15af-9afd-46b5-9089-064881d5860a",
+          "experienceId": "576a2007-50ce-4cfa-8c56-69bb9ea6dc2c",
           "success": true
         }
       ],
       "experiencesRetrieved": 10,
-      "strategiesExtracted": 0,
+      "experiencesEligible": 10,
+      "experiencesFiltered": 0,
+      "strategiesExtracted": 5,
+      "strategiesSelected": 5,
+      "strategiesRejected": 0,
+      "extractionRate": 1,
+      "selectionRate": 1,
       "allSuccess": true
     }
   ],
   "avg": {
     "baseline": {
-      "durationMs": 3753.5,
+      "durationMs": 2238,
       "totalTokens": 0,
       "searchCalls": 0,
       "estimatedCost": 0,
       "qualityScore": 0.7,
       "experiencesRetrieved": 0,
-      "strategiesExtracted": 0
+      "experiencesEligible": 0,
+      "strategiesExtracted": 0,
+      "strategiesSelected": 0,
+      "extractionRate": 0
     },
     "neuranet": {
-      "durationMs": 2398.5,
+      "durationMs": 2365.5,
       "totalTokens": 0,
       "searchCalls": 0,
       "estimatedCost": 0,
-      "qualityScore": 0.8,
+      "qualityScore": 0.7,
       "experiencesRetrieved": 10,
-      "strategiesExtracted": 0
+      "experiencesEligible": 10,
+      "strategiesExtracted": 5,
+      "strategiesSelected": 5,
+      "extractionRate": 1
     }
   }
 }

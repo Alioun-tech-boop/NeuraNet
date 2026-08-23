@@ -218,10 +218,18 @@ export class ExperimentRunner {
             { agent: 'Agent B', experienceId: bResult.experienceSubmission.experienceId, success: bResult.experienceSubmission.success },
             { agent: 'Agent C', experienceId: cResult.experienceSubmission.experienceId, success: cResult.experienceSubmission.success }
           ],
-          // NeuraNet-specific metrics
+          // NeuraNet-specific observability (Étapes 6-7)
           experiencesRetrieved: cResult.retrievedExperiences || 0,
+          experiencesEligible: cResult.experiencesEligible || 0,
+          experiencesFiltered: cResult.experiencesFiltered || 0,
           strategiesExtracted: cResult.metrics.strategiesExtracted || 0,
-          relevanceEvaluation: cResult.relevanceEvaluation || null
+          strategiesSelected: cResult.metrics.strategiesSelected || 0,
+          strategiesRejected: cResult.metrics.strategiesRejected || 0,
+          extractionRate: cResult.strategyExtraction?.extractionRate || 0,
+          selectionRate: cResult.strategyExtraction?.selectionRate || 0,
+          relevanceEvaluation: cResult.relevanceEvaluation || null,
+          strategyExtraction: cResult.strategyExtraction || null,
+          strategyRanking: cResult.strategyRanking || null
         }
       };
 
@@ -264,8 +272,14 @@ function printSummary(result) {
     console.log('Quality score:', section.qualityScore);
   }
   if (result.mode === 'neuranet' && result.neuranet) {
-    console.log('Experiences retrieved by Agent C:', result.neuranet.experiencesRetrieved);
-    console.log('Strategies extracted:', result.neuranet.strategiesExtracted);
+    console.log('Experiences retrieved by Agent C:', result.neuranet.experiencesRetrieved, `(eligible: ${result.neuranet.experiencesEligible}, filtered: ${result.neuranet.experiencesFiltered})`);
+    console.log('Strategies extracted:', result.neuranet.strategiesExtracted, `→ selected: ${result.neuranet.strategiesSelected}, rejected: ${result.neuranet.strategiesRejected} (extractionRate: ${result.neuranet.extractionRate}, selectionRate: ${result.neuranet.selectionRate})`);
+    if (result.neuranet.strategyRanking?.selected) {
+      console.log('Top strategies:');
+      for (const s of result.neuranet.strategyRanking.selected.slice(0, 3)) {
+        console.log(`  + ${s.type}: ${s.strategy.slice(0, 80)}`);
+      }
+    }
   }
   if (section && Array.isArray(section.experiences)) {
     for (const e of section.experiences) {

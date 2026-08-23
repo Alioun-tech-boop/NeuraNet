@@ -101,14 +101,18 @@ export class AgentC {
 
     this.searchProvider = options.searchProvider || new WebSearchProvider();
 
-    // Metrics specific to A/B benchmark
+    // Metrics specific to A/B benchmark + observability per Étapes 6-7
     this.metrics = {
       totalTasks: 0,
       experiencesRetrieved: 0,
+      experiencesEligible: 0,
+      experiencesFiltered: 0,
       strategiesExtracted: 0,
+      strategiesSelected: 0,
+      strategiesRejected: 0,
       experiencesSubmitted: 0,
       baselineComparison: false,
-      qualityScore: 0, // For A/B benchmark comparison
+      qualityScore: 0,
       durationMs: 0
     };
   }
@@ -174,23 +178,45 @@ export class AgentC {
     }
 
     // ==================================----------------------
-    // Step 2: Relevance Evaluation (PRD §7 item 2)
+    // Step 2: Relevance Evaluation (PRD §7 item 2) + Graduated Trust
     // ==================================----------------------
     const relevanceResult = this._evaluateRelevance(retrievedExperiences, task);
-    console.log('[Agent C] Evaluated relevance: ' + relevanceResult.relevantCount + ' relevant experiences');
+    console.log(`[Agent C] Evaluated relevance: ${relevanceResult.relevantCount} relevant / ${relevanceResult.eligibleCount} eligible / ${relevanceResult.totalRetrieved} retrieved (HIGH:${relevanceResult.tierCounts.HIGH} MEDIUM:${relevanceResult.tierCounts.MEDIUM} LOW:${relevanceResult.tierCounts.LOW} REJECT:${relevanceResult.tierCounts.REJECT})`);
 
     // ==================================----------------------
     // Step 3: Strategy Extraction (PRD §7 item 3)
     // ==================================----------------------
     const strategyResult = this._extractStrategies(relevanceResult.relevantExperiences, task);
+    console.log(`[Agent C] Voici les stratégies provenant des expériences précédentes (${strategyResult.strategiesExtracted} extraites):`);
+    for (const s of strategyResult.strategies.slice(0, 5)) {
+      console.log(`  - [${s.type}:${s.confidence.toFixed(2)}] ${s.strategy.slice(0, 100)} (from ${s.evidence?.expId?.slice(0,8) || 'unknown'})`);
+    }
+    if (strategyResult.strategiesExtracted === 0) console.log('  (aucune stratégie extraite - expériences trop pauvres ou filtrage trop strict)');
+
+    // ==================================----------------------
+    // Step 3b: Strategy Ranking (PRD §21)
+    // ==================================----------------------
+    const ranking = this._rankStrategies(strategyResult.strategies, task);
+    console.log(`[Agent C] Voici les stratégies que j'ai retenues (${ranking.selected.length}/${strategyResult.strategiesExtracted} sélectionnées, rejetées: ${ranking.rejected.length}):`);
+    for (const s of ranking.selected) {
+      console.log(`  + [${s.type}:${s.rankScore.toFixed(2)}] ${s.strategy.slice(0, 100)} ← pourquoi: confidence ${s.confidence.toFixed(2)} + type ${s.type}`);
+    }
+    for (const s of ranking.rejected.slice(0, 3)) {
+      console.log(`  - rejetée [${s.type}:${s.rankScore.toFixed(2)}] ${s.strategy.slice(0, 80)}`);
+    }
+
+    // Update observability metrics
     this.metrics.strategiesExtracted = strategyResult.strategiesExtracted;
-    console.log('[Agent C] Extracted strategies: ' + strategyResult.strategiesExtracted);
+    this.metrics.strategiesSelected = ranking.selected.length;
+    this.metrics.strategiesRejected = ranking.rejected.length;
+    this.metrics.experiencesEligible = relevanceResult.eligibleCount;
+    this.metrics.experiencesFiltered = relevanceResult.filteredCount;
 
     // ==================================----------------------
     // Step 4: Research Planning (PRD §7 item 5)
     // ==================================----------------------
     const researchPlan = this._createResearchPlan(
-      strategyResult.strategies,
+      ranking.selected,
       relevanceResult.relevantExperiences,
       task
     );
@@ -244,21 +270,35 @@ export class AgentC {
     this.runtime.endTimer();
     this.metrics.durationMs = this.runtime.metrics.durationMs || 0;
 
+    const extractionRate = strategyResult.extractionRate || 0;
+    const selectionRate = ranking ? ranking.selectionRate || 0 : 0;
+
     const result = {
       agent: this.name,
       agentId: this.agentId,
       task,
       mode: baselineMode ? 'baseline' : 'neuranet',
       retrievedExperiences: retrievedExperiences.length,
+      experiencesEligible: relevanceResult.eligibleCount || 0,
+      experiencesFiltered: relevanceResult.filteredCount || 0,
       relevanceEvaluation: {
         relevantCount: relevanceResult.relevantCount,
-        strategiesIdentified: strategyResult.strategiesIdentified,
-        failedApproachesIdentified: strategyResult.failedApproachesIdentified
+        eligibleCount: relevanceResult.eligibleCount,
+        filteredCount: relevanceResult.filteredCount,
+        tierCounts: relevanceResult.tierCounts,
+        strategiesIdentified: strategyResult.strategiesExtracted,
+        failedApproachesIdentified: strategyResult.failedCount || 0
       },
       strategyExtraction: {
         strategies: strategyResult.strategies,
-        failedApproaches: strategyResult.failedApproaches
+        failedApproaches: strategyResult.failedApproaches,
+        extractedCount: strategyResult.strategiesExtracted,
+        selectedCount: ranking ? ranking.selected.length : 0,
+        rejectedCount: ranking ? ranking.rejected.length : 0,
+        extractionRate: Math.round(extractionRate * 100) / 100,
+        selectionRate: Math.round(selectionRate * 100) / 100
       },
+      strategyRanking: ranking ? { selected: ranking.selected, rejected: ranking.rejected.slice(0, 3) } : null,
       researchPlan,
       researchResult: {
         searchQuery: researchResult.searchQuery,
@@ -290,63 +330,86 @@ export class AgentC {
 
   /** ----------------------------------------------------------- */
   _evaluateRelevance(experiences, task) {
-    // PRD §7 item 2: Evaluate relevance to current task
+    // Graduated trust model - never discard unverified blindly, distinguish tiers
     if (!experiences || experiences.length === 0) {
       return {
         relevantCount: 0,
         relevantExperiences: [],
+        eligibleCount: 0,
+        filteredCount: 0,
+        rejectedCount: 0,
         strategiesIdentified: 0,
-        failedApproachesIdentified: 0
+        failedApproachesIdentified: 0,
+        tierCounts: { HIGH: 0, MEDIUM: 0, LOW: 0, REJECT: 0 }
       };
     }
 
-    const minTrust = 0.3;
-    const relevant = [];
+    const inferredDomain = this._inferDomain(task);
+    const eligible = [];
+    let rejectedCount = 0;
+    const tierCounts = { HIGH: 0, MEDIUM: 0, LOW: 0, REJECT: 0 };
     const strategies = new Set();
     const failedApproaches = new Set();
 
     for (const exp of experiences) {
-      // Relevance criteria:
-      // - Domain match (if task and experience share domain)
-      // - Trust score above threshold
-      // - Validation status (passed > indexed > collective > unverified)
-      
-      const domainMatch = exp.domain && task.toLowerCase().includes(exp.domain.toLowerCase());
-      const trustAdequate = (exp.trust_score || 0) >= minTrust;
-      const isValidated = 
-        exp.verification_status === 'passed' || 
-        exp.verification_status === 'indexed' ||
-        exp.verification_status === 'collective';
-      const freshnessAdequate = this._checkFreshness(exp, task);
+      const trust = parseFloat(exp.trust_score) || 0;
+      const verification = exp.verification_status || 'unverified';
+      const freshness = exp.freshness_score != null ? parseFloat(exp.freshness_score) : 0.7;
 
-      if (trustAdequate && (domainMatch || isValidated)) {
-        relevant.push({
-          ...exp,
-          relevanceScore: (exp.trust_score || 0) * (domainMatch ? 1.0 : 0.8) * (isValidated ? 1.0 : 0.7) * (freshnessAdequate ? 1.0 : 0.8)
-        });
+      // --- Graduated trust tier ---
+      let tier, confidence;
+      if (trust >= 0.7 && verification === 'passed') { tier = 'HIGH'; confidence = 0.9; }
+      else if (trust >= 0.5) { tier = 'MEDIUM'; confidence = 0.65; }
+      else if (trust >= 0.3) { tier = 'LOW'; confidence = 0.4; }
+      else { tier = 'REJECT'; confidence = 0; }
 
-        // Extract strategies from successful approaches
-        if (exp.successful_approaches && Array.isArray(exp.successful_approaches)) {
-          exp.successful_approaches.forEach(s => {
-            strategies.add(s);
-          });
-        }
+      tierCounts[tier] = (tierCounts[tier] || 0) + 1;
+      if (tier === 'REJECT') { rejectedCount++; continue; }
 
-        // Extract failed approaches (as warnings)
-        if (exp.failed_approaches && Array.isArray(exp.failed_approaches)) {
-          exp.failed_approaches.forEach(f => {
-            failedApproaches.add(f);
-          });
-        }
+      // --- Domain match: compare inferred domains, not substring ---
+      const domainMatch = exp.domain === inferredDomain ? 1.0 : 0.0;
+      const verificationBonus = verification === 'passed' ? 1.0 : verification === 'verified' ? 0.8 : 0.5;
+      const freshnessScore = Math.min(Math.max(freshness, 0), 1);
+
+      // Relevance score: weighted hybrid per PRD §21
+      const relevanceScore = (trust * 0.4) + (domainMatch * 0.3) + (verificationBonus * 0.2) + (freshnessScore * 0.1);
+      // Adjust confidence by verification
+      const adjustedConfidence = tier === 'LOW' && verification === 'unverified' ? confidence * 0.7 : confidence;
+
+      eligible.push({
+        ...exp,
+        tier,
+        confidence: adjustedConfidence,
+        domainMatch,
+        relevanceScore,
+        freshnessScore
+      });
+
+      if (exp.successful_approaches && Array.isArray(exp.successful_approaches)) {
+        exp.successful_approaches.forEach(s => { if (s) strategies.add(s); });
+      }
+      if (exp.failed_approaches && Array.isArray(exp.failed_approaches)) {
+        exp.failed_approaches.forEach(f => { if (f) failedApproaches.add(f); });
       }
     }
 
-    // Sort by relevance score
-    relevant.sort((a, b) => b.relevanceScore - a.relevanceScore);
+    // Sort by relevanceScore descending, then trust
+    eligible.sort((a, b) => b.relevanceScore - a.relevanceScore || b.trust_score - a.trust_score);
+
+    // Filtered = those not eligible due to REJECT
+    const filteredCount = rejectedCount;
+    // Eligible = all with tier != REJECT
+    // Relevant = top 5 eligible (for strategy extraction, we keep more than before)
+    const relevant = eligible.slice(0, 5);
 
     return {
       relevantCount: relevant.length,
-      relevantExperiences: relevant.slice(0, 3), // Top 3
+      relevantExperiences: relevant,
+      eligibleCount: eligible.length,
+      filteredCount,
+      rejectedCount,
+      totalRetrieved: experiences.length,
+      tierCounts,
       strategiesIdentified: strategies.size,
       failedApproachesIdentified: failedApproaches.size
     };
@@ -354,67 +417,122 @@ export class AgentC {
 
   /** ----------------------------------------------------------- */
   _checkFreshness(exp, task) {
-    // Domain-aware freshness check per ARCHITECTURE-ESSENTIALS §44
-    if (!exp.freshness_score) {
-      // Default freshness based on domain
-      const lowerTask = task.toLowerCase();
-      if (lowerTask.includes('finance') || lowerTask.includes('market')) {
-        return 0.5; // Finance: highly time-sensitive
-      }
-      return 0.7; // Default: moderate freshness requirement
-    }
-    return exp.freshness_score >= 0.5; // Above halfway freshness threshold
+    if (exp.freshness_score != null) return parseFloat(exp.freshness_score) >= 0.5;
+    const lowerTask = (task || '').toLowerCase();
+    if (lowerTask.includes('finance') || lowerTask.includes('market')) return 0.5;
+    return 0.7;
   }
 
   /** ----------------------------------------------------------- */
   _extractStrategies(relevantExperiences, task) {
-    // PRD §7 item 3: Identify successful research strategies
-    // PRD §7 item 4: Identify failed or inefficient approaches
-    
     const strategies = [];
     const failedApproaches = [];
+    const seen = new Set();
 
     if (!relevantExperiences || relevantExperiences.length === 0) {
-      return { strategies, strategiesExtracted: 0, failedApproaches, strategiesExtracted: 0 };
+      return { strategies, strategiesExtracted: 0, failedApproaches, failedCount: 0, extractionRate: 0 };
     }
 
-    // Use top relevant experience for strategy extraction
-    const topExp = relevantExperiences[0];
-
-    // Extract successful approaches
-    if (topExp.successful_approaches && Array.isArray(topExp.successful_approaches)) {
-      topExp.successful_approaches.forEach(s => {
-        if (!strategies.includes(s)) strategies.push(s);
-      });
-    }
-
-    // Extract failed approaches (as warnings)
-    if (topExp.failed_approaches && Array.isArray(topExp.failed_approaches)) {
-      topExp.failed_approaches.forEach(f => {
-        if (!failedApproaches.includes(f)) failedApproaches.push(f);
-      });
-    }
-
-    // Also check other relevant experiences for additional strategies
-    for (let i = 1; i < Math.min(relevantExperiences.length, 3); i++) {
-      const exp = relevantExperiences[i];
-      if (exp.successful_approaches && Array.isArray(exp.successful_approaches)) {
-        exp.successful_approaches.forEach(s => {
-          if (!strategies.includes(s)) strategies.push(s);
-        });
+    for (const exp of relevantExperiences) {
+      // Synthesize strategies from multiple fields - not only successful_approaches
+      const synth = this._synthesizeStrategiesFromExperience(exp, task);
+      for (const s of synth) {
+        const key = s.type + ':' + s.strategy;
+        if (!seen.has(key)) {
+          seen.add(key);
+          strategies.push(s);
+        }
       }
       if (exp.failed_approaches && Array.isArray(exp.failed_approaches)) {
-        exp.failed_approaches.forEach(f => {
-          if (!failedApproaches.includes(f)) failedApproaches.push(f);
-        });
+        for (const f of exp.failed_approaches) {
+          if (f && !failedApproaches.includes(f)) failedApproaches.push(f);
+        }
       }
     }
 
     return {
       strategies,
       failedApproaches,
-      strategiesExtracted: strategies.length
+      strategiesExtracted: strategies.length,
+      failedCount: failedApproaches.length,
+      extractionRate: relevantExperiences.length ? strategies.length / relevantExperiences.length : 0
     };
+  }
+
+  /** Synthesize typed strategies from a single experience */
+  _synthesizeStrategiesFromExperience(exp, task) {
+    const out = [];
+    const trust = parseFloat(exp.trust_score) || 0.3;
+    const tier = exp.tier || 'LOW';
+
+    // 1. From successful_approaches (if present)
+    if (Array.isArray(exp.successful_approaches) && exp.successful_approaches.length > 0) {
+      for (const s of exp.successful_approaches) {
+        if (!s) continue;
+        out.push({ type: 'heuristic', strategy: String(s), confidence: tier === 'HIGH' ? 0.85 : tier === 'MEDIUM' ? 0.65 : 0.4, evidence: { expId: exp.id, tier, trust }, source: 'successful_approaches' });
+      }
+    }
+
+    // 2. From search_queries -> query strategy
+    if (Array.isArray(exp.search_queries) && exp.search_queries.length > 0) {
+      for (const q of exp.search_queries) {
+        if (!q || typeof q !== 'string') continue;
+        const existing = out.find(o => o.strategy === q);
+        if (!existing) out.push({ type: 'query', strategy: `Use query pattern: "${q}"`, confidence: 0.5, evidence: { expId: exp.id, query: q }, source: 'search_queries' });
+      }
+    }
+
+    // 3. From strategy array -> research sequence
+    if (Array.isArray(exp.strategy) && exp.strategy.length > 0) {
+      const seq = exp.strategy.join(' → ');
+      out.push({ type: 'sequence', strategy: `Research sequence: ${seq}`, confidence: tier === 'HIGH' ? 0.8 : 0.5, evidence: { expId: exp.id, tier }, source: 'strategy' });
+      for (const step of exp.strategy) {
+        if (!out.find(o => o.strategy === step)) out.push({ type: 'step', strategy: String(step), confidence: 0.45, evidence: { expId: exp.id }, source: 'strategy' });
+      }
+    } else if (exp.strategy && typeof exp.strategy === 'string') {
+      out.push({ type: 'step', strategy: exp.strategy, confidence: 0.45, evidence: { expId: exp.id }, source: 'strategy' });
+    }
+
+    // 4. Source type heuristic from domain
+    if (exp.domain) {
+      const srcMap = { finance: 'government and industry reports', general: 'broad web search', academic: 'peer-reviewed sources', healthcare: 'clinical sources' };
+      const srcAdvice = srcMap[exp.domain] || 'reputable domain sources';
+      out.push({ type: 'source_selection', strategy: `Prioritize ${srcAdvice} for ${exp.domain} tasks`, confidence: 0.6, evidence: { expId: exp.id, domain: exp.domain }, source: 'domain' });
+    }
+
+    // 5. Verification technique from verification_status
+    if (exp.verification_status === 'passed' || exp.verification_status === 'verified') {
+      out.push({ type: 'verification', strategy: 'Cross-verify claims with independent authoritative source', confidence: 0.75, evidence: { expId: exp.id, verification: exp.verification_status }, source: 'verification' });
+    } else {
+      out.push({ type: 'verification', strategy: 'Treat as hypothesis - independently verify before citing', confidence: 0.5, evidence: { expId: exp.id, verification: exp.verification_status }, source: 'verification' });
+    }
+
+    // 6. Freshness heuristic
+    if (exp.freshness_score != null && parseFloat(exp.freshness_score) < 0.5) {
+      out.push({ type: 'heuristic', strategy: 'Check freshness - prior experience may be stale for time-sensitive domain', confidence: 0.55, evidence: { expId: exp.id, freshness: exp.freshness_score }, source: 'freshness' });
+    }
+
+    // 7. Fallback if nothing else: outcome-derived heuristic
+    if (out.length === 0 && exp.outcome) {
+      out.push({ type: 'heuristic', strategy: `Prior experience outcome: ${String(exp.outcome).slice(0, 120)}`, confidence: 0.35, evidence: { expId: exp.id }, source: 'outcome' });
+    }
+
+    return out;
+  }
+
+  /** Rank strategies and select top N */
+  _rankStrategies(strategies, task) {
+    if (!strategies || strategies.length === 0) return { selected: [], rejected: [], all: [] };
+    // Score each strategy: confidence + type weight
+    const typeWeight = { source_selection: 0.15, sequence: 0.12, query: 0.1, verification: 0.08, step: 0.05, heuristic: 0.03 };
+    const scored = strategies.map(s => ({
+      ...s,
+      rankScore: (s.confidence || 0.5) + (typeWeight[s.type] || 0)
+    }));
+    scored.sort((a, b) => b.rankScore - a.rankScore);
+    const selected = scored.slice(0, 5);
+    const rejected = scored.slice(5);
+    return { selected, rejected, all: scored, selectionRate: selected.length / scored.length };
   }
 
   /** ----------------------------------------------------------- */
@@ -431,11 +549,13 @@ export class AgentC {
     const incorporatedSteps = [];
     const seenActions = new Set();
 
-    // Add strategies as potential steps (but Agent C will evaluate them)
+    // Add strategies as potential steps (ranked, typed)
     for (const strategy of strategies) {
-      if (!seenActions.has(strategy)) {
-        incorporatedSteps.push({ order: incorporatedSteps.length + 1, action: strategy });
-        seenActions.add(strategy);
+      const stratText = typeof strategy === 'object' ? strategy.strategy : String(strategy);
+      const stratMeta = typeof strategy === 'object' ? { confidence: strategy.confidence, type: strategy.type } : {};
+      if (!seenActions.has(stratText)) {
+        incorporatedSteps.push({ order: incorporatedSteps.length + 1, action: stratText, ...stratMeta });
+        seenActions.add(stratText);
       }
     }
 

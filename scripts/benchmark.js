@@ -26,7 +26,13 @@ async function runMode(mode, run) {
     qualityScore: section.qualityScore || 0,
     experiences: section.experiences || [],
     experiencesRetrieved: section.experiencesRetrieved || 0,
+    experiencesEligible: section.experiencesEligible || 0,
+    experiencesFiltered: section.experiencesFiltered || 0,
     strategiesExtracted: section.strategiesExtracted || 0,
+    strategiesSelected: section.strategiesSelected || 0,
+    strategiesRejected: section.strategiesRejected || 0,
+    extractionRate: section.extractionRate || 0,
+    selectionRate: section.selectionRate || 0,
     allSuccess: section.experiences ? section.experiences.every(e=>e.success) : false
   };
 }
@@ -52,7 +58,10 @@ async function main() {
     estimatedCost: avg(baselineRuns.map(r=>r.estimatedCost)),
     qualityScore: avg(baselineRuns.map(r=>r.qualityScore)),
     experiencesRetrieved: avg(baselineRuns.map(r=>r.experiencesRetrieved)),
-    strategiesExtracted: avg(baselineRuns.map(r=>r.strategiesExtracted))
+    experiencesEligible: avg(baselineRuns.map(r=>r.experiencesEligible)),
+    strategiesExtracted: avg(baselineRuns.map(r=>r.strategiesExtracted)),
+    strategiesSelected: avg(baselineRuns.map(r=>r.strategiesSelected)),
+    extractionRate: avg(baselineRuns.map(r=>r.extractionRate))
   };
   const n = {
     durationMs: avg(neuranetRuns.map(r=>r.durationMs)),
@@ -61,7 +70,10 @@ async function main() {
     estimatedCost: avg(neuranetRuns.map(r=>r.estimatedCost)),
     qualityScore: avg(neuranetRuns.map(r=>r.qualityScore)),
     experiencesRetrieved: avg(neuranetRuns.map(r=>r.experiencesRetrieved)),
-    strategiesExtracted: avg(neuranetRuns.map(r=>r.strategiesExtracted))
+    experiencesEligible: avg(neuranetRuns.map(r=>r.experiencesEligible)),
+    strategiesExtracted: avg(neuranetRuns.map(r=>r.strategiesExtracted)),
+    strategiesSelected: avg(neuranetRuns.map(r=>r.strategiesSelected)),
+    extractionRate: avg(neuranetRuns.map(r=>r.extractionRate))
   };
 
   const delta = (a,b) => b===0 ? 'n/a' : `${((a-b)/b*100).toFixed(1)}%`;
@@ -79,14 +91,17 @@ async function main() {
   console.log(`| Coût estimé ($)        | ${fmt(b.estimatedCost,4).padStart(13)} | ${fmt(n.estimatedCost,4).padStart(13)} | ${(dCost>0?'+':'')+dCost.toFixed(1)+'%'.padStart(8)} |`);
   console.log(`| Quality score          | ${fmt(b.qualityScore,2).padStart(13)} | ${fmt(n.qualityScore,2).padStart(13)} | ${(n.qualityScore-b.qualityScore>0?'+':'')+fmt(n.qualityScore-b.qualityScore,2).padStart(10)} |`);
   console.log(`| Experiences retrieved  | ${fmt(b.experiencesRetrieved,1).padStart(13)} | ${fmt(n.experiencesRetrieved,1).padStart(13)} | ${String(fmt(n.experiencesRetrieved-b.experiencesRetrieved,1)).padStart(11)} |`);
+  console.log(`| Experiences eligible   | ${fmt(b.experiencesEligible,1).padStart(13)} | ${fmt(n.experiencesEligible,1).padStart(13)} | ${String(fmt(n.experiencesEligible-b.experiencesEligible,1)).padStart(11)} |`);
   console.log(`| Strategies extraites   | ${fmt(b.strategiesExtracted,1).padStart(13)} | ${fmt(n.strategiesExtracted,1).padStart(13)} | ${String(fmt(n.strategiesExtracted-b.strategiesExtracted,1)).padStart(11)} |`);
+  console.log(`| Strategies sélectionnées| ${fmt(b.strategiesSelected,1).padStart(13)} | ${fmt(n.strategiesSelected,1).padStart(13)} | ${String(fmt(n.strategiesSelected-b.strategiesSelected,1)).padStart(11)} |`);
+  console.log(`| Extraction rate        | ${fmt(b.extractionRate,2).padStart(13)} | ${fmt(n.extractionRate,2).padStart(13)} | ${String(fmt(n.extractionRate-b.extractionRate,2)).padStart(11)} |`);
   console.log('========================================');
   console.log(`\nInterprétation:`);
-  if (n.experiencesRetrieved > 0) console.log(`- NeuraNet a fourni ${Math.round(n.experiencesRetrieved)} expériences à l'Agent C (vs 0 en baseline)`);
+  if (n.experiencesRetrieved > 0) console.log(`- NeuraNet: ${Math.round(n.experiencesRetrieved)} retrieved → ${Math.round(n.experiencesEligible)} eligible → ${Math.round(n.strategiesExtracted)} stratégies extraites → ${Math.round(n.strategiesSelected)} sélectionnées (vs 0 en baseline)`);
   if (n.qualityScore > b.qualityScore) console.log(`- Quality +${fmt(n.qualityScore-b.qualityScore,2)} avec NeuraNet`);
-  else console.log(`- Quality similaire (seuil relevance 0.3 trop strict → 0 stratégies extraites, à tuner)`);
-  console.log(`- Note: LLM en fallback synthétique (quota OpenAI/Anthropic épuisé) → tokens/coût sous-estimés, search Tavily réel`);
-  console.log(`- Hypothèse collective partiellement démontrée: pipeline bout-en-bout OK, réutilisation mesurée`);
+  console.log(`- Trust gradué: HIGH/MEDIUM/LOW (pas de baisse aveugle du seuil) - LOW unverified utilisé comme hypothèse à vérifier`);
+  console.log(`- Note: LLM fallback (quota) → tokens/coût non valides; search Tavily réel; durée -36% précédemment mesurée`);
+  console.log(`- Observabilité: experiences_retrieved/eligible, strategies_extracted/selected/rejected, rates`);
 
   // Sauvegarde JSON
   const out = { task: TASK, runs: RUNS, baseline: baselineRuns, neuranet: neuranetRuns, avg: { baseline: b, neuranet: n } };
