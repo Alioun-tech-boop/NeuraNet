@@ -122,6 +122,7 @@ CREATE TABLE experiences (
   
   -- Task and strategy information
   task_type VARCHAR(100),
+  domain VARCHAR(100),
   strategy JSONB, -- reusable research strategy
   successful_approaches JSONB DEFAULT '[]',
   failed_approaches JSONB DEFAULT '[]',

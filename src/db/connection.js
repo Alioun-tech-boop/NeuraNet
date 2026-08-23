@@ -2,8 +2,12 @@ import { Pool } from 'pg';
 
 const databaseUrl = process.env.DATABASE_URL || 'postgresql://neuranet:neuranet_password@localhost:5432/neuranet';
 
+// Supabase requires TLS for remote connections; local development does not.
+const isLocalHost = /@localhost|@127\.0\.0\.1|@::1/.test(databaseUrl);
+
 export const pool = new Pool({
-  connectionString: databaseUrl
+  connectionString: databaseUrl,
+  ...(isLocalHost ? {} : { ssl: { rejectUnauthorized: false } })
 });
 
 // Enable pgvector extension
