@@ -21,11 +21,11 @@
  *   - Errors
  */
 
-import AgentA from './agents/agentA.js';
-import AgentB from './agents/agentB.js';
-import AgentC from './agents/agentC.js';
-import { WebSearchProvider } from '../searchProvider/webSearch.js';
-import { NeoanNetClient } from '../neuraNetClient/index.js';
+import { AgentA } from '../src/agents/agentA.js';
+import { AgentB } from '../src/agents/agentB.js';
+import { AgentC } from '../src/agents/agentC.js';
+import { WebSearchProvider } from '../src/searchProvider/webSearch.js';
+import { NeuraNetClient } from '../src/neuraNetClient/index.js';
 
 export class ExperimentRunner {
   /**
@@ -219,10 +219,11 @@ export class ExperimentRunner {
             { agent: 'Agent C', experienceId: cResult.experienceSubmission.experienceId, success: cResult.experienceSubmission.success }
           ],
           // NeuraNet-specific metrics
-          experiencesRetrieved: cMetrics.experiencesRetrieved,
-          strategiesExtracted: cMetrics.strategiesExtracted,
-          relevanceEvaluation: cMetrics.relevanceEvaluation
+          experiencesRetrieved: cResult.retrievedExperiences || 0,
+          strategiesExtracted: cResult.metrics.strategiesExtracted || 0,
+          relevanceEvaluation: cResult.relevanceEvaluation || null
         }
+      };
 
       console.log('\n--- NEURANET EXPERIMENT COMPLETE ---\n');
       return experimentResult;
@@ -232,6 +233,81 @@ export class ExperimentRunner {
     console.error('ERROR: Invalid mode "' + mode + '". Must be "baseline" or "neuranet".');
     return null;
   }
+}
+
+/** ----------------------------------------------------------- */
+/** CLI entry point -------------------------------------------- */
+/** Usage: node scripts/experimentRunner.js "task text" --mode neuranet */
+/** ----------------------------------------------------------- */
+import 'dotenv/config';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+function printSummary(result) {
+  console.log('\n========================================');
+  console.log('EXPERIMENT SUMMARY');
+  console.log('========================================');
+  if (!result) {
+    console.log('Experiment failed: no result returned.');
+    return;
+  }
+  const section = result.mode === 'baseline' ? result.baseline : result.neuranet;
+  console.log('Experiment ID:', result.experimentId);
+  console.log('Task:', result.task);
+  console.log('Mode:', result.mode.toUpperCase());
+  if (section) {
+    console.log('Duration:', section.durationMs, 'ms');
+    console.log('Input tokens:', section.inputTokens);
+    console.log('Output tokens:', section.outputTokens);
+    console.log('Search calls:', section.searchCalls);
+    console.log('Estimated cost: $' + Number(section.estimatedCost || 0).toFixed(4));
+    console.log('Quality score:', section.qualityScore);
+  }
+  if (result.mode === 'neuranet' && result.neuranet) {
+    console.log('Experiences retrieved by Agent C:', result.neuranet.experiencesRetrieved);
+    console.log('Strategies extracted:', result.neuranet.strategiesExtracted);
+  }
+  if (section && Array.isArray(section.experiences)) {
+    for (const e of section.experiences) {
+      console.log(' -', e.agent + ':', 'experience=' + (e.experienceId || 'none'), 'submitted=' + (e.success ? 'YES' : 'NO'));
+    }
+  }
+  console.log('========================================\n');
+}
+
+async function main() {
+  const args = process.argv.slice(2);
+  let mode = 'neuranet';
+  const taskParts = [];
+
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--mode') {
+      mode = args[i + 1];
+      i++;
+    } else {
+      taskParts.push(args[i]);
+    }
+  }
+
+  const task = taskParts.join(' ').trim() || 'Analyze the market for electric vehicles in Ghana';
+
+  if (!['baseline', 'neuranet'].includes(mode)) {
+    console.error('Invalid --mode "' + mode + '". Use "baseline" or "neuranet".');
+    process.exit(1);
+  }
+
+  try {
+    const result = await ExperimentRunner.runExperiment({ task, mode });
+    printSummary(result);
+  } catch (err) {
+    console.error('EXPERIMENT FAILED:', err.message);
+    process.exit(1);
+  }
+}
+
+const thisFile = fileURLToPath(import.meta.url);
+if (process.argv[1] && path.resolve(process.argv[1]) === thisFile) {
+  main();
 }
 
 export default ExperimentRunner;

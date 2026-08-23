@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://neuranet:neuranet_password@localhost:5432/neuranet
+      - REDIS_URL=redis://localhost:6379
+      - JWT_SECRET=neuranet-jwt-super-secret-key-change-in-production
+      - API_KEY_NAME=X-API-Key
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=neuranet
+      - POSTGRES_USER=neuranet
+      - POSTGRES_PASSWORD=neuranet_password
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+volumes:
+  pg_data:

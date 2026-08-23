@@ -4,6 +4,8 @@ import { checkScopes } from '../middleware/auth.js';
 import { pool } from '../db/connection.js';
 import strategyEngine from '../strategies/index.js';
 
+const router = Router();
+
 // POST /v1/experiences - Create a new experience from research outcome
 router.post('/', authenticateApiKey, checkScopes('experiences:create'), async (req, res) => {
   try {

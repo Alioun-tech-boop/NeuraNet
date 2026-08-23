@@ -33,7 +33,7 @@
  */
 
 import AgentRuntime from '../agentRuntime/index.js';
-import NeuraNetClient from '../neuraNetClient/index.js';
+import { NeuraNetClient } from '../neuraNetClient/index.js';
 import { WebSearchProvider } from '../searchProvider/webSearch.js';
 import agentAPrompt from '../agentPrompts/agentA.js';
 import { SearchProvider } from '../searchProvider/index.js';

@@ -30,7 +30,7 @@
  */
 
 import AgentRuntime from '../agentRuntime/index.js';
-import NeuraNetClient from '../neuraNetClient/index.js';
+import { NeuraNetClient } from '../neuraNetClient/index.js';
 import { WebSearchProvider } from '../searchProvider/webSearch.js';
 import agentBPrompt from '../agentPrompts/agentB.js';
 import { SearchProvider } from '../searchProvider/index.js';
@@ -201,7 +201,7 @@ export class AgentB {
           referenceOnly: true, // Marker: do not use strategies from this
           relevanceScore: (exp.trust_score || 0)
         });
-      });
+      }
     }
 
     // Sort by trust score (highest first for reference)
