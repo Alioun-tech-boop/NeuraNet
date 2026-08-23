@@ -154,7 +154,7 @@ export class AgentA {
     const outcome = this._createOutcome(researchResult, verifiedResult, task);
 
     // Step 7: Create experience object
-    const experience = this._createExperience(outcome, experiences, task, strategy);
+    const experience = this._createExperience(outcome, experiences, task, strategy, verifiedResult);
 
     // Step 8: Submit experience to NeuraNet
     const submission = await this.neuraNetClient.submitExperience(experience);
@@ -202,6 +202,7 @@ export class AgentA {
 
   /** ----------------------------------------------------------- */
   _inferDomain(task) {
+    if (!task || typeof task !== 'string') return 'general';
     const lower = task.toLowerCase();
     if (lower.includes('finance') || lower.includes('market') || lower.includes('stock') || lower.includes('investment')) return 'finance';
     if (lower.includes('code') || lower.includes('software') || lower.includes('program') || lower.includes('debug')) return 'software engineering';
@@ -287,7 +288,7 @@ export class AgentA {
 
   /** ----------------------------------------------------------- */
   _generateSearchQuery(task) {
-    // Generate a search query from the task
+    if (!task || typeof task !== 'string') return 'general research information';
     const words = task.split(' ').filter(w => w.length > 3);
     return words.slice(0, 3).join(' ') + ' information';
   }
@@ -298,8 +299,8 @@ export class AgentA {
     // In a full implementation, this would use the search provider to verify
     // key claims. For now, mark verification status.
     
-    const lowerOutcome = outcome.toLowerCase ? outcome.toLowerCase() : '';
-    const hasSpecificClaims = lowerOutcome.includes('therefore') || 
+    const lowerOutcome = typeof outcome === 'string' ? outcome.toLowerCase() : '';
+    const hasSpecificClaims = lowerOutcome.includes('therefore') ||
                               lowerOutcome.includes('hence') ||
                               lowerOutcome.includes('studies show') ||
                               lowerOutcome.includes('research indicates');
@@ -327,7 +328,7 @@ export class AgentA {
   }
 
   /** ----------------------------------------------------------- */
-  _createExperience(outcome, previousExperiences, task, strategy) {
+  _createExperience(outcome, previousExperiences, task, strategy, verifiedResult) {
     // Create the experience object to submit to NeuraNet
     // Per PRD.md §12: experience must represent research process, not just question + answer
     
@@ -388,7 +389,7 @@ export class AgentA {
       successful_approaches: successfulApproaches,
       failed_approaches: failedApproaches,
       outcome: outcome,
-      verification: verifiedResult.verificationStatus,
+      verification: (verifiedResult && verifiedResult.verificationStatus) || 'unverified',
       confidence: Math.round(confidence * 100) / 100,
       agent: this.agentId,
       model: this.model,

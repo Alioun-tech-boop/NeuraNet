@@ -224,7 +224,8 @@ export class AgentC {
       task,
       retrievedExperiences,
       strategyResult.strategies,
-      strategyResult.failedApproaches
+      strategyResult.failedApproaches,
+      verifiedResult
     );
 
     const submission = await this.neuraNetClient.submitExperience(experience);
@@ -497,7 +498,7 @@ export class AgentC {
       searchResults: searchResult.results || [],
       researchMethod: 'with_neuranet_strategy',
       researchPlan: researchPlan,
-      notes: researchResult.snippet ? 'Found ' + (searchResult.results ? searchResult.results.length : 0) + ' search results' : 'Search completed',
+      notes: searchResult.results && searchResult.results.length > 0 ? 'Found ' + searchResult.results.length + ' search results' : 'Search completed',
       strategyUsed: researchPlan.incorporatedSteps.map(s => s.action).join(', ')
     };
   }
@@ -601,7 +602,7 @@ export class AgentC {
   }
 
   /** ----------------------------------------------------------- */
-  _createExperience(outcome, task, retrievedExperiences, strategies, failedApproaches) {
+  _createExperience(outcome, task, retrievedExperiences, strategies, failedApproaches, verifiedResult) {
     // PRD §12: Experience must represent research process, not just question + answer
     // Must include: task, objective, research strategy, queries, sources,
     // successful approaches, failed approaches, outcome, verification, confidence, agent, model, timestamp, metrics
@@ -666,6 +667,7 @@ export class AgentC {
 
   /** ----------------------------------------------------------- */
   _inferDomain(task) {
+    if (!task || typeof task !== 'string') return 'general';
     const lower = task.toLowerCase();
     if (lower.includes('finance') || lower.includes('market') || lower.includes('stock') || lower.includes('investment')) return 'finance';
     if (lower.includes('code') || lower.includes('software') || lower.includes('program') || lower.includes('debug')) return 'software engineering';
@@ -677,6 +679,7 @@ export class AgentC {
 
   /** ----------------------------------------------------------- */
   _generateSearchQuery(task) {
+    if (!task || typeof task !== 'string') return 'general research information';
     const words = task.split(' ').filter(w => w.length > 3);
     return words.slice(0, 3).join(' ') + ' information';
   }

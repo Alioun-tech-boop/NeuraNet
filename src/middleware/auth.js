@@ -2,9 +2,11 @@ import { Pool } from 'pg';
 import bcrypt from 'bcryptjs';
 
 const databaseUrl = process.env.DATABASE_URL || 'postgresql://neuranet:neuranet_password@localhost:5432/neuranet';
+const isLocalHost = /@localhost|@127\.0\.0\.1|@::1/.test(databaseUrl);
 
 const pool = new Pool({
-  connectionString: databaseUrl
+  connectionString: databaseUrl,
+  ...(isLocalHost ? {} : { ssl: { rejectUnauthorized: false } })
 });
 
 // In-memory cache for API key lookups (populated on startup)
@@ -16,12 +18,19 @@ let apiKeyCache = new Map();
 export const loadApiKeys = async () => {
   try {
     const { rows } = await pool.query(
-      'SELECT id, organization_id, hash FROM api_keys WHERE revoked_at IS NULL'
+      'SELECT id, organization_id, hash, scopes FROM api_keys WHERE revoked_at IS NULL'
     );
     rows.forEach(key => {
+      let scopes = key.scopes;
+      // pg returns JSONB as object/array; ensure array
+      if (typeof scopes === 'string') {
+        try { scopes = JSON.parse(scopes); } catch { scopes = []; }
+      }
+      if (!Array.isArray(scopes)) scopes = [];
       apiKeyCache.set(key.id, {
         organization_id: key.organization_id,
-        hash: key.hash
+        hash: key.hash,
+        scopes
       });
     });
     console.log(`Loaded ${apiKeyCache.size} active API keys into cache`);
@@ -56,12 +65,8 @@ export const authenticateApiKey = async (req, res, next) => {
 
     if (cachedKey) {
       req.organization_id = cachedKey.organization_id;
-      
-      // Try to fetch the agent associated with this organization
-      // For server-to-server, we'll set agent_id from context or task submission
-      // In a full implementation, this would come from JWT or session
-      req.agent_id = null; // Will be set per-request context or task submission
-      
+      req.scopes = cachedKey.scopes || [];
+      req.agent_id = null;
       return next();
     }
 
@@ -70,6 +75,7 @@ export const authenticateApiKey = async (req, res, next) => {
       const isValid = await bcrypt.compare(apiKey, entry.hash);
       if (isValid) {
         req.organization_id = entry.organization_id;
+        req.scopes = entry.scopes || [];
         req.agent_id = null;
         return next();
       }

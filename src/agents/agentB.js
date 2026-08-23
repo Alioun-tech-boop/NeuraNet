@@ -134,7 +134,7 @@ export class AgentB {
     const outcome = this._createOutcome(researchResult, verifiedResult, task);
 
     // Step 5: Create experience object (independent, own perspective)
-    const experience = this._createExperience(outcome, task, referencedExperiences);
+    const experience = this._createExperience(outcome, task, referencedExperiences, verifiedResult);
 
     // Step 5.5: Optionally compare with Agent A's approach (for benchmark)
     if (this.metrics.baselineComparison && referencedExperiences.length > 0) {
@@ -269,13 +269,10 @@ export class AgentB {
   }
 
   /** ----------------------------------------------------------- */
-  _createExperience(outcome, task, referencedExperiences) {
-    // Create the experience object to submit to NeuraNet
-    // Per PRD.md §12: experience must represent research process, not just question + answer
-    
+  _createExperience(outcome, task, referencedExperiences, verifiedResult) {
+    const vr = verifiedResult || { verificationStatus: 'unverified' };
     const searchQuery = this._generateSearchQuery(task);
 
-    // Agent B's successful and failed approaches (independent)
     const successfulApproaches = [
       `Independent search using query: ${searchQuery}`,
       'Own analysis of findings'
@@ -286,12 +283,10 @@ export class AgentB {
       'Some claims could not be fully verified independently'
     ];
 
-    // Generate confidence based on research quality
     let confidence = 0.5;
-    // Agent B's confidence adjusted by verification status
-    if (verifiedResult.verificationStatus === 'verified') {
+    if (vr.verificationStatus === 'verified') {
       confidence = Math.min(confidence + 0.15, 0.9);
-    } else if (verifiedResult.verificationStatus === 'unverified') {
+    } else if (vr.verificationStatus === 'unverified') {
       confidence = Math.max(confidence - 0.1, 0.3);
     }
 
@@ -308,7 +303,7 @@ export class AgentB {
       successful_approaches: successfulApproaches,
       failed_approaches: failedApproaches,
       outcome: outcome,
-      verification: verifiedResult.verificationStatus,
+      verification: vr.verificationStatus,
       confidence: Math.round(confidence * 100) / 100,
       agent: this.agentId,
       model: this.model,
@@ -329,12 +324,14 @@ export class AgentB {
 
   /** ----------------------------------------------------------- */
   _generateSearchQuery(task) {
+    if (!task || typeof task !== 'string') return 'general research information';
     const words = task.split(' ').filter(w => w.length > 3);
     return words.slice(0, 3).join(' ') + ' information';
   }
 
   /** ----------------------------------------------------------- */
   _inferDomain(task) {
+    if (!task || typeof task !== 'string') return 'general';
     const lower = task.toLowerCase();
     if (lower.includes('finance') || lower.includes('market') || lower.includes('stock') || lower.includes('investment')) return 'finance';
     if (lower.includes('code') || lower.includes('software') || lower.includes('program') || lower.includes('debug')) return 'software engineering';
