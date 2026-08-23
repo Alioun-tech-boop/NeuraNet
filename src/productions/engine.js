@@ -122,9 +122,9 @@ export class ProductionEngine {
     const bothVerified = existing.verification_status === 'verified' && incoming.verification_status === 'verified';
     if (answersDiffer && bothVerified) return 'CONFLICTING';
 
-    if (incomingQuality > existingQuality + 0.05) return 'BETTER';
-    if (Math.abs(incomingQuality - existingQuality) < 0.05 && incomingFreshness >= existingFreshness) return 'EQUIVALENT';
-    if (incomingQuality < existingQuality - 0.05) return 'WORSE';
+    if (incomingQuality > existingQuality + 0.01) return 'BETTER';
+    if (Math.abs(incomingQuality - existingQuality) < 0.01 && incomingFreshness >= existingFreshness) return 'EQUIVALENT';
+    if (incomingQuality < existingQuality - 0.01) return 'WORSE';
     return 'EQUIVALENT';
   }
 
