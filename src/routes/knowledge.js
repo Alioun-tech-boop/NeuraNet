@@ -4,6 +4,8 @@ import productionEngine from '../productions/engine.js';
 import { pool } from '../db/connection.js';
 import { AgentC } from '../agents/agentC.js';
 import { WebSearchProvider } from '../searchProvider/webSearch.js';
+import repository from '../researchPath/repository.js';
+import optimizer from '../neuraNet/optimizer.js';
 
 const router = Router();
 
@@ -150,8 +152,17 @@ router.post('/query', authenticateApiKey, async (req, res) => {
       }
     }
 
-    // RESEARCH: full pipeline via AgentC (use openrouter for stability)
+    // RESEARCH: fast path lookup + research
     decision = 'RESEARCH';
+    const pathLookupStart = Date.now();
+    const taskFamily = repository.taskFamilyFromQuery(query, domain);
+    const { path: canonicalPath, latencyMs: pathLookupMs } = await repository.getCanonicalPath(orgId, taskFamily);
+    // Fast path: if canonical path exists, use it directly (no LLM for path)
+    // For now, just log it and pass to AgentC via researchPlan
+    if (canonicalPath) {
+      console.log(`[knowledge] Canonical path found: ${canonicalPath.id} v${canonicalPath.version} quality ${canonicalPath.quality_score}`);
+    }
+
     const agentC = new AgentC({
       agentId: agentId || 'knowledge-research',
       name: 'Knowledge Research Agent',
@@ -160,12 +171,11 @@ router.post('/query', authenticateApiKey, async (req, res) => {
       neuraNetConfig: { apiKey: req.headers['x-api-key'], baseURL: `http://${req.get('host')}` },
       searchProvider: new WebSearchProvider()
     });
-    // Patch domain for consistent clustering
     const origInfer = agentC._inferDomain.bind(agentC);
     agentC._inferDomain = (t) => t === query ? domain : origInfer(t);
 
     const result = await agentC.research(query, { baselineMode: false });
-    tavilyCalls = 1; // AgentC does 1 Tavily
+    tavilyCalls = 1;
     llmCalls = 1;
     tokens = { input: result.metrics.totalTokensInput || 0, output: result.metrics.totalTokensOutput || 0, total: (result.metrics.totalTokensInput||0)+(result.metrics.totalTokensOutput||0) };
 
@@ -232,9 +242,13 @@ router.post('/query', authenticateApiKey, async (req, res) => {
       await productionEngine.updateCanonical(cluster.id, newProd.id);
       finalProduction = { ...newProd, is_canonical: true };
     } else {
-      // Keep existing as canonical
       finalProduction = existingCanonical || newProd;
     }
+
+    // Async learning - don't block response per §19 (§20 failure safety)
+    setImmediate(() => {
+      optimizer.emit('production.created', { production: newProd, experience: { strategy: newProd.sources } }).catch(e => console.error('[optimizer] async error', e.message));
+    });
 
     provenance = {
       productionId: newProd.id,
