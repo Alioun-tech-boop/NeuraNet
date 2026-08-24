@@ -3,9 +3,76 @@ import { authenticateApiKey } from '../middleware/auth.js';
 import evolutionEngine, { PathEvolutionEngine } from '../pathEngine/evolution.js';
 import registry from '../pathEngine/registry.js';
 import PathComparator from '../pathEngine/comparator.js';
+import selectorEngine from '../pathEngine/selector.js';
+import { buildProblemSignature } from '../pathEngine/signature.js';
 import { pool } from '../db/connection.js';
 
 const router = Router();
+
+/** POST /v1/paths/select — Path Selection Engine V2 (zero LLM, zero context) */
+router.post('/select', authenticateApiKey, async (req, res) => {
+  const orgId = req.organization_id;
+  const { task, domainOverride, options } = req.body;
+  if (!task) return res.status(400).json({ error: 'task required', request_id: req.request_id });
+
+  try {
+    const signature = buildProblemSignature(task, domainOverride);
+    // Family with hierarchical fallback (specialization-aware)
+    let family = await registry.findFamilyWithFallback(orgId, signature);
+    if (!family) {
+      return res.json({ decision: 'RESEARCH', selectedPath: null,
+        selectionReason: 'no family for this problem yet', selectionLLMCalls: 0,
+        contextAddedTokens: 0, request_id: req.request_id });
+    }
+
+    const engine = options ? new (await import('../pathEngine/selector.js')).PathSelectionEngine(options) : selectorEngine;
+    const selection = await engine.selectBestPath({
+      orgId, task, problemSignature: { ...signature, familyKey: family.family_key }, familyId: family.id
+    });
+
+    res.json({
+      decision: 'PATH_SELECTED',
+      familyId: family.id,
+      familyKey: family.family_key,
+      specializedFallback: family.family_key !== signature.familyKey,
+      ...selection,
+      request_id: req.request_id
+    });
+  } catch (e) {
+    console.error('[paths/select]', e.message);
+    res.status(500).json({ error: 'Internal server error', details: e.message, request_id: req.request_id });
+  }
+});
+
+/** GET /v1/paths/statistics — per-path execution statistics */
+router.get('/statistics', authenticateApiKey, async (req, res) => {
+  const { familyId } = req.query;
+  const paths = await pool.query(
+    `SELECT id FROM resolution_paths WHERE organization_id=$1 AND family_id=$2`,
+    [req.organization_id, familyId]);
+  const statsMap = await selectorEngine.getStats(req.organization_id, paths.rows.map(p=>p.id));
+  const out = {};
+  for (const [pid, s] of statsMap) out[pid] = s;
+  res.json({ statistics: out, pathCount: paths.rows.length, request_id: req.request_id });
+});
+
+/** GET /v1/paths/regret — estimated regret of past selections */
+router.get('/regret', authenticateApiKey, async (req, res) => {
+  const { familyId } = req.query;
+  const rows = await pool.query(
+    `SELECT pe.path_id, AVG(pe.quality_score) AS avg_q, COUNT(*) AS n
+     FROM path_executions pe JOIN resolution_paths rp ON rp.id=pe.path_id
+     WHERE rp.organization_id=$1 AND rp.family_id=$2 AND pe.quality_score IS NOT NULL
+     GROUP BY pe.path_id ORDER BY avg_q DESC`,
+    [req.organization_id, familyId]);
+  if (!rows.rows.length) return res.json({ estimatedRegret: null, note: 'no observations' });
+  const bestObservable = parseFloat(rows.rows[0].avg_q);
+  const detail = rows.rows.map(r=>({
+    pathId: r.path_id, avgQuality: parseFloat(r.avg_q).toFixed(3), observations: r.n,
+    estimatedRegret: (bestObservable - parseFloat(r.avg_q)).toFixed(3)
+  }));
+  res.json({ bestObservableQuality: bestObservable, byPath: detail, request_id: req.request_id });
+});
 
 /** POST /v1/paths/observe — record an execution observation and converge the family */
 router.post('/observe', authenticateApiKey, async (req, res) => {

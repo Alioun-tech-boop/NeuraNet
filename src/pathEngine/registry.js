@@ -23,6 +23,27 @@ export class PathRegistry {
     return rows[0];
   }
 
+  /**
+   * Hierarchical family fallback per specialization spec:
+   * exact family -> coarser keys (drop granularity, then jurisdiction) so a
+   * general path remains usable when no specialized path is proven yet.
+   */
+  findFamilyWithFallback(orgId, signature) {
+    const parts = signature.familyKey.split('|');
+    const candidates = [
+      signature.familyKey,                                   // full
+      [parts[0],parts[1],parts[2],'-',parts[4]].join('|'),   // drop jurisdiction
+      [parts[0],parts[1],parts[2],'-','-'].join('|'),        // + drop granularity
+      [parts[0],parts[1],'-','-','-'].join('|')              // + drop subdomain
+    ];
+    return pool.query(
+      `SELECT * FROM problem_families
+       WHERE organization_id=$1 AND family_key = ANY($2::varchar[])
+       ORDER BY array_position($2::varchar[], family_key) LIMIT 1`,
+      [orgId, candidates]
+    ).then(r => r.rows[0] || null);
+  }
+
   async getCanonicalPath(familyId) {
     const { rows } = await pool.query(
       `SELECT * FROM resolution_paths WHERE family_id = $1 AND is_canonical = true LIMIT 1`,
