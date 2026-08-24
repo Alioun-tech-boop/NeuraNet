@@ -5,8 +5,97 @@ import { decide as decidePath } from '../pathEngine/decision.js';
 import { pool } from '../db/connection.js';
 import { AgentC } from '../agents/agentC.js';
 import { WebSearchProvider } from '../searchProvider/webSearch.js';
+import learningEngine from '../adaptiveLearning/learningEngine.js';
+import mutationEngine from '../adaptiveLearning/pathMutationEngine.js';
+import governanceEngine from '../governance/governanceEngine.js';
+import policyRegistry from '../governance/policyRegistry.js';
 
 const router = Router();
+
+/** POST /v1/neurannet/select — Path Selection Engine V2 (zero LLM) */
+router.post('/select', authenticateApiKey, async (req, res) => {
+  const selector = (await import('../pathEngine/selector.js')).default;
+  const orgId = req.organization_id;
+  const { task, domainOverride, options } = req.body;
+  if (!task) return res.status(400).json({ error: 'task required', request_id: req.request_id });
+  try {
+    const signature = buildProblemSignature(task, domainOverride);
+    const family = await registry.findFamilyWithFallback(orgId, signature);
+    if (!family) return res.json({ decision: 'RESEARCH', selectionLLMCalls: 0,
+      contextAddedTokens: 0, request_id: req.request_id });
+    const engine = options ? new (await import('../pathEngine/selector.js')).PathSelectionEngine(options) : selector;
+    const sel = await engine.selectBestPath({ orgId, task,
+      problemSignature: { ...signature, familyKey: family.family_key }, familyId: family.id });
+    res.json({ ...sel, contextAddedTokens: sel.contextAddedTokens ?? 0, request_id: req.request_id });
+  } catch (e) {
+    console.error('[neurannet/select]', e.message);
+    res.status(500).json({ error: 'Internal server error', details: e.message, request_id: req.request_id });
+  }
+});
+
+/** POST /v1/neurannet/observe — record a LearningObservation */
+router.post('/observe', authenticateApiKey, async (req, res) => {
+  const orgId = req.organization_id;
+  const { task, familyId, pathId, executionId, metrics, environment } = req.body;
+  if (!task || !familyId) return res.status(400).json({ error: 'task and familyId required', request_id: req.request_id });
+  try {
+    const signature = buildProblemSignature(task, domainOverride);
+    const out = await learningEngine.ingest({
+      tenantId: orgId, familyId, pathId: pathId || null, executionId: executionId || null,
+      signature, metrics: metrics || {}, environment: environment || {}
+    });
+    res.json({ ok: true, observationId: out.observationId, createdAt: out.createdAt, request_id: req.request_id });
+  } catch (e) {
+    console.error('[neurannet/observe]', e.message);
+    res.status(500).json({ error: 'Internal server error', details: e.message, request_id: req.request_id });
+  }
+});
+
+/** POST /v1/neurannet/discover — bounded recombination discovery */
+router.post('/discover', authenticateApiKey, async (req, res) => {
+  const { familyId } = req.body;
+  if (!familyId) return res.status(400).json({ error: 'familyId required', request_id: req.request_id });
+  try {
+    const out = await learningEngine.runDiscoveryCycle(req.organization_id, familyId);
+    res.json({ ok: true, ...out, request_id: req.request_id });
+  } catch (e) {
+    res.status(500).json({ error: 'Internal server error', details: e.message, request_id: req.request_id });
+  }
+});
+
+/** POST /v1/neurannet/experiment — promote/domininate/rollback via governed mutation */
+router.post('/experiment', authenticateApiKey, async (req, res) => {
+  const orgId = req.organization_id;
+  const { pathId, mutationType, newSteps, reason, payload } = req.body;
+  if (!pathId || !mutationType) return res.status(400).json({ error: 'pathId and mutationType required', request_id: req.request_id });
+  try {
+    const verdict = await governanceEngine.decideAndLog(orgId, mutationType,
+      { targetType:'path', targetId:pathId, ...(payload||{}) });
+    if (verdict.decision === 'DENY') {
+      return res.json({ allowed:false, decision:'DENY', reason:verdict.reason, request_id:req.request_id });
+    }
+    const out = await mutationEngine.mutate(orgId, pathId, mutationType, { newSteps, reason, payload: payload||{} });
+    res.json({ decision: verdict.decision, ...out, request_id: req.request_id });
+  } catch (e) {
+    res.status(500).json({ error: 'Internal server error', details: e.message, request_id: req.request_id });
+  }
+});
+
+/** GET /v1/neurannet/learning — observations for a family */
+router.get('/learning', authenticateApiKey, async (req, res) => {
+  const obsEngine = (await import('../adaptiveLearning/observationEngine.js')).default;
+  const rows = await obsEngine.listForFamily(req.organization_id, req.query.familyId, 100);
+  res.json({ observations: rows, count: rows.length, request_id: req.request_id });
+});
+
+/** GET /v1/neurannet/governance — policies + recent decisions */
+router.get('/governance', authenticateApiKey, async (req, res) => {
+  const policies = policyRegistry.listPolicies();
+  const recent = await pool.query(
+    `SELECT * FROM governance_log WHERE organization_id=$1 ORDER BY created_at DESC LIMIT 50`,
+    [req.organization_id]);
+  res.json({ policies, recentDecisions: recent.rows, request_id: req.request_id });
+});
 
 /**
  * POST /v1/neurannet/execute
