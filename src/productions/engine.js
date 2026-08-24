@@ -74,20 +74,91 @@ export class ProductionEngine {
   }
 
   // Simple similarity: normalized exact hash for now, plus trigram for similar
+  // Lightweight semantic matching: stemmed token overlap + entity/country compatibility
+  // Deterministic, no LLM, prevents both false reuse and false rejection
+  static STOPWORDS = new Set(['what','which','who','is','the','in','and','of','for','to','a','an','its','it','are','does','do','how','has','have','by','on','at','that','this','with','from','their','be','been','main','currently','responsibilities','role','powers','responsible']);
+
+  stem(word) {
+    return word
+      .replace(/(ations|ation|tions|tion|ings|ing|ies|ied|eds|ed|es|s)$/,'')
+      .replace(/ie$/,'y');
+  }
+
+  contentTokens(text) {
+    let t = (text || '').toLowerCase().replace(/[^\w\s]/g,' ');
+    // Canonicalize concept variants so lexical forms don't break semantic matching
+    t = t.replace(/regulat\w*/g,'regulator').replace(/(responsibilit\w*|responsible)/g,'role').replace(/institution|agency|body|authority/g,'institution');
+    const tokens = t.split(/\s+/)
+      .filter(w => w.length > 2 && !ProductionEngine.STOPWORDS.has(w))
+      .map(w => {
+        if (w === 'ghanaian') return 'ghana';
+        return this.stem(w);
+      });
+    return tokens;
+  }
+
+  extractSectors(text) {
+    const sectors = ['banking','bank','telecommunication','telecom','securities','insurance','electricity','mining','health','data'];
+    const t = (text||'').toLowerCase();
+    const found = sectors.filter(s => t.includes(s));
+    return found;
+  }
+
+  extractCountries(text) {
+    const known = ['ghana','kenya','nigeria','senegal','mali','burkina','ivory',"cote",'togo','benin','liberia','sierra','guinea','africa'];
+    const t = (text||'').toLowerCase();
+    return known.filter(c => t.includes(c));
+  }
+
+  extractSectors(text) {
+    const sectors = ['banking','bank','telecommunication','telecom','securities','insurance','electricity','mining','health','data'];
+    const t = (text||'').toLowerCase();
+    const found = sectors.filter(s => t.includes(s));
+    return found;
+  }
+
+  semanticMatch(queryA, queryB) {
+    const tokA = new Set(this.contentTokens(queryA));
+    const tokB = new Set(this.contentTokens(queryB));
+    if (tokA.size === 0 || tokB.size === 0) return 0;
+    let inter = 0;
+    for (const t of tokA) if (tokB.has(t)) inter++;
+    const jaccard = inter / (tokA.size + tokB.size - inter);
+
+    // Hard dimension checks: countries must be compatible
+    const countriesA = this.extractCountries(queryA);
+    const countriesB = this.extractCountries(queryB);
+    if (countriesA.length && countriesB.length) {
+      const shared = countriesA.filter(c => countriesB.includes(c));
+      if (shared.length === 0) return 0; // different jurisdictions -> never equivalent
+    }
+    // Sector conflict detection: if the new query targets a sector absent from the candidate, reject
+    const sectorsA = this.extractSectors(queryA);
+    const sectorsB = this.extractSectors(queryB);
+    if (sectorsB.length && !sectorsB.every(s => sectorsA.includes(s))) return 0;
+    if (sectorsA.length && sectorsB.length === 0) return 0;
+    return jaccard;
+  }
+
   async findSimilarProductions(orgId, normalizedQuery, queryHash, limit = 5) {
-    // First try exact hash
     const exact = await this.findCanonical(orgId, queryHash);
     if (exact) return [exact];
 
-    // Fallback: trigram similarity
+    // Domain filter prevents cross-domain reuse
+    const inferredDomain = this.inferDomain(normalizedQuery);
     const { rows } = await pool.query(
       `SELECT *, similarity(normalized_query, $2) as sim
        FROM productions
-       WHERE organization_id = $1 AND is_canonical = true
-       ORDER BY sim DESC LIMIT $3`,
-      [orgId, normalizedQuery, limit]
+       WHERE organization_id = $1 AND is_canonical = true AND (domain = $3 OR domain = 'general')
+       ORDER BY sim DESC LIMIT $4`,
+      [orgId, normalizedQuery, inferredDomain, limit * 3]
     );
-    return rows.filter(r => parseFloat(r.sim) > 0.6);
+    // Semantic match on original queries (stemmed overlap + entity checks), threshold tuned to avoid false reuse
+    return rows
+      .map(r => ({ ...r, semanticScore: this.semanticMatch(normalizedQuery, r.normalized_query || r.original_query) }))
+      .filter(r => r.semanticScore >= 0.45)
+      .sort((a,b) => b.semanticScore - a.semanticScore)
+      .slice(0, limit);
   }
 
   decide(canonical, task) {

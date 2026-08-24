@@ -17,7 +17,7 @@ after(() => { if(api) api.kill(); });
 async function q(query, agentId) {
   const res = await fetch(`${BASE}/v1/knowledge/query`, {
     method: 'POST', headers: { 'Content-Type': 'application/json', 'X-API-Key': KEY },
-    body: JSON.stringify({ query, agentId })
+    body: JSON.stringify({ query, agentId, llm: { provider: process.env.SEMANTIC_TEST_PROVIDER || 'groq', model: process.env.GROQ_MODEL || 'allam-2-7b' } })
   });
   return { status: res.status, data: await res.json() };
 }
