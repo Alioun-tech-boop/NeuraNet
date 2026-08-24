@@ -11,6 +11,8 @@ import { taskRoutes } from '../routes/tasks.js';
 import { experienceRoutes } from '../routes/experiences.js';
 import { knowledgeRoutes } from '../routes/knowledge.js';
 import { universalRoutes } from '../routes/universal.js';
+import { neurannetRoutes } from '../routes/neurannet.js';
+import { pathsRoutes } from '../routes/paths.js';
 // import { auditLog } from '../middleware/audit.js'; // TODO: implement
 
 const app = express();
@@ -69,6 +71,10 @@ app.use('/v1/knowledge', knowledgeRoutes);
 app.use('/knowledge', knowledgeRoutes);
 // Universal domain-agnostic query (§36)
 app.use('/v1/query', universalRoutes);
+// Progressive Problem-Solving Path Optimizer (refound architecture)
+app.use('/v1/neurannet', neurannetRoutes);
+// Path elimination & convergence APIs
+app.use('/v1/paths', pathsRoutes);
 
 // ========================================
 // Root route
