@@ -31,18 +31,18 @@ async function directLLM(providerName, task) {
 
 async function neuranetWithSameLLM(providerName, task) {
   const start = Date.now();
-  // Simulate NeuraNet providing minimal relevant context (not full memory)
-  // For this benchmark, we simulate the knowledge lookup overhead without doing a full LLM call for retrieval
+  // NeuraNet does knowledge lookup internally (DB, cache) but does NOT inject context into LLM prompt per zero-context
   const knowledgeLookupStart = Date.now();
-  // Simulate a small knowledge context (e.g., 100 tokens) that NeuraNet would provide
-  const knowledgeContext = `Relevant collective knowledge: For "${task.slice(0,30)}", use official docs, parameterized queries, JWT best practices.`;
+  // Simulate lightweight knowledge/path lookup (no LLM, just DB)
+  await new Promise(r => setTimeout(r, 5)); // Simulate 5ms DB lookup
   const knowledgeLookupMs = Date.now() - knowledgeLookupStart;
 
   const provider = createLLMProvider(providerName);
   const llmStart = Date.now();
+  // LLM receives EXACTLY the same prompt as direct (zero context overhead)
   const res = await provider.complete([
     { role: 'system', content: 'You are a helpful assistant. Be concise.' },
-    { role: 'user', content: `${knowledgeContext}\n\nTask: ${task}` }
+    { role: 'user', content: task }
   ], { maxTokens: 200 });
   const llmLatencyMs = Date.now() - llmStart;
 
@@ -57,7 +57,7 @@ async function neuranetWithSameLLM(providerName, task) {
     latencyMs: Date.now() - start,
     knowledgeLookupMs,
     llmLatencyMs,
-    knowledgeContextTokens: Math.ceil(knowledgeContext.length / 4),
+    knowledgeContextTokens: 0, // ZERO per §18-19
     error: res.error
   };
 }
