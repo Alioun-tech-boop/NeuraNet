@@ -110,6 +110,169 @@ export class ProductionEngine {
     return known.filter(c => t.includes(c));
   }
 
+  /**
+   * Deterministic multi-dimension semantic signature per hardening spec.
+   * No LLM. Extracts: domain, subdomain, jurisdiction, intent, object,
+   * temporalScope, polarity, granularity.
+   */
+  semanticSignature(query) {
+    const t = (query || '').toLowerCase();
+
+    // --- Jurisdiction ---
+    const countries = this.extractCountries(t);
+    const jurisdiction = countries.length === 1 ? countries[0]
+      : countries.length > 1 ? 'multi'
+      : 'unspecified';
+
+    // --- Temporal scope ---
+    let temporalScope = 'current';
+    if (/\b(19|20)\d{2}\b/.test(t)) {
+      temporalScope = 'historical';
+    } else if (/was |were |historical|formerly|previously/.test(t)) {
+      temporalScope = 'historical';
+    }
+
+    // --- Polarity ---
+    let polarity = 'positive';
+    if (/\bnot\b|\bnever\b|\bdoes not\b|\bis not\b|\bare not\b/.test(t)) {
+      polarity = 'negative';
+    } else if (/^(is|are|does|do|was|were|can|could|should|has|have)\b/.test(t.trim())) {
+      // Yes/no questions START with an auxiliary verb
+      polarity = 'yesno_question';
+    }
+
+    // --- Intent --- (specific information-needs checked before generic subjects)
+    let intent = 'identify';
+    if (/licen[cs]e?s?\b/.test(t)) intent = 'licensing';
+    else if (/penalt|sanction|\bfine\b/.test(t)) intent = 'legal_requirement';
+    else if (/capacit|how much|how many|generate[d]?\b/.test(t)) intent = 'current_status';
+    else if (/financ|fund|grant/.test(t)) intent = 'financing';
+    else if (/invest/.test(t)) intent = 'investment';
+    else if (/polic|target|framework|strategy/.test(t)) intent = 'policy';
+    else if (/impact|environment/.test(t)) intent = 'environmental_impact';
+    else if (/import/.test(t)) intent = 'trade';
+    else if (/requirement|standard|technical/.test(t)) intent = 'technical_requirement';
+    else if (/\blaw|legislation|acts?\b/.test(t)) intent = 'legal_framework';
+    else if (/mandate|role|responsib|powers/.test(t)) intent = 'identify_with_role';
+    else if (/enforce|compliance|monitor/.test(t)) intent = 'enforcement';
+    else if (/compan|operator|developer|vendor/.test(t)) intent = 'company_information';
+
+    // --- Question form ---
+    let questionForm = 'open';
+    const trimmed = t.trim();
+    if (/^(is|are|does|do|was|were|can|could|should)\b/.test(trimmed)) questionForm = 'yesno';
+    else if (/^how\s+(can|could|do|does|to)\b/.test(trimmed) || /how\s+(can|could)\b/.test(t)) questionForm = 'procedure';
+    else if (/^(who|which)\b/.test(trimmed)) questionForm = 'identify';
+    else if (/^what\s+(is|are)\b/.test(trimmed)) questionForm = 'description';
+
+    // --- Granularity / object type ---
+    let granularity = 'institution';
+    if (/licen[cs]/.test(t)) granularity = 'license';
+    else if (/compan|operator|investor|developer/.test(t)) granularity = 'company';
+    else if (/polic|target|framework/.test(t)) granularity = 'policy';
+    else if (/\blaw|legislation\b/.test(t)) granularity = 'law';
+    else if (/project|plant|farm\b/.test(t)) granularity = 'project';
+    else if (/technolog|equipment|install/.test(t)) granularity = 'technology';
+    else if (/financ|fund|investment|capital/.test(t)) granularity = 'financial_product';
+    else if (/market/.test(t)) granularity = 'market';
+
+    // --- Subdomain ---
+    let subdomain = '';
+    if (/renewable|solar|wind/.test(t)) subdomain = 'renewable_energy';
+    else if (/electricity|power grid/.test(t)) subdomain = 'electricity';
+    else if (/\bbank/.test(t)) subdomain = 'banking';
+    else if (/telecom/.test(t)) subdomain = 'telecommunications';
+    else if (/securit/.test(t)) subdomain = 'securities';
+    else if (/data protection|privacy/.test(t)) subdomain = 'data_protection';
+    else if (/pesticide|agrochemical/.test(t)) subdomain = 'pesticides';
+    else if (/competition|antitrust/.test(t)) subdomain = 'competition';
+    else if (/insurance/.test(t)) subdomain = 'insurance';
+
+    // --- Object: cross-sector detection ---
+    const sectors = this.extractSectors(t);
+    let object = `${subdomain || this.inferDomain(t)}_${intent}`;
+    const sectorMap = { bank:'banking', banking:'banking', telecommunication:'telecommunications', telecom:'telecommunications', securities:'securities', insurance:'insurance', electricity:'electricity', mining:'mining', health:'health', data:'data' };
+    const foreignSector = sectors.find(s => {
+      const mapped = sectorMap[s] || s;
+      return subdomain && !subdomain.includes(mapped);
+    });
+    if (subdomain && foreignSector) {
+      object = `${subdomain}_x_${sectorMap[foreignSector] || foreignSector}`;
+    }
+
+    return {
+      domain: this.inferDomain(t),
+      subdomain: subdomain || 'unspecified',
+      jurisdiction,
+      intent,
+      object,
+      temporalScope,
+      polarity,
+      granularity,
+      questionForm
+    };
+  }
+
+  /**
+   * Hard compatibility check between two signatures.
+   * Returns { compatible, conflicts[] }. Any conflict forbids REUSE regardless of similarity.
+   */
+  compareSignatures(sigA, sigB) {
+    const conflicts = [];
+    if (sigA.jurisdiction !== 'unspecified' && sigB.jurisdiction !== 'unspecified' &&
+        sigA.jurisdiction !== sigB.jurisdiction) {
+      conflicts.push(`jurisdiction: ${sigA.jurisdiction} != ${sigB.jurisdiction}`);
+    }
+    if (sigA.temporalScope !== sigB.temporalScope) {
+      conflicts.push(`temporalScope: ${sigA.temporalScope} != ${sigB.temporalScope}`);
+    }
+    const polA = sigA.polarity.startsWith('negative') ? 'negative' : 'positive';
+    const polB = sigB.polarity.startsWith('negative') ? 'negative' : 'positive';
+    if (polA !== polB) conflicts.push(`polarity: ${polA} != ${polB}`);
+    if (sigA.subdomain !== 'unspecified' && sigB.subdomain !== 'unspecified' &&
+        sigA.subdomain !== sigB.subdomain) {
+      conflicts.push(`subdomain: ${sigA.subdomain} != ${sigB.subdomain}`);
+    }
+    // Intent mismatch: identify-family collapses together, but any two DISTINCT
+    // specific intents conflict (licensing != company_information != financing...)
+    const intentFamily = (i) => (i === 'identify' || i === 'identify_with_role') ? 'identify' : i;
+    if (intentFamily(sigA.intent) !== intentFamily(sigB.intent)) {
+      conflicts.push(`intent: ${sigA.intent} != ${sigB.intent}`);
+    }
+    // Question form: identify vs procedure vs description are different information needs
+    const formA = sigA.questionForm || 'open';
+    const formB = sigB.questionForm || 'open';
+    if (formA !== formB && [formA, formB].includes('procedure')) {
+      conflicts.push(`questionForm: ${formA} != ${formB}`);
+    }
+    // Granularity mismatch on specific object types
+    const specificGran = ['license','company','policy','law','project','technology','financial_product'];
+    if (sigA.granularity !== sigB.granularity &&
+        specificGran.includes(sigA.granularity) !== specificGran.includes(sigB.granularity)) {
+      conflicts.push(`granularity: ${sigA.granularity} != ${sigB.granularity}`);
+    }
+    return { compatible: conflicts.length === 0, conflicts };
+  }
+
+  /**
+   * Full compatibility evaluation: signature comparison first (hard),
+   * then lexical similarity as soft signal.
+   */
+  evaluateCompatibility(newQuery, candidateQuery) {
+    const sigNew = this.semanticSignature(newQuery);
+    const sigCand = this.semanticSignature(candidateQuery);
+    const { compatible, conflicts } = this.compareSignatures(sigNew, sigCand);
+    const similarity = this.semanticMatch(newQuery, candidateQuery);
+    return {
+      signatureNew: sigNew,
+      signatureCandidate: sigCand,
+      conflicts,
+      compatible,
+      similarity,
+      reuseAllowed: compatible && similarity >= 0.45
+    };
+  }
+
   extractSectors(text) {
     const sectors = ['banking','bank','telecommunication','telecom','securities','insurance','electricity','mining','health','data'];
     const t = (text||'').toLowerCase();
@@ -153,10 +316,13 @@ export class ProductionEngine {
        ORDER BY sim DESC LIMIT $4`,
       [orgId, normalizedQuery, inferredDomain, limit * 3]
     );
-    // Semantic match on original queries (stemmed overlap + entity checks), threshold tuned to avoid false reuse
+    // Hard signature compatibility first, then lexical similarity as soft gate
     return rows
-      .map(r => ({ ...r, semanticScore: this.semanticMatch(normalizedQuery, r.normalized_query || r.original_query) }))
-      .filter(r => r.semanticScore >= 0.45)
+      .map(r => {
+        const compat = this.evaluateCompatibility(normalizedQuery, r.normalized_query || r.original_query);
+        return { ...r, semanticScore: compat.similarity, compat };
+      })
+      .filter(r => r.compat.reuseAllowed)
       .sort((a,b) => b.semanticScore - a.semanticScore)
       .slice(0, limit);
   }
