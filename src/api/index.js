@@ -10,6 +10,7 @@ import { agentRoutes } from '../routes/agents.js';
 import { taskRoutes } from '../routes/tasks.js';
 import { experienceRoutes } from '../routes/experiences.js';
 import { knowledgeRoutes } from '../routes/knowledge.js';
+import { universalRoutes } from '../routes/universal.js';
 // import { auditLog } from '../middleware/audit.js'; // TODO: implement
 
 const app = express();
@@ -66,6 +67,8 @@ app.use('/v1/experiences', experienceRoutes);
 // Knowledge routes - Continuous Knowledge Engine (§18)
 app.use('/v1/knowledge', knowledgeRoutes);
 app.use('/knowledge', knowledgeRoutes);
+// Universal domain-agnostic query (§36)
+app.use('/v1/query', universalRoutes);
 
 // ========================================
 // Root route
