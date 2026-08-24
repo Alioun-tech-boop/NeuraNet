@@ -152,22 +152,25 @@ router.post('/query', authenticateApiKey, async (req, res) => {
       }
     }
 
-    // RESEARCH: fast path lookup + research
+    // RESEARCH: fast path lookup + research - LLM chosen by caller (model-agnostic)
     decision = 'RESEARCH';
     const pathLookupStart = Date.now();
     const taskFamily = repository.taskFamilyFromQuery(query, domain);
     const { path: canonicalPath, latencyMs: pathLookupMs } = await repository.getCanonicalPath(orgId, taskFamily);
-    // Fast path: if canonical path exists, use it directly (no LLM for path)
-    // For now, just log it and pass to AgentC via researchPlan
     if (canonicalPath) {
       console.log(`[knowledge] Canonical path found: ${canonicalPath.id} v${canonicalPath.version} quality ${canonicalPath.quality_score}`);
     }
 
+    // LLM is chosen by the caller, not by NeuraNet (model-agnostic per §1-4)
+    const callerLlm = req.body.llm || {};
+    const modelProvider = callerLlm.provider || req.body.modelProvider || process.env.DEFAULT_PROVIDER || 'openrouter';
+    const model = callerLlm.model || req.body.model || process.env.OPENROUTER_MODEL || 'nvidia/nemotron-3.5-lightning:free';
+
     const agentC = new AgentC({
       agentId: agentId || 'knowledge-research',
       name: 'Knowledge Research Agent',
-      model: process.env.OPENROUTER_MODEL || 'nvidia/nemotron-3.5-lightning:free',
-      modelProvider: 'openrouter',
+      model,
+      modelProvider,
       neuraNetConfig: { apiKey: req.headers['x-api-key'], baseURL: `http://${req.get('host')}` },
       searchProvider: new WebSearchProvider()
     });
