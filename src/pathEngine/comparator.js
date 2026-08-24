@@ -9,9 +9,10 @@
  */
 export class PathComparator {
   constructor(opts = {}) {
-    this.minExecutions = opts.minExecutions ?? 1;
-    // Weights used ONLY for choosing bestKnown among the Pareto frontier,
-    // never for elimination. Configurable per family.
+    // Statistical requirement: domination needs >=2 observations on BOTH paths,
+    // plus a minimum quality margin when quality is the only strictly-better dimension.
+    this.minExecutions = opts.minExecutions ?? 2;
+    this.qualityMargin = opts.qualityMargin ?? 0.03;
     this.weights = opts.weights ?? { quality: 0.5, speed: 0.2, cost: 0.15, reliability: 0.15 };
   }
 
@@ -33,11 +34,24 @@ export class PathComparator {
   dominates(a, b) {
     const da = this.dimensions(a);
     const db = this.dimensions(b);
+    // Statistical requirement: both paths need >= minExecutions observations
     if ((a.observed_executions || a.usage_count || 1) < this.minExecutions) return false;
+    if ((b.observed_executions || b.usage_count || 1) < this.minExecutions) return false;
     let strictlyBetter = false;
 
     if (da.quality < db.quality) return false;
-    if (da.quality > db.quality) strictlyBetter = true;
+    if (da.quality > db.quality) {
+      // Quality-only advantage requires a solid margin (no single-dim hairline domination)
+      if (da.quality - db.quality < this.qualityMargin) {
+        const otherBetter =
+          (da.measured.latency && db.measured.latency && da.latency < db.latency) ||
+          (da.measured.tokens && db.measured.tokens && da.tokens < db.tokens) ||
+          (da.measured.toolCalls && db.measured.toolCalls && da.toolCalls < db.toolCalls) ||
+          da.failureRate < db.failureRate;
+        if (!otherBetter) return false;
+      }
+      strictlyBetter = true;
+    }
     // Unmeasured dims are NEUTRAL (never count as advantage)
     if (da.measured.latency && db.measured.latency) {
       if (da.latency > db.latency) return false;

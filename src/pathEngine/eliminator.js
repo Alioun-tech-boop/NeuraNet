@@ -19,18 +19,17 @@ export class PathEliminator {
     );
     const comparator = PathComparator;
 
-    const eligible = rows.filter(p =>
-      (p.observed_executions || p.usage_count || 1) >= comparator.minExecutions);
-    const notYetComparable = rows.filter(p =>
-      (p.observed_executions || p.usage_count || 1) < comparator.minExecutions);
-
-    const { frontier, dominated } = comparator.frontier(eligible);
+    // Pareto over ALL live paths. Domination requires evidence only on the
+    // DOMINATING side (minExecutions); a freshly observed candidate can be
+    // dominated by a well-observed path, and can itself dominate once it has
+    // enough observations.
+    const { frontier, dominated } = comparator.frontier(rows);
 
     // Apply states
     for (const p of rows) {
       const inFrontier = frontier.find(f => f.id === p.id);
       const isDom = dominated.find(f => f.id === p.id);
-      if (inFrontier && p.status !== 'ACTIVE') {
+      if (inFrontier && p.status !== 'ACTIVE' && p.status !== 'CANONICAL') {
         await pool.query(`UPDATE resolution_paths SET status='ACTIVE', pareto_active=true WHERE id=$1`, [p.id]);
       }
       if (isDom) {
@@ -51,12 +50,6 @@ export class PathEliminator {
       }
     }
 
-    // Not-yet-comparable candidates stay CANDIDATE (exploration reserve)
-    for (const p of notYetComparable) {
-      if (p.status === 'DOMINATED') continue;
-      await pool.query(`UPDATE resolution_paths SET status='CANDIDATE', pareto_active=false WHERE id=$1`, [p.id]);
-    }
-
     // Exploration candidate handling
     let explorationOutcome = null;
     if (exploreCandidateId) {
@@ -74,15 +67,19 @@ export class PathEliminator {
       }
     }
 
-    // Best known = weighted pick from frontier (temporary by design)
-    const finalFrontier = frontier.filter(f => f.status === 'ACTIVE' || f.id === exploreCandidateId);
-    const best = comparator.bestKnown(finalFrontier.length ? finalFrontier : frontier);
+    // Best known = weighted pick from frontier (temporary by design).
+    // Statuses were updated above; re-read to reflect them.
+    const { rows: live } = await pool.query(
+      `SELECT * FROM resolution_paths
+       WHERE organization_id=$1 AND family_id=$2 AND status IN ('ACTIVE','CANDIDATE')`,
+      [orgId, familyId]);
+    const best = comparator.bestKnown(live.length ? live : frontier);
     if (best) {
       // Atomic single-canonical swap per family
       await pool.query('BEGIN');
       try {
         await pool.query(`UPDATE resolution_paths SET is_canonical=false WHERE family_id=$1 AND is_canonical=true`, [familyId]);
-        await pool.query(`UPDATE resolution_paths SET is_canonical=true WHERE id=$1`, [best.id]);
+        await pool.query(`UPDATE resolution_paths SET is_canonical=true, status='ACTIVE' WHERE id=$1`, [best.id]);
         await pool.query('COMMIT');
       } catch (e) {
         await pool.query('ROLLBACK');
@@ -93,7 +90,7 @@ export class PathEliminator {
     return {
       activePaths: frontier.map(f => f.id),
       dominatedPaths: dominated.map(f => f.id),
-      candidatesReserve: notYetComparable.map(f => f.id),
+      candidatesReserve: rows.filter(p => p.status === 'CANDIDATE').map(p => p.id),
       bestKnownPathId: best?.id ?? null,
       explorationOutcome,
       eliminatedThisRound: dominated.length

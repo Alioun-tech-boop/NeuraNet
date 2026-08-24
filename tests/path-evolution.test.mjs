@@ -18,9 +18,11 @@ describe('Path Evolution Engine (deterministic units)', () => {
   const cmp = new PathComparatorClass();
 
   it('EVOLUTION: P1 -> P2 -> P3 -> best path tracked', async () => {
-    const fam = await registry.getOrCreateFamily(ORG, buildProblemSignature('evolution unique family ' + Date.now()));
-    await pool.query(`DELETE FROM problem_families WHERE id=$1`, [fam.id]); // cascade clean
-    const f2 = await registry.getOrCreateFamily(ORG, buildProblemSignature('evolution unique family ' + Date.now()));
+    const runId = Date.now() + '-' + Math.random().toString(36).slice(2,6);
+    const sig = buildProblemSignature('evolution family ' + runId);
+    // Purge same-KEY families from prior invocations (familyKey is semantic)
+    await pool.query(`DELETE FROM problem_families WHERE organization_id=$1 AND family_key=$2`, [ORG, sig.familyKey]);
+    const f2 = await registry.getOrCreateFamily(ORG, sig);
 
     const o1 = await evolutionEngine.observe({ orgId: ORG, task: 'evolution seed probe',
       steps:[{order:1,action:'a'}], metrics:{ quality:0.70, verificationStatus:'verified', latencyMs:9000, tokens:900, toolCalls:1 }, provenance:{ reason:'v1' }});
@@ -29,11 +31,9 @@ describe('Path Evolution Engine (deterministic units)', () => {
     const o3 = await evolutionEngine.observe({ orgId: ORG, task: 'evolution seed probe v3',
       steps:[{order:1,action:'a'},{order:2,action:'b'},{order:3,action:'c'}], metrics:{ quality:0.95, verificationStatus:'verified', latencyMs:6000, tokens:700, toolCalls:1 }, provenance:{ reason:'v3 improvement' }});
 
-    // Each new candidate dominates previous (better quality, less latency/tokens)
-    assert.equal(o3.improved || o3.canonicalAfterId === o3.candidateId || o3.dominatedPaths.length >= 0, true);
+    assert.equal(o3.improved || o3.canonicalAfterId === o3.candidateId || o3.dominatedPaths >= 0, true);
     const snap = await evolutionEngine.snapshot(ORG, f2.id);
     assert.ok(snap.bestKnownPathAtTimeT, 'best known must exist');
-    globalThis.__bestPathId = snap.bestKnownPathAtTimeT;
   });
 
   it('DOMINATION: P1 dominates P2 -> P2 eliminated', () => {

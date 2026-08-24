@@ -1,4 +1,9 @@
 import { pool } from '../db/connection.js';
+import crypto from 'node:crypto';
+
+export function stepsHash(steps) {
+  return crypto.createHash('sha256').update(JSON.stringify(steps)).digest('hex').slice(0, 32);
+}
 import { buildProblemSignature, signaturesCompatible, lexicalSimilarity } from './signature.js';
 import { evaluatePathExecution } from './evaluator.js';
 
@@ -39,6 +44,40 @@ export class PathRegistry {
 
     const compat = signaturesCompatible(taskSignature, stored.provenance?.signatureExample || taskSignature);
     return { compatible: compat.compatible, conflicts: compat.conflicts };
+  }
+
+  async findSameProcedure(orgId, familyId, stepsHash) {
+    const { rows } = await pool.query(
+      `SELECT * FROM resolution_paths
+       WHERE organization_id=$1 AND family_id=$2 AND steps_hash=$3 LIMIT 1`,
+      [orgId, familyId, stepsHash]);
+    return rows[0] || null;
+  }
+
+  /** Accumulate an observation on an existing procedure (statistical requirement). */
+  async accumulateObservation(pathId, { quality, verificationStatus, latencyMs, tokens, toolCalls, failures }) {
+    const { rows } = await pool.query(`SELECT * FROM resolution_paths WHERE id=$1`, [pathId]);
+    const p = rows[0];
+    if (!p) return null;
+    const prevExec = p.observed_executions || 1;
+    const newExec = prevExec + 1;
+    // Incremental averages keep history fair; quality keeps the BEST observed (evidence-based)
+    const avgLatency = Math.round(((p.observed_latency_ms || 0) * prevExec + (latencyMs || 0)) / newExec);
+    const avgTokens = Math.round(((p.observed_tokens || 0) * prevExec + (tokens || 0)) / newExec);
+    const bestQuality = Math.max(parseFloat(p.quality_score) || 0, parseFloat(quality) || 0);
+    const lastQuality = parseFloat(quality) || 0;
+    const { rows: updated } = await pool.query(
+      `UPDATE resolution_paths SET
+         observed_executions = $2,
+         observed_latency_ms = $3,
+         observed_tokens = $4,
+         observed_failures = GREATEST(COALESCE(observed_failures,0), $5),
+         quality_score = $6,
+         last_quality = $7,
+         updated_at = NOW()
+       WHERE id = $1 RETURNING *`,
+      [pathId, newExec, avgLatency, avgTokens, failures || 0, bestQuality, lastQuality]);
+    return updated[0];
   }
 
   async saveCandidatePath({ orgId, familyId, steps, parentId, provenance, metrics }) {

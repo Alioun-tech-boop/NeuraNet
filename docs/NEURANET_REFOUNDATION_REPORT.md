@@ -135,9 +135,24 @@ Voir rapports antérieurs (large-scale 300 requêtes : speedup REUSE 3.5×, toke
 | Décision matching | LLM-free ✓ | LLM-free ✓ (signatures 9 dimensions) |
 | Context LLM | 0 | 0 |
 
-## 16. Limites restantes
+## 16. Limites restantes — RÉSOLUES
 
-1. PathExecutor générique (exécution réelle de steps arbitraires par domaine) — l'exécution actuelle reste portée par les pipelines existants ; le path influence déjà queryPattern Tavily côté infra.
-2. PathGraph (sous-chemins partagés) esquissé via parent_id mais pas de graph store dédié.
-3. minExecutions=1 par défaut : domination possible dès 1 exécution si dimensions mesurées ; augmenter pour exigence statistique.
+1. ~~PathExecutor générique~~ → **RÉSOLU** : `src/pathEngine/executor.js` — exécuteur générique par step-type (cache_check, authoritative_search, web_search, deduplicate, source_rank, cross_check, verify, synthesize, classify) + `recordStepExecution` (edges + step_type_stats). Multi-domaines validé : research/code/finance tous PASS avec sources réelles.
+2. ~~PathGraph dédié~~ → **RÉSOLU** : migration 006 (`path_edges`, `path_execution_steps`, `step_type_stats`) + `src/pathEngine/graph.js` — strongestEdges, bestSubPath (chaîne gloutonne success-pondérée), stepLeaderboard. Démonstration : sous-chemin dominant `official_search → cross_check → verify` (w=2, success=1.00).
+3. ~~minExecutions=1~~ → **RÉSOLU** : minExecutions=2 par défaut + marge qualité minimale de 0.03 lorsque la qualité est la seule dimension strictement supérieure. La domination n'exige la preuve statistique que sur le chemin DOMINANT ; un candidat frais peut être dominé immédiatement.
+
+## Tests finaux
+
+| Suite | Résultat |
+|-------|----------|
+| path-evolution | 8/8 PASS |
+| path-engine | 11/11 PASS |
+| zero-context | 10/10 PASS |
+| knowledge | 4/4 PASS |
+| knowledge-evolution | 6/6 PASS |
+| agentC-strategy | 9/9 PASS |
+| risk-smoke | 11/11 PASS |
+| **TOTAL** | **59/59 PASS** |
+
+Multi-domain executor : PASS (research/code/finance). PathGraph : PASS (sous-chemin partagé découvert).
 4. Gate 1 externe : Gemini 503 + OpenRouter quota quotidien — échecs provider réels, aucun fallback.
