@@ -1,0 +1,3165 @@
+{
+  "refs": {
+    "A": "db725830-9fd6-4de2-bb22-0f3a5aa4acdc",
+    "B": "53c39a0d-40bd-4e95-96a5-eeb4f3b7bd4d",
+    "C": "578b0bbc-f7f8-4c3e-9a01-5a12334551e3",
+    "D": "a16b0334-c3ce-43ee-b8a3-ff45242f9fb2",
+    "E": "5f155e85-e553-4590-b682-67d39904e086",
+    "F": "be71c165-b7f4-45c9-82e4-fadd78e3f666",
+    "G": "6ec1989b-a192-4d71-bc1c-1f862ef734b3",
+    "H": "570d3c7f-f964-4f95-9e2f-b04411671616",
+    "I": "4f063512-d9f7-4053-b7e2-be226187f668",
+    "J": "55c9677c-179c-4f86-a37d-0f36a9fccaf7"
+  },
+  "observations": [
+    {
+      "qid": "Q1",
+      "category": "EQUIVALENT_A",
+      "query": "Which Ghanaian institution is responsible for regulating renewable energy, and what does it do?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2538,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "1.00",
+          "domain": "energy"
+        },
+        {
+          "id": "ad76bab3",
+          "score": "0.71",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q2",
+      "category": "EQUIVALENT_A",
+      "query": "Who regulates renewable energy in Ghana and what are its responsibilities?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "0.80",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2561,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "0.80",
+          "domain": "energy"
+        },
+        {
+          "id": "ad76bab3",
+          "score": "0.57",
+          "domain": "energy"
+        },
+        {
+          "id": "793d1240",
+          "score": "0.50",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q3",
+      "category": "EQUIVALENT_A",
+      "query": "Which authority oversees renewable energy regulation in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "ad76bab3",
+      "selectedCanonical": "ad76bab3",
+      "semanticMatchScore": "0.86",
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 3173,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "ad76bab3",
+          "score": "0.86",
+          "domain": "energy"
+        },
+        {
+          "id": "db725830",
+          "score": "0.83",
+          "domain": "energy"
+        },
+        {
+          "id": "823c7c92",
+          "score": "0.57",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q4",
+      "category": "EQUIVALENT_A",
+      "query": "What body is responsible for renewable energy regulation in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2960,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "1.00",
+          "domain": "energy"
+        },
+        {
+          "id": "ad76bab3",
+          "score": "0.71",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q5",
+      "category": "EQUIVALENT_A",
+      "query": "Which institution has regulatory responsibility for renewable energy in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 3106,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "1.00",
+          "domain": "energy"
+        },
+        {
+          "id": "ad76bab3",
+          "score": "0.71",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q6",
+      "category": "EQUIVALENT_B",
+      "query": "Which Ghanaian institution supervises banks and what is its role?",
+      "decision": "REUSE",
+      "selectedProduction": "92c95d28",
+      "selectedCanonical": "92c95d28",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 3029,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "92c95d28",
+          "score": "1.00",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q7",
+      "category": "EQUIVALENT_B",
+      "query": "Who is responsible for banking regulation in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "7425adb3",
+      "selectedCanonical": "7425adb3",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 2965,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "7425adb3",
+          "score": "1.00",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q8",
+      "category": "EQUIVALENT_C",
+      "query": "Which authority regulates telecommunications in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "578b0bbc",
+      "selectedCanonical": "578b0bbc",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 2768,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "578b0bbc",
+          "score": "1.00",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q9",
+      "category": "EQUIVALENT_C",
+      "query": "What body oversees Ghana's telecommunications sector?",
+      "decision": "REUSE",
+      "selectedProduction": "578b0bbc",
+      "selectedCanonical": "578b0bbc",
+      "semanticMatchScore": "0.50",
+      "domainMatch": true,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 2770,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "578b0bbc",
+          "score": "0.50",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q10",
+      "category": "EQUIVALENT_H",
+      "query": "Which institution is responsible for data protection regulation in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "570d3c7f",
+      "selectedCanonical": "570d3c7f",
+      "semanticMatchScore": "0.80",
+      "domainMatch": true,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 3323,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "570d3c7f",
+          "score": "0.80",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q11",
+      "category": "EQUIVALENT_I",
+      "query": "Which authority regulates pesticides in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "823c7c92",
+      "selectedCanonical": "823c7c92",
+      "semanticMatchScore": "0.50",
+      "domainMatch": true,
+      "productionQuality": "0.76",
+      "verification": "partially_verified",
+      "latencyMs": 3110,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "823c7c92",
+          "score": "0.50",
+          "domain": "general"
+        },
+        {
+          "id": "4f063512",
+          "score": "0.50",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q12",
+      "category": "EQUIVALENT_J",
+      "query": "Which institution oversees competition in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "823c7c92",
+      "selectedCanonical": "823c7c92",
+      "semanticMatchScore": "0.80",
+      "domainMatch": true,
+      "productionQuality": "0.76",
+      "verification": "partially_verified",
+      "latencyMs": 2896,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "823c7c92",
+          "score": "0.80",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q13",
+      "category": "EQUIVALENT_G",
+      "query": "Which authority regulates securities in Ghana?",
+      "decision": "RESEARCH",
+      "selectedProduction": "5f2e7bab",
+      "selectedCanonical": "5f2e7bab",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 8087,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 348,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q14",
+      "category": "EQUIVALENT_F",
+      "query": "Which institution is responsible for electricity regulation in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "2575ddb5",
+      "selectedCanonical": "2575ddb5",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 5952,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "2575ddb5",
+          "score": "1.00",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q15",
+      "category": "EQUIVALENT_E",
+      "query": "Who regulates renewable energy in Kenya?",
+      "decision": "REUSE",
+      "selectedProduction": "947ea0e3",
+      "selectedCanonical": "947ea0e3",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 2937,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "947ea0e3",
+          "score": "1.00",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q16",
+      "category": "EXACT_B",
+      "query": "What is the main banking regulator in Ghana, and what is its role?",
+      "decision": "REUSE",
+      "selectedProduction": "7425adb3",
+      "selectedCanonical": "7425adb3",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 1562,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "7425adb3",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q17",
+      "category": "EXACT_C",
+      "query": "What is the main telecommunications regulator in Ghana, and what is its role?",
+      "decision": "REUSE",
+      "selectedProduction": "578b0bbc",
+      "selectedCanonical": "578b0bbc",
+      "semanticMatchScore": "0.75",
+      "domainMatch": true,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 2512,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "578b0bbc",
+          "score": "0.75",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q18",
+      "category": "EXACT_D",
+      "query": "What renewable energy policies has Ghana adopted?",
+      "decision": "REUSE",
+      "selectedProduction": "793d1240",
+      "selectedCanonical": "793d1240",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 1402,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "793d1240",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q19",
+      "category": "INTENT_MISMATCH",
+      "query": "What licenses are required for renewable energy companies in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "860192c1",
+      "selectedCanonical": "860192c1",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 1417,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "860192c1",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q20",
+      "category": "INTENT_MISMATCH",
+      "query": "What incentives exist for renewable energy investments in Ghana?",
+      "decision": "RESEARCH",
+      "selectedProduction": "1f21b014",
+      "selectedCanonical": "1f21b014",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 7234,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 444,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q21",
+      "category": "INTENT_MISMATCH",
+      "query": "What are Ghana's renewable energy targets?",
+      "decision": "REUSE",
+      "selectedProduction": "793d1240",
+      "selectedCanonical": "793d1240",
+      "semanticMatchScore": "0.50",
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 5020,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "793d1240",
+          "score": "0.50",
+          "domain": "energy"
+        },
+        {
+          "id": "db725830",
+          "score": "0.50",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q22",
+      "category": "NEAR_EQUIV_A",
+      "query": "How is renewable energy regulated in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "0.80",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2726,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "0.80",
+          "domain": "energy"
+        },
+        {
+          "id": "793d1240",
+          "score": "0.50",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q23",
+      "category": "INTENT_MISMATCH",
+      "query": "Which companies operate in Ghana's renewable energy market?",
+      "decision": "RESEARCH",
+      "selectedProduction": "341d63ec",
+      "selectedCanonical": "341d63ec",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.76",
+      "verification": "partially_verified",
+      "latencyMs": 10856,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 376,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q24",
+      "category": "INTENT_MISMATCH",
+      "query": "What is the current renewable energy capacity of Ghana?",
+      "decision": "RESEARCH",
+      "selectedProduction": "aacbbe93",
+      "selectedCanonical": "aacbbe93",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 7953,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 373,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q25",
+      "category": "INTENT_MISMATCH",
+      "query": "How much solar power does Ghana currently generate?",
+      "decision": "RESEARCH",
+      "selectedProduction": "af340eaa",
+      "selectedCanonical": "af340eaa",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 9312,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 394,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q26",
+      "category": "COUNTRY_KE",
+      "query": "Who regulates renewable energy in Kenya?",
+      "decision": "REUSE",
+      "selectedProduction": "947ea0e3",
+      "selectedCanonical": "947ea0e3",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 5222,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "947ea0e3",
+          "score": "1.00",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q27",
+      "category": "COUNTRY_NG",
+      "query": "Who regulates renewable energy in Nigeria?",
+      "decision": "REUSE",
+      "selectedProduction": "e8c1b840",
+      "selectedCanonical": "e8c1b840",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 2660,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "e8c1b840",
+          "score": "1.00",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q28",
+      "category": "COUNTRY_SN",
+      "query": "Who regulates renewable energy in Senegal?",
+      "decision": "RESEARCH",
+      "selectedProduction": "3a006ff3",
+      "selectedCanonical": "3a006ff3",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 8549,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 560,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q29",
+      "category": "COUNTRY_KE_BANK",
+      "query": "Which institution regulates banking in Kenya?",
+      "decision": "RESEARCH",
+      "selectedProduction": "04b9bb39",
+      "selectedCanonical": "04b9bb39",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 10672,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 366,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q30",
+      "category": "COUNTRY_NG_TELECOM",
+      "query": "Which institution regulates telecommunications in Nigeria?",
+      "decision": "RESEARCH",
+      "selectedProduction": "665dadd5",
+      "selectedCanonical": "665dadd5",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 9732,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 351,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q31",
+      "category": "EXACT_B_ALT",
+      "query": "Which institution regulates banking in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "7425adb3",
+      "selectedCanonical": "7425adb3",
+      "semanticMatchScore": "0.75",
+      "domainMatch": true,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 3076,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "7425adb3",
+          "score": "0.75",
+          "domain": "general"
+        },
+        {
+          "id": "92c95d28",
+          "score": "0.60",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q32",
+      "category": "EXACT_C_ALT",
+      "query": "Which institution regulates telecommunications in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "578b0bbc",
+      "selectedCanonical": "578b0bbc",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 2053,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "578b0bbc",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q33",
+      "category": "EXACT_G_ALT",
+      "query": "Which institution regulates securities in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "5f2e7bab",
+      "selectedCanonical": "5f2e7bab",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 2972,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "5f2e7bab",
+          "score": "1.00",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q34",
+      "category": "EXACT_H_ALT",
+      "query": "Which institution regulates data protection in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "570d3c7f",
+      "selectedCanonical": "570d3c7f",
+      "semanticMatchScore": "0.80",
+      "domainMatch": true,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 2902,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "570d3c7f",
+          "score": "0.80",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q35",
+      "category": "EXACT_I_ALT",
+      "query": "Which institution regulates pesticides in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "823c7c92",
+      "selectedCanonical": "823c7c92",
+      "semanticMatchScore": "0.50",
+      "domainMatch": true,
+      "productionQuality": "0.76",
+      "verification": "partially_verified",
+      "latencyMs": 2930,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "823c7c92",
+          "score": "0.50",
+          "domain": "general"
+        },
+        {
+          "id": "4f063512",
+          "score": "0.50",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q36",
+      "category": "EXACT_J_ALT",
+      "query": "Which institution oversees competition regulation in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "823c7c92",
+      "selectedCanonical": "823c7c92",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.76",
+      "verification": "partially_verified",
+      "latencyMs": 1744,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "823c7c92",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q37",
+      "category": "EXACT_F_ALT",
+      "query": "Which institution regulates electricity in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "2575ddb5",
+      "selectedCanonical": "2575ddb5",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 1670,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "2575ddb5",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q38",
+      "category": "TRAP_FINANCE",
+      "query": "What regulator is responsible for renewable energy financing in Ghana's banking sector?",
+      "decision": "REUSE",
+      "selectedProduction": "9b50bca5",
+      "selectedCanonical": "9b50bca5",
+      "semanticMatchScore": "0.71",
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 2550,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "9b50bca5",
+          "score": "0.71",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q39",
+      "category": "TRAP_FINANCE",
+      "query": "How does Ghana's banking sector finance renewable energy?",
+      "decision": "RESEARCH",
+      "selectedProduction": "b5084479",
+      "selectedCanonical": "b5084479",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 8094,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 427,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q40",
+      "category": "TRAP_BANK",
+      "query": "Which Ghanaian bank regulates renewable energy investments?",
+      "decision": "REUSE",
+      "selectedProduction": "9b50bca5",
+      "selectedCanonical": "9b50bca5",
+      "semanticMatchScore": "0.83",
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 5211,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "9b50bca5",
+          "score": "0.83",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q41",
+      "category": "TRAP_BANK",
+      "query": "Does the banking regulator supervise renewable energy activities?",
+      "decision": "REUSE",
+      "selectedProduction": "9b50bca5",
+      "selectedCanonical": "9b50bca5",
+      "semanticMatchScore": "0.57",
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 2337,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "9b50bca5",
+          "score": "0.57",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q42",
+      "category": "TRAP_TELECOM",
+      "query": "Which telecommunications authority regulates renewable energy services in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "578b0bbc",
+      "selectedCanonical": "578b0bbc",
+      "semanticMatchScore": "0.57",
+      "domainMatch": false,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 2352,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "578b0bbc",
+          "score": "0.57",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q43",
+      "category": "TRAP_SECURITIES",
+      "query": "Which securities regulator oversees renewable energy companies in Ghana?",
+      "decision": "RESEARCH",
+      "selectedProduction": "5def75ce",
+      "selectedCanonical": "5def75ce",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 8881,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 363,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q44",
+      "category": "CONTRADICTION",
+      "query": "What is the renewable energy regulator in Ghana's banking sector?",
+      "decision": "REUSE",
+      "selectedProduction": "9b50bca5",
+      "selectedCanonical": "9b50bca5",
+      "semanticMatchScore": "0.83",
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 4806,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "9b50bca5",
+          "score": "0.83",
+          "domain": "energy"
+        },
+        {
+          "id": "7425adb3",
+          "score": "0.50",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q45",
+      "category": "CONTRADICTION",
+      "query": "Which telecommunications authority regulates renewable energy?",
+      "decision": "REUSE",
+      "selectedProduction": "578b0bbc",
+      "selectedCanonical": "578b0bbc",
+      "semanticMatchScore": "0.50",
+      "domainMatch": false,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 3234,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "578b0bbc",
+          "score": "0.50",
+          "domain": "general"
+        },
+        {
+          "id": "665dadd5",
+          "score": "0.50",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q46",
+      "category": "CONTRADICTION",
+      "query": "Is the securities regulator responsible for renewable energy regulation in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "5def75ce",
+      "selectedCanonical": "5def75ce",
+      "semanticMatchScore": "0.71",
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 2349,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "5def75ce",
+          "score": "0.71",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q47",
+      "category": "CONTRADICTION",
+      "query": "Does the banking regulator regulate Ghana's solar energy sector?",
+      "decision": "REUSE",
+      "selectedProduction": "9b50bca5",
+      "selectedCanonical": "9b50bca5",
+      "semanticMatchScore": "0.57",
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 2631,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "9b50bca5",
+          "score": "0.57",
+          "domain": "energy"
+        },
+        {
+          "id": "7425adb3",
+          "score": "0.50",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q48",
+      "category": "CONTRADICTION",
+      "query": "Is the telecommunications regulator the authority responsible for renewable energy in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "578b0bbc",
+      "selectedCanonical": "578b0bbc",
+      "semanticMatchScore": "0.67",
+      "domainMatch": false,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 2457,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "578b0bbc",
+          "score": "0.67",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q49",
+      "category": "ENTITY_F",
+      "query": "Which institution regulates electricity in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "2575ddb5",
+      "selectedCanonical": "2575ddb5",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 1632,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "2575ddb5",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q50",
+      "category": "ENTITY_A",
+      "query": "Which institution regulates renewable energy in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2160,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "1.00",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q51",
+      "category": "ENTITY_G",
+      "query": "Which institution regulates Ghana's securities market?",
+      "decision": "REUSE",
+      "selectedProduction": "6ec1989b",
+      "selectedCanonical": "6ec1989b",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 2505,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "6ec1989b",
+          "score": "1.00",
+          "domain": "finance"
+        },
+        {
+          "id": "5f2e7bab",
+          "score": "0.80",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q52",
+      "category": "ENTITY_B",
+      "query": "Which institution regulates banking in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "7425adb3",
+      "selectedCanonical": "7425adb3",
+      "semanticMatchScore": "0.75",
+      "domainMatch": true,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 2961,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "7425adb3",
+          "score": "0.75",
+          "domain": "general"
+        },
+        {
+          "id": "92c95d28",
+          "score": "0.60",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q53",
+      "category": "ENTITY_C",
+      "query": "Which institution regulates telecommunications in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "578b0bbc",
+      "selectedCanonical": "578b0bbc",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.78",
+      "verification": "partially_verified",
+      "latencyMs": 1595,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "578b0bbc",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q54",
+      "category": "TEMPORAL_NOW",
+      "query": "Which institution currently regulates renewable energy in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2413,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "1.00",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q55",
+      "category": "TEMPORAL_2015",
+      "query": "Which institution regulated renewable energy in Ghana in 2015?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "0.83",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2092,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "0.83",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q56",
+      "category": "TEMPORAL_NOW_B",
+      "query": "Who currently regulates banking in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "7425adb3",
+      "selectedCanonical": "7425adb3",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 2315,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "7425adb3",
+          "score": "1.00",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q57",
+      "category": "TEMPORAL_2010_B",
+      "query": "Who regulated banking in Ghana in 2010?",
+      "decision": "REUSE",
+      "selectedProduction": "7425adb3",
+      "selectedCanonical": "7425adb3",
+      "semanticMatchScore": "0.75",
+      "domainMatch": true,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 2666,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "7425adb3",
+          "score": "0.75",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q58",
+      "category": "TEMPORAL_NOW_D",
+      "query": "What is the current renewable energy policy framework in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "aacbbe93",
+      "selectedCanonical": "aacbbe93",
+      "semanticMatchScore": "0.57",
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 2637,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "aacbbe93",
+          "score": "0.57",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q59",
+      "category": "TEMPORAL_2010_D",
+      "query": "What was Ghana's renewable energy policy framework in 2010?",
+      "decision": "RESEARCH",
+      "selectedProduction": "02368ef3",
+      "selectedCanonical": "02368ef3",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 7374,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 437,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q60",
+      "category": "GRANULAR_EQUIV_A",
+      "query": "Who regulates renewable energy in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "0.80",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2957,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "0.80",
+          "domain": "energy"
+        },
+        {
+          "id": "a16b0334",
+          "score": "0.50",
+          "domain": "energy"
+        },
+        {
+          "id": "aacbbe93",
+          "score": "0.50",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q61",
+      "category": "GRANULAR_LICENSES",
+      "query": "What licenses are required for solar companies in Ghana?",
+      "decision": "RESEARCH",
+      "selectedProduction": "cbfa7184",
+      "selectedCanonical": "cbfa7184",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.76",
+      "verification": "partially_verified",
+      "latencyMs": 9500,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 421,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q62",
+      "category": "GRANULAR_TECH",
+      "query": "What are the technical requirements for solar installations in Ghana?",
+      "decision": "RESEARCH",
+      "selectedProduction": "72bde9c9",
+      "selectedCanonical": "72bde9c9",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 9833,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 450,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q63",
+      "category": "GRANULAR_PENALTIES",
+      "query": "What penalties can renewable energy companies face in Ghana?",
+      "decision": "RESEARCH",
+      "selectedProduction": "72abdd75",
+      "selectedCanonical": "72abdd75",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 9319,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 529,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q64",
+      "category": "GRANULAR_AUTH",
+      "query": "How can a renewable energy company obtain authorization in Ghana?",
+      "decision": "RESEARCH",
+      "selectedProduction": "2dfd1188",
+      "selectedCanonical": "2dfd1188",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 10823,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 443,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q65",
+      "category": "GRANULAR_PROJECTS",
+      "query": "What renewable energy projects has Ghana approved?",
+      "decision": "RESEARCH",
+      "selectedProduction": "cd622d3a",
+      "selectedCanonical": "cd622d3a",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 9012,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 459,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q66",
+      "category": "NEGATION",
+      "query": "Is the Energy Commission NOT responsible for renewable energy regulation in Ghana?",
+      "decision": "RESEARCH",
+      "selectedProduction": "eb51fff1",
+      "selectedCanonical": "eb51fff1",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 10751,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 350,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q67",
+      "category": "NEGATION",
+      "query": "Which institution is NOT responsible for renewable energy regulation in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "0.83",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2573,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "0.83",
+          "domain": "energy"
+        },
+        {
+          "id": "eb51fff1",
+          "score": "0.71",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q68",
+      "category": "NEGATION_BANK",
+      "query": "Is the Bank of Ghana responsible for renewable energy regulation?",
+      "decision": "REUSE",
+      "selectedProduction": "9b50bca5",
+      "selectedCanonical": "9b50bca5",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 2453,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "9b50bca5",
+          "score": "1.00",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q69",
+      "category": "NEGATION_BANK2",
+      "query": "Which institution does NOT regulate banking in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "53c39a0d",
+      "selectedCanonical": "53c39a0d",
+      "semanticMatchScore": "0.60",
+      "domainMatch": true,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 2974,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "53c39a0d",
+          "score": "0.60",
+          "domain": "general"
+        },
+        {
+          "id": "92c95d28",
+          "score": "0.50",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q70",
+      "category": "SHORT_ENERGY",
+      "query": "Ghana energy regulator",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "0.60",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2079,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "0.60",
+          "domain": "energy"
+        },
+        {
+          "id": "eb51fff1",
+          "score": "0.50",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q71",
+      "category": "SHORT_BANK",
+      "query": "Ghana banking regulator",
+      "decision": "REUSE",
+      "selectedProduction": "53c39a0d",
+      "selectedCanonical": "53c39a0d",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 2870,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "53c39a0d",
+          "score": "1.00",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q72",
+      "category": "SHORT_TELECOM",
+      "query": "Ghana telecom regulator",
+      "decision": "RESEARCH",
+      "selectedProduction": "3b3eeb75",
+      "selectedCanonical": "3b3eeb75",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 7513,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 377,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q73",
+      "category": "SHORT_RENEWABLE",
+      "query": "Ghana renewable energy",
+      "decision": "REUSE",
+      "selectedProduction": "cd622d3a",
+      "selectedCanonical": "cd622d3a",
+      "semanticMatchScore": "0.60",
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 4577,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "cd622d3a",
+          "score": "0.60",
+          "domain": "energy"
+        },
+        {
+          "id": "a16b0334",
+          "score": "0.60",
+          "domain": "energy"
+        },
+        {
+          "id": "aacbbe93",
+          "score": "0.60",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q74",
+      "category": "SHORT_REGULATION",
+      "query": "Ghana energy regulation",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "0.60",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2370,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "0.60",
+          "domain": "energy"
+        },
+        {
+          "id": "eb51fff1",
+          "score": "0.50",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q75",
+      "category": "SHORT_RENEW_REG",
+      "query": "renewable regulator Ghana",
+      "decision": "REUSE",
+      "selectedProduction": "eb51fff1",
+      "selectedCanonical": "eb51fff1",
+      "semanticMatchScore": "0.50",
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 2608,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "eb51fff1",
+          "score": "0.50",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q76",
+      "category": "VARIANT_A",
+      "query": "Who is Ghana's renewable energy regulator?",
+      "decision": "REUSE",
+      "selectedProduction": "eb51fff1",
+      "selectedCanonical": "eb51fff1",
+      "semanticMatchScore": "0.67",
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 2662,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "eb51fff1",
+          "score": "0.67",
+          "domain": "energy"
+        },
+        {
+          "id": "aacbbe93",
+          "score": "0.50",
+          "domain": "energy"
+        },
+        {
+          "id": "a16b0334",
+          "score": "0.50",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q77",
+      "category": "VARIANT_A",
+      "query": "Who oversees renewable energy in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "cd622d3a",
+      "selectedCanonical": "cd622d3a",
+      "semanticMatchScore": "0.50",
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 2662,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "cd622d3a",
+          "score": "0.50",
+          "domain": "energy"
+        },
+        {
+          "id": "a16b0334",
+          "score": "0.50",
+          "domain": "energy"
+        },
+        {
+          "id": "aacbbe93",
+          "score": "0.50",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q78",
+      "category": "VARIANT_A",
+      "query": "Who has authority over renewable energy in Ghana?",
+      "decision": "RESEARCH",
+      "selectedProduction": "68bf6b07",
+      "selectedCanonical": "68bf6b07",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 7928,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 320,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q79",
+      "category": "VARIANT_A",
+      "query": "Which Ghanaian authority handles renewable energy?",
+      "decision": "REUSE",
+      "selectedProduction": "68bf6b07",
+      "selectedCanonical": "68bf6b07",
+      "semanticMatchScore": "0.67",
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 5126,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "68bf6b07",
+          "score": "0.67",
+          "domain": "energy"
+        },
+        {
+          "id": "db725830",
+          "score": "0.67",
+          "domain": "energy"
+        },
+        {
+          "id": "ad76bab3",
+          "score": "0.50",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q80",
+      "category": "VARIANT_A",
+      "query": "Who is in charge of renewable energy regulation in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "0.67",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2442,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "0.67",
+          "domain": "energy"
+        },
+        {
+          "id": "eb51fff1",
+          "score": "0.57",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q81",
+      "category": "TRAP_FINANCING",
+      "query": "Who regulates renewable energy financing in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "0.67",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2665,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "0.67",
+          "domain": "energy"
+        },
+        {
+          "id": "eb51fff1",
+          "score": "0.57",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q82",
+      "category": "TRAP_COMPANIES",
+      "query": "Who regulates renewable energy companies in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "0.67",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2663,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "0.67",
+          "domain": "energy"
+        },
+        {
+          "id": "860192c1",
+          "score": "0.57",
+          "domain": "energy"
+        },
+        {
+          "id": "eb51fff1",
+          "score": "0.57",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q83",
+      "category": "TRAP_IMPORTS",
+      "query": "Who regulates renewable energy equipment imports into Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "0.50",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2385,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "0.50",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q84",
+      "category": "TRAP_INVESTMENTS",
+      "query": "Who regulates renewable energy investments in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "0.67",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2227,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "0.67",
+          "domain": "energy"
+        },
+        {
+          "id": "1f21b014",
+          "score": "0.57",
+          "domain": "energy"
+        },
+        {
+          "id": "eb51fff1",
+          "score": "0.57",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q85",
+      "category": "TRAP_ENVIRONMENT",
+      "query": "Who regulates environmental impacts of renewable energy projects in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "cd622d3a",
+      "selectedCanonical": "cd622d3a",
+      "semanticMatchScore": "0.50",
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 2357,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "cd622d3a",
+          "score": "0.50",
+          "domain": "energy"
+        },
+        {
+          "id": "db725830",
+          "score": "0.50",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q86",
+      "category": "RELATED_MANDATE",
+      "query": "What is the mandate of Ghana's Energy Commission?",
+      "decision": "RESEARCH",
+      "selectedProduction": "f9f04676",
+      "selectedCanonical": "f9f04676",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 8780,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 376,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q87",
+      "category": "RELATED_LAWS",
+      "query": "What laws govern renewable energy in Ghana?",
+      "decision": "RESEARCH",
+      "selectedProduction": "a497dd5d",
+      "selectedCanonical": "a497dd5d",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 11489,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 349,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q88",
+      "category": "VARIANT_A",
+      "query": "What renewable energy authority does Ghana have?",
+      "decision": "REUSE",
+      "selectedProduction": "68bf6b07",
+      "selectedCanonical": "68bf6b07",
+      "semanticMatchScore": "0.80",
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 2666,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "68bf6b07",
+          "score": "0.80",
+          "domain": "energy"
+        },
+        {
+          "id": "db725830",
+          "score": "0.80",
+          "domain": "energy"
+        },
+        {
+          "id": "a16b0334",
+          "score": "0.50",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q89",
+      "category": "RELATED_ENFORCE",
+      "query": "How does Ghana enforce renewable energy regulations?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "0.67",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2733,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "0.67",
+          "domain": "energy"
+        },
+        {
+          "id": "eb51fff1",
+          "score": "0.57",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q90",
+      "category": "RELATED_MINISTRY",
+      "query": "What government ministry is responsible for energy policy in Ghana?",
+      "decision": "RESEARCH",
+      "selectedProduction": "5a0ac708",
+      "selectedCanonical": "5a0ac708",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 7029,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 352,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q91",
+      "category": "EXTREME_BANK",
+      "query": "What is the main regulator of renewable energy in Ghana's banking sector?",
+      "decision": "REUSE",
+      "selectedProduction": "9b50bca5",
+      "selectedCanonical": "9b50bca5",
+      "semanticMatchScore": "0.83",
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 4508,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "9b50bca5",
+          "score": "0.83",
+          "domain": "energy"
+        },
+        {
+          "id": "53c39a0d",
+          "score": "0.50",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q92",
+      "category": "EXTREME_BANK2",
+      "query": "What is the main regulator of banking-related renewable energy activities in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "9b50bca5",
+      "selectedCanonical": "9b50bca5",
+      "semanticMatchScore": "0.57",
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 2271,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "9b50bca5",
+          "score": "0.57",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q93",
+      "category": "EXTREME_KE_GH",
+      "query": "What is the main renewable energy regulator for Kenyan companies operating in Ghana?",
+      "decision": "RESEARCH",
+      "selectedProduction": "c8d8dc78",
+      "selectedCanonical": "c8d8dc78",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 7113,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 347,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q94",
+      "category": "EXTREME_BANKS",
+      "query": "What is the renewable energy regulator for Ghanaian banks?",
+      "decision": "REUSE",
+      "selectedProduction": "9b50bca5",
+      "selectedCanonical": "9b50bca5",
+      "semanticMatchScore": "1.00",
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 2539,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "9b50bca5",
+          "score": "1.00",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q95",
+      "category": "EXTREME_MULTI",
+      "query": "Which Ghanaian regulator oversees renewable energy and telecommunications?",
+      "decision": "RESEARCH",
+      "selectedProduction": "bcadee6e",
+      "selectedCanonical": "bcadee6e",
+      "semanticMatchScore": null,
+      "domainMatch": true,
+      "productionQuality": "0.97",
+      "verification": "verified",
+      "latencyMs": 7702,
+      "llmCalls": 1,
+      "tavilyCalls": 1,
+      "tokens": 320,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": []
+    },
+    {
+      "qid": "Q96",
+      "category": "EXTREME_MULTI2",
+      "query": "Which Ghanaian authority regulates energy and banking?",
+      "decision": "REUSE",
+      "selectedProduction": "53c39a0d",
+      "selectedCanonical": "53c39a0d",
+      "semanticMatchScore": "0.60",
+      "domainMatch": false,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 4636,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "53c39a0d",
+          "score": "0.60",
+          "domain": "general"
+        }
+      ]
+    },
+    {
+      "qid": "Q97",
+      "category": "EXTREME_MULTI3",
+      "query": "Which institution regulates both renewable energy and securities in Ghana?",
+      "decision": "REUSE",
+      "selectedProduction": "5f2e7bab",
+      "selectedCanonical": "5f2e7bab",
+      "semanticMatchScore": "0.57",
+      "domainMatch": false,
+      "productionQuality": "0.77",
+      "verification": "partially_verified",
+      "latencyMs": 2217,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "5f2e7bab",
+          "score": "0.57",
+          "domain": "general"
+        },
+        {
+          "id": "5def75ce",
+          "score": "0.56",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q98",
+      "category": "EXTREME_INV_BANK",
+      "query": "Which regulator supervises renewable energy investments made by Ghanaian banks?",
+      "decision": "REUSE",
+      "selectedProduction": "9b50bca5",
+      "selectedCanonical": "9b50bca5",
+      "semanticMatchScore": "0.63",
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 2177,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "9b50bca5",
+          "score": "0.63",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q99",
+      "category": "EXTREME_POLICY",
+      "query": "Which Ghanaian institution regulates renewable energy policy rather than renewable energy companies?",
+      "decision": "REUSE",
+      "selectedProduction": "db725830",
+      "selectedCanonical": "db725830",
+      "semanticMatchScore": "0.56",
+      "domainMatch": true,
+      "productionQuality": "0.96",
+      "verification": "verified",
+      "latencyMs": 2580,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "db725830",
+          "score": "0.56",
+          "domain": "energy"
+        },
+        {
+          "id": "c8d8dc78",
+          "score": "0.45",
+          "domain": "energy"
+        }
+      ]
+    },
+    {
+      "qid": "Q100",
+      "category": "EXTREME_TODAY",
+      "query": "Which authority is responsible for renewable energy regulation in Ghana today?",
+      "decision": "REUSE",
+      "selectedProduction": "ad76bab3",
+      "selectedCanonical": "ad76bab3",
+      "semanticMatchScore": "0.63",
+      "domainMatch": true,
+      "productionQuality": "0.98",
+      "verification": "verified",
+      "latencyMs": 2903,
+      "llmCalls": 0,
+      "tavilyCalls": 0,
+      "tokens": 0,
+      "contextAdded": 0,
+      "error": null,
+      "candidates": [
+        {
+          "id": "ad76bab3",
+          "score": "0.63",
+          "domain": "energy"
+        },
+        {
+          "id": "68bf6b07",
+          "score": "0.57",
+          "domain": "energy"
+        },
+        {
+          "id": "eb51fff1",
+          "score": "0.50",
+          "domain": "energy"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total": 100,
+    "decisions": {
+      "REUSE": 76,
+      "REFRESH": 0,
+      "RESEARCH": 24,
+      "ERROR": 0
+    },
+    "byCategory": {
+      "EQUIVALENT_A": [
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "ad76bab3"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "EQUIVALENT_B": [
+        {
+          "decision": "REUSE",
+          "prod": "92c95d28"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "7425adb3"
+        }
+      ],
+      "EQUIVALENT_C": [
+        {
+          "decision": "REUSE",
+          "prod": "578b0bbc"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "578b0bbc"
+        }
+      ],
+      "EQUIVALENT_H": [
+        {
+          "decision": "REUSE",
+          "prod": "570d3c7f"
+        }
+      ],
+      "EQUIVALENT_I": [
+        {
+          "decision": "REUSE",
+          "prod": "823c7c92"
+        }
+      ],
+      "EQUIVALENT_J": [
+        {
+          "decision": "REUSE",
+          "prod": "823c7c92"
+        }
+      ],
+      "EQUIVALENT_G": [
+        {
+          "decision": "RESEARCH",
+          "prod": "5f2e7bab"
+        }
+      ],
+      "EQUIVALENT_F": [
+        {
+          "decision": "REUSE",
+          "prod": "2575ddb5"
+        }
+      ],
+      "EQUIVALENT_E": [
+        {
+          "decision": "REUSE",
+          "prod": "947ea0e3"
+        }
+      ],
+      "EXACT_B": [
+        {
+          "decision": "REUSE",
+          "prod": "7425adb3"
+        }
+      ],
+      "EXACT_C": [
+        {
+          "decision": "REUSE",
+          "prod": "578b0bbc"
+        }
+      ],
+      "EXACT_D": [
+        {
+          "decision": "REUSE",
+          "prod": "793d1240"
+        }
+      ],
+      "INTENT_MISMATCH": [
+        {
+          "decision": "REUSE",
+          "prod": "860192c1"
+        },
+        {
+          "decision": "RESEARCH",
+          "prod": "1f21b014"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "793d1240"
+        },
+        {
+          "decision": "RESEARCH",
+          "prod": "341d63ec"
+        },
+        {
+          "decision": "RESEARCH",
+          "prod": "aacbbe93"
+        },
+        {
+          "decision": "RESEARCH",
+          "prod": "af340eaa"
+        }
+      ],
+      "NEAR_EQUIV_A": [
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "COUNTRY_KE": [
+        {
+          "decision": "REUSE",
+          "prod": "947ea0e3"
+        }
+      ],
+      "COUNTRY_NG": [
+        {
+          "decision": "REUSE",
+          "prod": "e8c1b840"
+        }
+      ],
+      "COUNTRY_SN": [
+        {
+          "decision": "RESEARCH",
+          "prod": "3a006ff3"
+        }
+      ],
+      "COUNTRY_KE_BANK": [
+        {
+          "decision": "RESEARCH",
+          "prod": "04b9bb39"
+        }
+      ],
+      "COUNTRY_NG_TELECOM": [
+        {
+          "decision": "RESEARCH",
+          "prod": "665dadd5"
+        }
+      ],
+      "EXACT_B_ALT": [
+        {
+          "decision": "REUSE",
+          "prod": "7425adb3"
+        }
+      ],
+      "EXACT_C_ALT": [
+        {
+          "decision": "REUSE",
+          "prod": "578b0bbc"
+        }
+      ],
+      "EXACT_G_ALT": [
+        {
+          "decision": "REUSE",
+          "prod": "5f2e7bab"
+        }
+      ],
+      "EXACT_H_ALT": [
+        {
+          "decision": "REUSE",
+          "prod": "570d3c7f"
+        }
+      ],
+      "EXACT_I_ALT": [
+        {
+          "decision": "REUSE",
+          "prod": "823c7c92"
+        }
+      ],
+      "EXACT_J_ALT": [
+        {
+          "decision": "REUSE",
+          "prod": "823c7c92"
+        }
+      ],
+      "EXACT_F_ALT": [
+        {
+          "decision": "REUSE",
+          "prod": "2575ddb5"
+        }
+      ],
+      "TRAP_FINANCE": [
+        {
+          "decision": "REUSE",
+          "prod": "9b50bca5"
+        },
+        {
+          "decision": "RESEARCH",
+          "prod": "b5084479"
+        }
+      ],
+      "TRAP_BANK": [
+        {
+          "decision": "REUSE",
+          "prod": "9b50bca5"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "9b50bca5"
+        }
+      ],
+      "TRAP_TELECOM": [
+        {
+          "decision": "REUSE",
+          "prod": "578b0bbc"
+        }
+      ],
+      "TRAP_SECURITIES": [
+        {
+          "decision": "RESEARCH",
+          "prod": "5def75ce"
+        }
+      ],
+      "CONTRADICTION": [
+        {
+          "decision": "REUSE",
+          "prod": "9b50bca5"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "578b0bbc"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "5def75ce"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "9b50bca5"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "578b0bbc"
+        }
+      ],
+      "ENTITY_F": [
+        {
+          "decision": "REUSE",
+          "prod": "2575ddb5"
+        }
+      ],
+      "ENTITY_A": [
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "ENTITY_G": [
+        {
+          "decision": "REUSE",
+          "prod": "6ec1989b"
+        }
+      ],
+      "ENTITY_B": [
+        {
+          "decision": "REUSE",
+          "prod": "7425adb3"
+        }
+      ],
+      "ENTITY_C": [
+        {
+          "decision": "REUSE",
+          "prod": "578b0bbc"
+        }
+      ],
+      "TEMPORAL_NOW": [
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "TEMPORAL_2015": [
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "TEMPORAL_NOW_B": [
+        {
+          "decision": "REUSE",
+          "prod": "7425adb3"
+        }
+      ],
+      "TEMPORAL_2010_B": [
+        {
+          "decision": "REUSE",
+          "prod": "7425adb3"
+        }
+      ],
+      "TEMPORAL_NOW_D": [
+        {
+          "decision": "REUSE",
+          "prod": "aacbbe93"
+        }
+      ],
+      "TEMPORAL_2010_D": [
+        {
+          "decision": "RESEARCH",
+          "prod": "02368ef3"
+        }
+      ],
+      "GRANULAR_EQUIV_A": [
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "GRANULAR_LICENSES": [
+        {
+          "decision": "RESEARCH",
+          "prod": "cbfa7184"
+        }
+      ],
+      "GRANULAR_TECH": [
+        {
+          "decision": "RESEARCH",
+          "prod": "72bde9c9"
+        }
+      ],
+      "GRANULAR_PENALTIES": [
+        {
+          "decision": "RESEARCH",
+          "prod": "72abdd75"
+        }
+      ],
+      "GRANULAR_AUTH": [
+        {
+          "decision": "RESEARCH",
+          "prod": "2dfd1188"
+        }
+      ],
+      "GRANULAR_PROJECTS": [
+        {
+          "decision": "RESEARCH",
+          "prod": "cd622d3a"
+        }
+      ],
+      "NEGATION": [
+        {
+          "decision": "RESEARCH",
+          "prod": "eb51fff1"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "NEGATION_BANK": [
+        {
+          "decision": "REUSE",
+          "prod": "9b50bca5"
+        }
+      ],
+      "NEGATION_BANK2": [
+        {
+          "decision": "REUSE",
+          "prod": "53c39a0d"
+        }
+      ],
+      "SHORT_ENERGY": [
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "SHORT_BANK": [
+        {
+          "decision": "REUSE",
+          "prod": "53c39a0d"
+        }
+      ],
+      "SHORT_TELECOM": [
+        {
+          "decision": "RESEARCH",
+          "prod": "3b3eeb75"
+        }
+      ],
+      "SHORT_RENEWABLE": [
+        {
+          "decision": "REUSE",
+          "prod": "cd622d3a"
+        }
+      ],
+      "SHORT_REGULATION": [
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "SHORT_RENEW_REG": [
+        {
+          "decision": "REUSE",
+          "prod": "eb51fff1"
+        }
+      ],
+      "VARIANT_A": [
+        {
+          "decision": "REUSE",
+          "prod": "eb51fff1"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "cd622d3a"
+        },
+        {
+          "decision": "RESEARCH",
+          "prod": "68bf6b07"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "68bf6b07"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        },
+        {
+          "decision": "REUSE",
+          "prod": "68bf6b07"
+        }
+      ],
+      "TRAP_FINANCING": [
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "TRAP_COMPANIES": [
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "TRAP_IMPORTS": [
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "TRAP_INVESTMENTS": [
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "TRAP_ENVIRONMENT": [
+        {
+          "decision": "REUSE",
+          "prod": "cd622d3a"
+        }
+      ],
+      "RELATED_MANDATE": [
+        {
+          "decision": "RESEARCH",
+          "prod": "f9f04676"
+        }
+      ],
+      "RELATED_LAWS": [
+        {
+          "decision": "RESEARCH",
+          "prod": "a497dd5d"
+        }
+      ],
+      "RELATED_ENFORCE": [
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "RELATED_MINISTRY": [
+        {
+          "decision": "RESEARCH",
+          "prod": "5a0ac708"
+        }
+      ],
+      "EXTREME_BANK": [
+        {
+          "decision": "REUSE",
+          "prod": "9b50bca5"
+        }
+      ],
+      "EXTREME_BANK2": [
+        {
+          "decision": "REUSE",
+          "prod": "9b50bca5"
+        }
+      ],
+      "EXTREME_KE_GH": [
+        {
+          "decision": "RESEARCH",
+          "prod": "c8d8dc78"
+        }
+      ],
+      "EXTREME_BANKS": [
+        {
+          "decision": "REUSE",
+          "prod": "9b50bca5"
+        }
+      ],
+      "EXTREME_MULTI": [
+        {
+          "decision": "RESEARCH",
+          "prod": "bcadee6e"
+        }
+      ],
+      "EXTREME_MULTI2": [
+        {
+          "decision": "REUSE",
+          "prod": "53c39a0d"
+        }
+      ],
+      "EXTREME_MULTI3": [
+        {
+          "decision": "REUSE",
+          "prod": "5f2e7bab"
+        }
+      ],
+      "EXTREME_INV_BANK": [
+        {
+          "decision": "REUSE",
+          "prod": "9b50bca5"
+        }
+      ],
+      "EXTREME_POLICY": [
+        {
+          "decision": "REUSE",
+          "prod": "db725830"
+        }
+      ],
+      "EXTREME_TODAY": [
+        {
+          "decision": "REUSE",
+          "prod": "ad76bab3"
+        }
+      ]
+    },
+    "avgLatencyMs": 4283,
+    "totalLlmCalls": 24,
+    "totalTavilyCalls": 24,
+    "totalTokens": 9532,
+    "contextDeltaTotal": 0
+  },
+  "timestamp": "2026-08-24T12:13:32.514Z"
+}
