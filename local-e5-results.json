@@ -1,0 +1,68 @@
+{
+  "positive": [
+    {
+      "id": "F01",
+      "sim": 0.8747735819100069
+    },
+    {
+      "id": "R01",
+      "sim": 0.8988428267267285
+    },
+    {
+      "id": "C01",
+      "sim": 0.8735235976213666
+    },
+    {
+      "id": "D01",
+      "sim": 0.8735609352306469
+    },
+    {
+      "id": "Q01",
+      "sim": 0.8757802980085901
+    },
+    {
+      "id": "F02",
+      "sim": 0.8529290929899305
+    },
+    {
+      "id": "R08",
+      "sim": 0.9063362825858033
+    }
+  ],
+  "negatives": [
+    {
+      "id": "N01",
+      "sim": 0.9760056559033654
+    },
+    {
+      "id": "N02",
+      "sim": 0.9683882901856025
+    },
+    {
+      "id": "N03",
+      "sim": 0.9583658872190781
+    },
+    {
+      "id": "N04",
+      "sim": 0.8839066441008809
+    }
+  ],
+  "crossLanguage": [
+    {
+      "pair": {
+        "fr": "Identifier le régulateur bancaire du Ghana.",
+        "en": "Identify the banking regulator of Ghana."
+      },
+      "sim": 0.9225474647590128
+    },
+    {
+      "pair": {
+        "fr": "Qui supervise les institutions financières ghanéennes ?",
+        "en": "Who oversees financial institutions in Ghana?"
+      },
+      "sim": 0.8867938336385146
+    }
+  ],
+  "separationGap": "-0.0673",
+  "timestamp": "2026-08-24T23:52:23.077Z"
+}
