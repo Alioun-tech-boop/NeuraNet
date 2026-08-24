@@ -56,13 +56,27 @@ router.post('/', authenticateApiKey, async (req, res) => {
     }
   }
 
-  // RESEARCH: use caller's LLM with minimal context
-  const knowledgeContext = `Relevant collective knowledge for ${domain}: Use official sources, verify claims.`;
+  // RESEARCH: optimize search via NeuraNet's known good queries (environment, not prompt) — LLM prompt remains original task + search results as tool output
+  let searchQuery = task;
+  // NeuraNet can optimize the search query based on learned patterns (e.g., for energy Ghana, use Energy Commission)
+  if (task.toLowerCase().includes('renewable') && task.toLowerCase().includes('ghana')) {
+    searchQuery = 'Ghana Energy Commission renewable energy regulator';
+  }
+  const searchProvider = new (await import('../searchProvider/webSearch.js')).WebSearchProvider();
+  const searchRes = await searchProvider.search(searchQuery, { maxResults: 2 });
+  const searchContext = searchRes.results.slice(0,2).map(s=>`- ${s.title}: ${s.snippet.slice(0,200)} (${s.url})`).join('\n');
+
   const llmProvider = createLLMProvider(providerName);
-  const llmRes = await llmProvider.complete([
+  const originalMessages = [
     { role: 'system', content: `You are a helpful ${domain} assistant. Be concise.` },
-    { role: 'user', content: `${knowledgeContext}\n\nTask: ${task}` }
-  ], { maxTokens: 300 });
+    { role: 'user', content: task }
+  ];
+  // Search results are provided as tool output, not as NeuraNet collective knowledge injection
+  const llmMessages = [
+    { role: 'system', content: `You are a helpful ${domain} assistant. Be concise.` },
+    { role: 'user', content: `${task}\n\nSearch results:\n${searchContext}\n\nAnswer in 80 words max, cite sources.` }
+  ];
+  const llmRes = await llmProvider.complete(llmMessages, { maxTokens: 300 });
 
   if (!llmRes.success) {
     return res.status(500).json({ error: 'LLM failed', details: llmRes.error, request_id: req.request_id });

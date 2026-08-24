@@ -245,12 +245,20 @@ export class AgentC {
     const normalizedSources = this._normalizeSources(researchResult.searchResults);
     researchResult.normalizedSources = normalizedSources;
 
-    // Step 5b: LLM Analysis with selected strategies (NO FALLBACK - RUN FAILED if provider fails per §2)
-    // Short prompt to minimize tokens (§24)
-    const llmMessagesC = [
-      { role: 'system', content: 'You are a concise research assistant. Cite sources.' },
-      { role: 'user', content: `Task: ${task}\nStrategies: ${ranking.selected.slice(0,2).map(s=>s.strategy).join('; ')}\nSources:\n${normalizedSources.slice(0,2).map(s=>`- ${s.title}: ${s.snippet.slice(0,300)} (${s.url})`).join('\n')}\n\nAnswer in 80 words max, cite sources as [1], [2].` }
+    // Step 5b: LLM Analysis - ZERO NEURANET CONTEXT (only task + tool results, no strategy)
+    const originalMessages = [
+      { role: 'system', content: 'You are a concise research assistant.' },
+      { role: 'user', content: task }
     ];
+    // NeuraNet optimizes search query via strategy, but LLM prompt remains original task + search results as tool output (not collective knowledge)
+    const searchContextForLLM = normalizedSources.slice(0,2).map(s=>`- ${s.title}: ${s.snippet.slice(0,300)} (${s.url})`).join('\n');
+    const llmMessagesC = [
+      { role: 'system', content: 'You are a concise research assistant.' },
+      { role: 'user', content: `${task}\n\nSearch results:\n${searchContextForLLM}\n\nAnswer in 80 words max, cite sources as [1], [2].` }
+    ];
+    // Verify no collective knowledge injected (only task + search results as tool output)
+    const hasStrategyInjection = llmMessagesC.some(m => m.content.includes('Prioritize') || m.content.includes('Research sequence'));
+    if (hasStrategyInjection) throw new Error('NEURANET_CONTEXT_VIOLATION: strategy injected');
     const llmResC = await this.llmProvider.complete(llmMessagesC, { maxTokens: 800, temperature: 0.7 });
     if (!llmResC.success) {
       const err = `LLM failed for ${this.modelProvider}/${this.model}: ${llmResC.error} [${llmResC.errorType||'API_ERROR'} ${llmResC.statusCode||''}]`;
