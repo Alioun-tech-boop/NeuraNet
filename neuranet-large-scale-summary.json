@@ -1,0 +1,33 @@
+{
+  "totalRequests": 300,
+  "plannedTotal": 308,
+  "decisions": {
+    "REUSE": 146,
+    "RESEARCH": 154,
+    "REFRESH": 0
+  },
+  "reuseRate": 0.4866666666666667,
+  "falseReuse": 63,
+  "falseRejection": 45,
+  "trueReuse": 69,
+  "trueResearch": 109,
+  "precisionReuse": 0.5227272727272727,
+  "medianLatencyResearchMs": 5266,
+  "medianLatencyReuseMs": 1500,
+  "p95LatencyResearchMs": 6616,
+  "p95LatencyReuseMs": 2069,
+  "speedupMedian": 3.5,
+  "llmCallsWithNeuraNet": 154,
+  "llmCallsWithoutNeuraNet": 300,
+  "llmCallsAvoided": 146,
+  "tavilyCallsWithNeuraNet": 154,
+  "tavilyCallsAvoided": 146,
+  "tokensWithNeuraNet": 78406,
+  "tokensWithoutEstimate": 157350,
+  "estimatedTokensSaved": 78944,
+  "contextViolations": 0,
+  "zeroContextReuse": 146,
+  "nonZeroContextReuse": 0,
+  "errors": 0,
+  "wallClockMinutes": 1
+}
