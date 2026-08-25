@@ -1,0 +1,196 @@
+{
+  "tasks": [
+    {
+      "id": "T01",
+      "domain": "banking"
+    },
+    {
+      "id": "T02",
+      "domain": "data_protection"
+    },
+    {
+      "id": "T03",
+      "domain": "telecommunications"
+    },
+    {
+      "id": "T04",
+      "domain": "fintech"
+    },
+    {
+      "id": "T05",
+      "domain": "finance_comparison"
+    }
+  ],
+  "results": [
+    {
+      "taskId": "T01",
+      "domain": "banking",
+      "semanticSimilarity": 0.937,
+      "control": {
+        "answerLength": 357,
+        "hasSpecificEntity": true,
+        "quality": 0.4,
+        "latencyMs": 547,
+        "tokensIn": 38,
+        "tokensOut": 73
+      },
+      "transfer": {
+        "answerLength": 230,
+        "hasSpecificEntity": true,
+        "quality": 0.7999999999999999,
+        "latencyMs": 327,
+        "tokensIn": 273,
+        "tokensOut": 65,
+        "strategyUsed": "Search official Bank of Ghana website, cross-check",
+        "sourcesCount": 3
+      },
+      "wrongStrategy": {
+        "answerLength": 187,
+        "hasSpecificEntity": true,
+        "quality": 0.7999999999999999,
+        "strategyUsed": "Search social media for public opinions about bank",
+        "sourcesCount": 3
+      },
+      "qualityLift": 0.3999999999999999,
+      "contextTokensAdded": 0
+    },
+    {
+      "taskId": "T02",
+      "domain": "data_protection",
+      "semanticSimilarity": 0.954,
+      "control": {
+        "answerLength": 456,
+        "hasSpecificEntity": true,
+        "quality": 0.4,
+        "latencyMs": 347,
+        "tokensIn": 39,
+        "tokensOut": 89
+      },
+      "transfer": {
+        "answerLength": 178,
+        "hasSpecificEntity": true,
+        "quality": 0.7999999999999999,
+        "latencyMs": 308,
+        "tokensIn": 340,
+        "tokensOut": 38,
+        "strategyUsed": "Search Kenya Data Protection Commissioner official",
+        "sourcesCount": 3
+      },
+      "wrongStrategy": {
+        "answerLength": 1122,
+        "hasSpecificEntity": true,
+        "quality": 0.7999999999999999,
+        "strategyUsed": "Search Wikipedia for general information about Ken",
+        "sourcesCount": 3
+      },
+      "qualityLift": 0.3999999999999999,
+      "contextTokensAdded": 0
+    },
+    {
+      "taskId": "T03",
+      "domain": "telecommunications",
+      "semanticSimilarity": 0.927,
+      "control": {
+        "answerLength": 315,
+        "hasSpecificEntity": true,
+        "quality": 0.4,
+        "latencyMs": 291,
+        "tokensIn": 37,
+        "tokensOut": 59
+      },
+      "transfer": {
+        "answerLength": 301,
+        "hasSpecificEntity": true,
+        "quality": 0.7999999999999999,
+        "latencyMs": 322,
+        "tokensIn": 995,
+        "tokensOut": 58,
+        "strategyUsed": "Search Nigerian Communications Commission portal, ",
+        "sourcesCount": 3
+      },
+      "wrongStrategy": {
+        "answerLength": 378,
+        "hasSpecificEntity": true,
+        "quality": 0.7999999999999999,
+        "strategyUsed": "Search general news sites for telecom information.",
+        "sourcesCount": 3
+      },
+      "qualityLift": 0.3999999999999999,
+      "contextTokensAdded": 0
+    },
+    {
+      "taskId": "T04",
+      "domain": "fintech",
+      "semanticSimilarity": 0.936,
+      "control": {
+        "answerLength": 1932,
+        "hasSpecificEntity": true,
+        "quality": 0.4,
+        "latencyMs": 574,
+        "tokensIn": 40,
+        "tokensOut": 400
+      },
+      "transfer": {
+        "answerLength": 1287,
+        "hasSpecificEntity": true,
+        "quality": 0.7999999999999999,
+        "latencyMs": 427,
+        "tokensIn": 438,
+        "tokensOut": 271,
+        "strategyUsed": "Search Bank of Ghana fintech regulations, cross-ch",
+        "sourcesCount": 3
+      },
+      "wrongStrategy": {
+        "answerLength": 1897,
+        "hasSpecificEntity": true,
+        "quality": 0.7,
+        "strategyUsed": "Search job boards for fintech employment opportuni",
+        "sourcesCount": 3
+      },
+      "qualityLift": 0.3999999999999999,
+      "contextTokensAdded": 0
+    },
+    {
+      "taskId": "T05",
+      "domain": "finance_comparison",
+      "semanticSimilarity": 0.992,
+      "control": {
+        "answerLength": 1700,
+        "hasSpecificEntity": true,
+        "quality": 0.4,
+        "latencyMs": 508,
+        "tokensIn": 40,
+        "tokensOut": 400
+      },
+      "transfer": {
+        "answerLength": 1809,
+        "hasSpecificEntity": true,
+        "quality": 0.7999999999999999,
+        "latencyMs": 677,
+        "tokensIn": 340,
+        "tokensOut": 400,
+        "strategyUsed": "Retrieve data from both central banks, compare usi",
+        "sourcesCount": 3
+      },
+      "wrongStrategy": {
+        "answerLength": 0,
+        "hasSpecificEntity": false,
+        "quality": 0.30000000000000004,
+        "strategyUsed": "Search celebrity news for financial mentions.",
+        "sourcesCount": 3
+      },
+      "qualityLift": 0.3999999999999999,
+      "contextTokensAdded": 0
+    }
+  ],
+  "summary": {
+    "ctrlMean": 0.4,
+    "transferMean": 0.7999999999999999,
+    "lift": 0.3999999999999999,
+    "ci95": [
+      0.3999999999999999,
+      0.3999999999999999
+    ]
+  },
+  "timestamp": "2026-08-25T02:04:47.624Z"
+}
