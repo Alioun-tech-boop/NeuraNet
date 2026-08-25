@@ -6,10 +6,10 @@
     "min_effect_size": 0.05,
     "temporal_rule": "strategy.created_at < target.execution_time",
     "seed": 42,
-    "n_per_wf": 6,
+    "n_per_wf": 9,
     "judge": "openai/gpt-oss-120b"
   },
-  "n": 30,
+  "n": 45,
   "results": [
     {
       "taskId": "R005",
@@ -30,14 +30,14 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.58,
-            "heur": 0.58,
-            "tok": 95
+            "q": 0.57,
+            "heur": 0.57,
+            "tok": 82
           },
           "full": {
-            "q": 0.94,
-            "heur": 0.94,
-            "tok": 520,
+            "q": 0.96,
+            "heur": 0.96,
+            "tok": 409,
             "searchQuery": "Identify the official energy regulator of nigeria. search official government portal",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -46,9 +46,9 @@
             ]
           },
           "shuffled": {
-            "q": 0.94,
-            "heur": 0.94,
-            "tok": 441,
+            "q": 0.81,
+            "heur": 0.81,
+            "tok": 327,
             "searchQuery": "Identify the official energy regulator of nigeria. assess underlying assumptions credit",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -56,8 +56,8 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.36,
-          "liftEF": 0,
+          "liftEA": 0.39,
+          "liftEF": 0.15,
           "judgeConsistency": 0
         },
         "oss20b": {
@@ -65,12 +65,12 @@
           "baseline": {
             "q": 0.94,
             "heur": 0.94,
-            "tok": 688
+            "tok": 390
           },
           "full": {
-            "q": 0.72,
-            "heur": 0.72,
-            "tok": 581,
+            "q": 0.71,
+            "heur": 0.71,
+            "tok": 551,
             "searchQuery": "Identify the official energy regulator of nigeria. search official government portal",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -79,9 +79,9 @@
             ]
           },
           "shuffled": {
-            "q": 0.27,
-            "heur": 0.27,
-            "tok": 377,
+            "q": 0.7,
+            "heur": 0.7,
+            "tok": 606,
             "searchQuery": "Identify the official energy regulator of nigeria. assess underlying assumptions credit",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -89,8 +89,8 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": -0.22,
-          "liftEF": 0.45,
+          "liftEA": -0.23,
+          "liftEF": 0.01,
           "judgeConsistency": 0
         }
       }
@@ -116,12 +116,12 @@
           "baseline": {
             "q": 0.96,
             "heur": 0.96,
-            "tok": 381
+            "tok": 483
           },
           "full": {
             "q": 0.96,
             "heur": 0.96,
-            "tok": 493,
+            "tok": 644,
             "searchQuery": "Find the enforcement powers of the data protection authority in kenya. locate enabling data protection",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -130,9 +130,9 @@
             ]
           },
           "shuffled": {
-            "q": 0.96,
-            "heur": 0.96,
-            "tok": 552,
+            "q": 1,
+            "heur": 1,
+            "tok": 474,
             "searchQuery": "Find the enforcement powers of the data protection authority in kenya. analyze requirements response caching",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -140,7 +140,7 @@
             ]
           },
           "liftEA": 0,
-          "liftEF": 0,
+          "liftEF": -0.04,
           "judgeConsistency": 0
         },
         "oss20b": {
@@ -151,9 +151,9 @@
             "tok": 692
           },
           "full": {
-            "q": 0.3,
-            "heur": 0.3,
-            "tok": 421,
+            "q": 0.86,
+            "heur": 0.86,
+            "tok": 859,
             "searchQuery": "Find the enforcement powers of the data protection authority in kenya. locate enabling data protection",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -162,17 +162,17 @@
             ]
           },
           "shuffled": {
-            "q": 0.1,
-            "heur": 0.1,
-            "tok": 467,
+            "q": 0.84,
+            "heur": 0.84,
+            "tok": 813,
             "searchQuery": "Find the enforcement powers of the data protection authority in kenya. analyze requirements response caching",
             "sourceDomains": [
               "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.2,
-          "liftEF": 0.2,
+          "liftEA": 0.76,
+          "liftEF": 0.02,
           "judgeConsistency": 0
         }
       }
@@ -196,14 +196,14 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.9,
-            "heur": 0.9,
-            "tok": 221
+            "q": 0.86,
+            "heur": 0.86,
+            "tok": 161
           },
           "full": {
             "q": 0.89,
             "heur": 0.89,
-            "tok": 369,
+            "tok": 374,
             "searchQuery": "Determine the current head of the securities commission in nigeria. check official leadership page",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -212,9 +212,9 @@
             ]
           },
           "shuffled": {
-            "q": 0.85,
-            "heur": 0.85,
-            "tok": 382,
+            "q": 0.95,
+            "heur": 0.95,
+            "tok": 447,
             "searchQuery": "Determine the current head of the securities commission in nigeria. list viable options establish",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -222,8 +222,8 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": -0.01,
-          "liftEF": 0.04,
+          "liftEA": 0.03,
+          "liftEF": -0.06,
           "judgeConsistency": 0
         },
         "oss20b": {
@@ -234,25 +234,29 @@
             "tok": 691
           },
           "full": {
-            "q": 0.75,
-            "heur": 0.75,
-            "tok": 682,
+            "q": 0.65,
+            "heur": 0.65,
+            "tok": 529,
             "searchQuery": "Determine the current head of the securities commission in nigeria. check official leadership page",
             "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
             "q": 0.1,
             "heur": 0.1,
-            "tok": 813,
+            "tok": 0,
             "searchQuery": "Determine the current head of the securities commission in nigeria. list viable options establish",
             "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.65,
-          "liftEF": 0.65,
+          "liftEA": 0.55,
+          "liftEF": 0.55,
           "judgeConsistency": 0
         }
       }
@@ -276,52 +280,58 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 1,
-            "heur": 1,
-            "tok": 449
+            "q": 0.96,
+            "heur": 0.96,
+            "tok": 557
           },
           "full": {
             "q": 1,
             "heur": 1,
-            "tok": 602,
+            "tok": 825,
             "searchQuery": "Find recent regulatory actions taken by the environmental agency. locate enabling environmental agency",
             "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 1,
-            "heur": 1,
-            "tok": 542,
+            "q": 0.96,
+            "heur": 0.96,
+            "tok": 783,
             "searchQuery": "Find recent regulatory actions taken by the environmental agency. gather historical data define",
             "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0,
-          "liftEF": 0,
+          "liftEA": 0.04,
+          "liftEF": 0.04,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.96,
-            "heur": 0.96,
-            "tok": 690
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.39,
-            "heur": 0.39,
-            "tok": 426,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Find recent regulatory actions taken by the environmental agency. locate enabling environmental agency",
             "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.96,
-            "heur": 0.96,
-            "tok": 691,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Find recent regulatory actions taken by the environmental agency. gather historical data define",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -329,8 +339,8 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": -0.57,
-          "liftEF": -0.57,
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -354,14 +364,14 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.57,
-            "heur": 0.57,
-            "tok": 84
+            "q": 0.58,
+            "heur": 0.58,
+            "tok": 85
           },
           "full": {
-            "q": 0.84,
-            "heur": 0.84,
-            "tok": 342,
+            "q": 0.61,
+            "heur": 0.61,
+            "tok": 360,
             "searchQuery": "Identify the official insurance regulator of nigeria. search official government portal",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -370,9 +380,9 @@
             ]
           },
           "shuffled": {
-            "q": 0.87,
-            "heur": 0.87,
-            "tok": 360,
+            "q": 0.86,
+            "heur": 0.86,
+            "tok": 352,
             "searchQuery": "Identify the official insurance regulator of nigeria. locate enabling insurance regulator",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -380,21 +390,21 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.27,
-          "liftEF": -0.03,
+          "liftEA": 0.03,
+          "liftEF": -0.25,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.77,
-            "heur": 0.77,
-            "tok": 200
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.78,
-            "heur": 0.78,
-            "tok": 473,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Identify the official insurance regulator of nigeria. search official government portal",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -403,9 +413,9 @@
             ]
           },
           "shuffled": {
-            "q": 0.72,
-            "heur": 0.72,
-            "tok": 451,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Identify the official insurance regulator of nigeria. locate enabling insurance regulator",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -413,8 +423,8 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.01,
-          "liftEF": 0.06,
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -440,12 +450,12 @@
           "baseline": {
             "q": 0.95,
             "heur": 0.95,
-            "tok": 562
+            "tok": 524
           },
           "full": {
-            "q": 0.95,
-            "heur": 0.95,
-            "tok": 783,
+            "q": 1,
+            "heur": 1,
+            "tok": 598,
             "searchQuery": "Find the enforcement powers of the pension commission in nigeria. search official government portal",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -454,16 +464,16 @@
             ]
           },
           "shuffled": {
-            "q": 0.75,
-            "heur": 0.75,
-            "tok": 571,
+            "q": 0.95,
+            "heur": 0.95,
+            "tok": 645,
             "searchQuery": "Find the enforcement powers of the pension commission in nigeria. structure inputs outputs clearly",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0,
-          "liftEF": 0.2,
+          "liftEA": 0.05,
+          "liftEF": 0.05,
           "judgeConsistency": 0
         },
         "oss20b": {
@@ -471,12 +481,12 @@
           "baseline": {
             "q": 0.1,
             "heur": 0.1,
-            "tok": 691
+            "tok": 0
           },
           "full": {
-            "q": 0.33,
-            "heur": 0.33,
-            "tok": 539,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Find the enforcement powers of the pension commission in nigeria. search official government portal",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -485,16 +495,264 @@
             ]
           },
           "shuffled": {
-            "q": 0.98,
-            "heur": 0.98,
-            "tok": 767,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Find the enforcement powers of the pension commission in nigeria. structure inputs outputs clearly",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.23,
-          "liftEF": -0.65,
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        }
+      }
+    },
+    {
+      "taskId": "R035",
+      "workflow": "research",
+      "retrieval": {
+        "mrr": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.8833,
+        "bestStratId": "S_R035",
+        "shuffledId": "S_C093",
+        "hardNegativeSim": 0.824,
+        "hardNegativeOverlap": 0.167,
+        "hardNegativeRejected": false
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
+          "baseline": {
+            "q": 0.87,
+            "heur": 0.87,
+            "tok": 172
+          },
+          "full": {
+            "q": 0.87,
+            "heur": 0.87,
+            "tok": 351,
+            "searchQuery": "Determine the current head of the customs authority in ghana. check official leadership page",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.94,
+            "heur": 0.94,
+            "tok": 445,
+            "searchQuery": "Determine the current head of the customs authority in ghana. analyze requirements health check",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": -0.07,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Determine the current head of the customs authority in ghana. check official leadership page",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Determine the current head of the customs authority in ghana. analyze requirements health check",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        }
+      }
+    },
+    {
+      "taskId": "R040",
+      "workflow": "research",
+      "retrieval": {
+        "mrr": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.9048,
+        "bestStratId": "S_R040",
+        "shuffledId": "S_R005",
+        "hardNegativeSim": 0.7816,
+        "hardNegativeOverlap": 0,
+        "hardNegativeRejected": true
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
+          "baseline": {
+            "q": 0.94,
+            "heur": 0.94,
+            "tok": 195
+          },
+          "full": {
+            "q": 0.96,
+            "heur": 0.96,
+            "tok": 743,
+            "searchQuery": "Find recent regulatory actions taken by the immigration service. search press releases immigration",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.96,
+            "heur": 0.96,
+            "tok": 862,
+            "searchQuery": "Find recent regulatory actions taken by the immigration service. search official government portal",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0.02,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Find recent regulatory actions taken by the immigration service. search press releases immigration",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Find recent regulatory actions taken by the immigration service. search official government portal",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        }
+      }
+    },
+    {
+      "taskId": "R045",
+      "workflow": "research",
+      "retrieval": {
+        "mrr": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.9206,
+        "bestStratId": "S_R045",
+        "shuffledId": "S_D126",
+        "hardNegativeSim": 0.8345,
+        "hardNegativeOverlap": 0.4,
+        "hardNegativeRejected": false
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
+          "baseline": {
+            "q": 0.57,
+            "heur": 0.57,
+            "tok": 81
+          },
+          "full": {
+            "q": 0.94,
+            "heur": 0.94,
+            "tok": 467,
+            "searchQuery": "Identify the official civil aviation of ghana. search official government portal",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.81,
+            "heur": 0.81,
+            "tok": 230,
+            "searchQuery": "Identify the official civil aviation of ghana. visualize distributions compute summary",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0.37,
+          "liftEF": 0.13,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Identify the official civil aviation of ghana. search official government portal",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Identify the official civil aviation of ghana. visualize distributions compute summary",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -547,23 +805,23 @@
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 1,
-            "heur": 1,
-            "tok": 689
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 1,
-            "heur": 1,
-            "tok": 803,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Implement rate limiting for a REST API gateway. reproduce rate limiting failure",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 1,
-            "heur": 1,
-            "tok": 804,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Implement rate limiting for a REST API gateway. assess underlying assumptions credit",
             "sourceDomains": [
               "en.wikipedia.org"
@@ -623,23 +881,23 @@
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.95,
-            "heur": 0.95,
-            "tok": 689
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.95,
-            "heur": 0.95,
-            "tok": 788,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Debug a failing input validation layer in production. reproduce input validation layer",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.95,
-            "heur": 0.95,
-            "tok": 754,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Debug a failing input validation layer in production. analyze requirements response caching",
             "sourceDomains": [
               "en.wikipedia.org"
@@ -686,8 +944,8 @@
             ]
           },
           "shuffled": {
-            "q": 0.95,
-            "heur": 0.95,
+            "q": 1,
+            "heur": 1,
             "tok": 884,
             "searchQuery": "Write integration tests for database connection pooling. list viable options establish",
             "sourceDomains": [
@@ -697,20 +955,20 @@
             ]
           },
           "liftEA": 0,
-          "liftEF": 0.05,
+          "liftEF": 0,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.84,
-            "heur": 0.84,
-            "tok": 688
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.9,
-            "heur": 0.9,
-            "tok": 864,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Write integration tests for database connection pooling. analyze requirements database connection",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -719,9 +977,9 @@
             ]
           },
           "shuffled": {
-            "q": 0.57,
-            "heur": 0.57,
-            "tok": 893,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Write integration tests for database connection pooling. list viable options establish",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -729,8 +987,8 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.06,
-          "liftEF": 0.33,
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -754,9 +1012,9 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.71,
-            "heur": 0.71,
-            "tok": 536
+            "q": 0.96,
+            "heur": 0.96,
+            "tok": 547
           },
           "full": {
             "q": 1,
@@ -768,45 +1026,45 @@
             ]
           },
           "shuffled": {
-            "q": 1,
-            "heur": 1,
-            "tok": 774,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 177,
             "searchQuery": "Refactor existing code to improve file upload handler. gather historical data define",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.29,
-          "liftEF": 0,
+          "liftEA": 0.04,
+          "liftEF": 0.9,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.26,
-            "heur": 0.26,
-            "tok": 240
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.91,
-            "heur": 0.91,
-            "tok": 474,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Refactor existing code to improve file upload handler. analyze requirements file upload",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.96,
-            "heur": 0.96,
-            "tok": 806,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Refactor existing code to improve file upload handler. gather historical data define",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.65,
-          "liftEF": -0.05,
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -844,45 +1102,45 @@
             ]
           },
           "shuffled": {
-            "q": 0.98,
-            "heur": 0.98,
-            "tok": 393,
+            "q": 1,
+            "heur": 1,
+            "tok": 762,
             "searchQuery": "Implement session management for a Redis-backed store. locate enabling insurance regulator",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "liftEA": 0,
-          "liftEF": 0.02,
+          "liftEF": 0,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.9,
-            "heur": 0.9,
+            "q": 0.82,
+            "heur": 0.82,
             "tok": 689
           },
           "full": {
-            "q": 1,
-            "heur": 1,
-            "tok": 797,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Implement session management for a Redis-backed store. reproduce session management failure",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.95,
-            "heur": 0.95,
-            "tok": 800,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Implement session management for a Redis-backed store. locate enabling insurance regulator",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.1,
-          "liftEF": 0.05,
+          "liftEA": -0.72,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -906,13 +1164,13 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.75,
-            "heur": 0.75,
+            "q": 1,
+            "heur": 1,
             "tok": 634
           },
           "full": {
-            "q": 0.75,
-            "heur": 0.75,
+            "q": 1,
+            "heur": 1,
             "tok": 776,
             "searchQuery": "Debug a failing password hashing utility in production. isolated test database create",
             "sourceDomains": [
@@ -920,8 +1178,8 @@
             ]
           },
           "shuffled": {
-            "q": 0.75,
-            "heur": 0.75,
+            "q": 1,
+            "heur": 1,
             "tok": 777,
             "searchQuery": "Debug a failing password hashing utility in production. structure inputs outputs clearly",
             "sourceDomains": [
@@ -935,15 +1193,222 @@
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.9,
-            "heur": 0.9,
-            "tok": 689
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.64,
-            "heur": 0.64,
-            "tok": 802,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Debug a failing password hashing utility in production. isolated test database create",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Debug a failing password hashing utility in production. structure inputs outputs clearly",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        }
+      }
+    },
+    {
+      "taskId": "C083",
+      "workflow": "code",
+      "retrieval": {
+        "mrr": 0.5,
+        "recallAt1": 0,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.9162,
+        "bestStratId": "S_C081",
+        "shuffledId": "S_C093",
+        "hardNegativeSim": 0.7933,
+        "hardNegativeOverlap": 0,
+        "hardNegativeRejected": true
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
+          "baseline": {
+            "q": 1,
+            "heur": 1,
+            "tok": 633
+          },
+          "full": {
+            "q": 1,
+            "heur": 1,
+            "tok": 832,
+            "searchQuery": "Write integration tests for API response caching. analyze requirements response caching",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 1,
+            "heur": 1,
+            "tok": 842,
+            "searchQuery": "Write integration tests for API response caching. analyze requirements health check",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Write integration tests for API response caching. analyze requirements response caching",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Write integration tests for API response caching. analyze requirements health check",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        }
+      }
+    },
+    {
+      "taskId": "C088",
+      "workflow": "code",
+      "retrieval": {
+        "mrr": 0.3333333333333333,
+        "recallAt1": 0,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.9109,
+        "bestStratId": "S_C086",
+        "shuffledId": "S_R005",
+        "hardNegativeSim": 0.8149,
+        "hardNegativeOverlap": 0,
+        "hardNegativeRejected": true
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
+          "baseline": {
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 444
+          },
+          "full": {
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 783,
+            "searchQuery": "Refactor existing code to improve error handling wrapper. reproduce error handling wrapper",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 777,
+            "searchQuery": "Refactor existing code to improve error handling wrapper. search official government portal",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Refactor existing code to improve error handling wrapper. reproduce error handling wrapper",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Refactor existing code to improve error handling wrapper. search official government portal",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        }
+      }
+    },
+    {
+      "taskId": "C093",
+      "workflow": "code",
+      "retrieval": {
+        "mrr": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.9031,
+        "bestStratId": "S_C093",
+        "shuffledId": "S_D126",
+        "hardNegativeSim": 0.7824,
+        "hardNegativeOverlap": 0,
+        "hardNegativeRejected": true
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
+          "baseline": {
+            "q": 0.96,
+            "heur": 0.96,
+            "tok": 639
+          },
+          "full": {
+            "q": 1,
+            "heur": 1,
+            "tok": 793,
+            "searchQuery": "Implement health check endpoint for a kubernetes liveness probe. analyze requirements health check",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
@@ -951,14 +1416,43 @@
           "shuffled": {
             "q": 1,
             "heur": 1,
-            "tok": 802,
-            "searchQuery": "Debug a failing password hashing utility in production. structure inputs outputs clearly",
+            "tok": 796,
+            "searchQuery": "Implement health check endpoint for a kubernetes liveness probe. visualize distributions compute summary",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": -0.26,
-          "liftEF": -0.36,
+          "liftEA": 0.04,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Implement health check endpoint for a kubernetes liveness probe. analyze requirements health check",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Implement health check endpoint for a kubernetes liveness probe. visualize distributions compute summary",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -984,7 +1478,7 @@
           "baseline": {
             "q": 1,
             "heur": 1,
-            "tok": 531
+            "tok": 625
           },
           "full": {
             "q": 1,
@@ -1012,31 +1506,31 @@
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.87,
-            "heur": 0.87,
-            "tok": 691
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.91,
-            "heur": 0.91,
-            "tok": 756,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Apply outlier detection to a dataset containing transaction amounts. define schema contract implement",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.96,
-            "heur": 0.96,
-            "tok": 798,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Apply outlier detection to a dataset containing transaction amounts. assess underlying assumptions credit",
             "sourceDomains": [
               "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.04,
-          "liftEF": -0.05,
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -1062,57 +1556,57 @@
           "baseline": {
             "q": 0.94,
             "heur": 0.94,
-            "tok": 551
+            "tok": 520
           },
           "full": {
-            "q": 0.75,
-            "heur": 0.75,
-            "tok": 744,
+            "q": 1,
+            "heur": 1,
+            "tok": 767,
             "searchQuery": "Diagnose anomalies when performing feature scaling. define schema contract implement",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.75,
-            "heur": 0.75,
+            "q": 0.88,
+            "heur": 0.88,
             "tok": 770,
             "searchQuery": "Diagnose anomalies when performing feature scaling. analyze requirements response caching",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": -0.19,
-          "liftEF": 0,
+          "liftEA": 0.06,
+          "liftEF": 0.12,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.63,
-            "heur": 0.63,
-            "tok": 688
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.88,
-            "heur": 0.88,
-            "tok": 794,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Diagnose anomalies when performing feature scaling. define schema contract implement",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.94,
-            "heur": 0.94,
-            "tok": 795,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Diagnose anomalies when performing feature scaling. analyze requirements response caching",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.25,
-          "liftEF": -0.06,
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -1136,9 +1630,9 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.69,
-            "heur": 0.69,
-            "tok": 462
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 634
           },
           "full": {
             "q": 1,
@@ -1158,37 +1652,37 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.31,
+          "liftEA": 0.25,
           "liftEF": 0,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.75,
-            "heur": 0.75,
-            "tok": 689
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.69,
-            "heur": 0.69,
-            "tok": 800,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Build a reproducible pipeline for categorical encoding. define schema contract implement",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.73,
-            "heur": 0.73,
-            "tok": 802,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Build a reproducible pipeline for categorical encoding. list viable options establish",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": -0.06,
-          "liftEF": -0.04,
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -1212,14 +1706,14 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.75,
-            "heur": 0.75,
-            "tok": 538
-          },
-          "full": {
             "q": 1,
             "heur": 1,
-            "tok": 659,
+            "tok": 635
+          },
+          "full": {
+            "q": 0.94,
+            "heur": 0.94,
+            "tok": 554,
             "searchQuery": "Compare two approaches to time series resampling. define schema contract implement",
             "sourceDomains": [
               "en.wikipedia.org"
@@ -1228,7 +1722,7 @@
           "shuffled": {
             "q": 0.75,
             "heur": 0.75,
-            "tok": 644,
+            "tok": 742,
             "searchQuery": "Compare two approaches to time series resampling. gather historical data define",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -1236,21 +1730,21 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.25,
-          "liftEF": 0.25,
+          "liftEA": -0.06,
+          "liftEF": 0.19,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.43,
-            "heur": 0.43,
-            "tok": 689
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
             "q": 0.1,
             "heur": 0.1,
-            "tok": 749,
+            "tok": 0,
             "searchQuery": "Compare two approaches to time series resampling. define schema contract implement",
             "sourceDomains": [
               "en.wikipedia.org"
@@ -1267,7 +1761,7 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": -0.33,
+          "liftEA": 0,
           "liftEF": 0,
           "judgeConsistency": 0
         }
@@ -1294,7 +1788,7 @@
           "baseline": {
             "q": 1,
             "heur": 1,
-            "tok": 639
+            "tok": 586
           },
           "full": {
             "q": 0.75,
@@ -1306,8 +1800,8 @@
             ]
           },
           "shuffled": {
-            "q": 1,
-            "heur": 1,
+            "q": 0.75,
+            "heur": 0.75,
             "tok": 726,
             "searchQuery": "Apply distribution shift detection to a dataset containing A/B test populations. locate enabling insurance regulator",
             "sourceDomains": [
@@ -1315,36 +1809,36 @@
             ]
           },
           "liftEA": -0.25,
-          "liftEF": -0.25,
+          "liftEF": 0,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.89,
-            "heur": 0.89,
+            "q": 0.6,
+            "heur": 0.6,
             "tok": 693
           },
           "full": {
-            "q": 0.89,
-            "heur": 0.89,
-            "tok": 821,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Apply distribution shift detection to a dataset containing A/B test populations. define schema contract implement",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.85,
-            "heur": 0.85,
-            "tok": 824,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Apply distribution shift detection to a dataset containing A/B test populations. locate enabling insurance regulator",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0,
-          "liftEF": 0.04,
+          "liftEA": -0.5,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -1370,7 +1864,7 @@
           "baseline": {
             "q": 0.69,
             "heur": 0.69,
-            "tok": 535
+            "tok": 489
           },
           "full": {
             "q": 1,
@@ -1382,38 +1876,40 @@
             ]
           },
           "shuffled": {
-            "q": 0.75,
-            "heur": 0.75,
-            "tok": 660,
+            "q": 1,
+            "heur": 1,
+            "tok": 525,
             "searchQuery": "Diagnose anomalies when performing correlation analysis. structure inputs outputs clearly",
             "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
           "liftEA": 0.31,
-          "liftEF": 0.25,
+          "liftEF": 0,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.63,
-            "heur": 0.63,
-            "tok": 688
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 1,
-            "heur": 1,
-            "tok": 793,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Diagnose anomalies when performing correlation analysis. profile column distribution choose",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.53,
-            "heur": 0.53,
-            "tok": 851,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Diagnose anomalies when performing correlation analysis. structure inputs outputs clearly",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -1421,8 +1917,248 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.37,
-          "liftEF": 0.47,
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        }
+      }
+    },
+    {
+      "taskId": "D131",
+      "workflow": "data",
+      "retrieval": {
+        "mrr": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.8804,
+        "bestStratId": "S_D131",
+        "shuffledId": "S_C093",
+        "hardNegativeSim": 0.7978,
+        "hardNegativeOverlap": 0,
+        "hardNegativeRejected": true
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
+          "baseline": {
+            "q": 1,
+            "heur": 1,
+            "tok": 583
+          },
+          "full": {
+            "q": 1,
+            "heur": 1,
+            "tok": 772,
+            "searchQuery": "Build a reproducible pipeline for dimensionality reduction. define schema contract implement",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 1,
+            "heur": 1,
+            "tok": 859,
+            "searchQuery": "Build a reproducible pipeline for dimensionality reduction. analyze requirements health check",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Build a reproducible pipeline for dimensionality reduction. define schema contract implement",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Build a reproducible pipeline for dimensionality reduction. analyze requirements health check",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        }
+      }
+    },
+    {
+      "taskId": "D136",
+      "workflow": "data",
+      "retrieval": {
+        "mrr": 0,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "bestSim": 0.8663,
+        "bestStratId": "S_D133",
+        "shuffledId": "S_R005",
+        "hardNegativeSim": 0.7917,
+        "hardNegativeOverlap": 0,
+        "hardNegativeRejected": true
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
+          "baseline": {
+            "q": 0.69,
+            "heur": 0.69,
+            "tok": 422
+          },
+          "full": {
+            "q": 0.88,
+            "heur": 0.88,
+            "tok": 783,
+            "searchQuery": "Compare two approaches to class imbalance handling. profile column distribution choose",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.94,
+            "heur": 0.94,
+            "tok": 799,
+            "searchQuery": "Compare two approaches to class imbalance handling. search official government portal",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0.19,
+          "liftEF": -0.06,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Compare two approaches to class imbalance handling. profile column distribution choose",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Compare two approaches to class imbalance handling. search official government portal",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        }
+      }
+    },
+    {
+      "taskId": "D141",
+      "workflow": "data",
+      "retrieval": {
+        "mrr": 0.16666666666666666,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "bestSim": 0.8524,
+        "bestStratId": "S_D143",
+        "shuffledId": "S_D126",
+        "hardNegativeSim": 0.7912,
+        "hardNegativeOverlap": 0,
+        "hardNegativeRejected": true
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
+          "baseline": {
+            "q": 1,
+            "heur": 1,
+            "tok": 415
+          },
+          "full": {
+            "q": 1,
+            "heur": 1,
+            "tok": 801,
+            "searchQuery": "Apply data validation rules to a dataset containing ETL pipeline ingestion. define schema contract implement",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 1,
+            "heur": 1,
+            "tok": 651,
+            "searchQuery": "Apply data validation rules to a dataset containing ETL pipeline ingestion. visualize distributions compute summary",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Apply data validation rules to a dataset containing ETL pipeline ingestion. define schema contract implement",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Apply data validation rules to a dataset containing ETL pipeline ingestion. visualize distributions compute summary",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -1446,14 +2182,45 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.95,
-            "heur": 0.95,
-            "tok": 645
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 601
           },
           "full": {
-            "q": 1,
-            "heur": 1,
-            "tok": 763,
+            "q": 0.97,
+            "heur": 0.97,
+            "tok": 794,
+            "searchQuery": "Perform Sharpe ratio optimization for multi-asset allocation, accounting for risk-free rate selection. assess underlying assumptions sharpe",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.73,
+            "heur": 0.73,
+            "tok": 794,
+            "searchQuery": "Perform Sharpe ratio optimization for multi-asset allocation, accounting for risk-free rate selection. assess underlying assumptions credit",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0.22,
+          "liftEF": 0.24,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Perform Sharpe ratio optimization for multi-asset allocation, accounting for risk-free rate selection. assess underlying assumptions sharpe",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -1470,39 +2237,8 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.05,
-          "liftEF": 0.9,
-          "judgeConsistency": 0
-        },
-        "oss20b": {
-          "model": "openai/gpt-oss-20b",
-          "baseline": {
-            "q": 0.9,
-            "heur": 0.9,
-            "tok": 698
-          },
-          "full": {
-            "q": 0.93,
-            "heur": 0.93,
-            "tok": 812,
-            "searchQuery": "Perform Sharpe ratio optimization for multi-asset allocation, accounting for risk-free rate selection. assess underlying assumptions sharpe",
-            "sourceDomains": [
-              "en.wikipedia.org",
-              "en.wikipedia.org"
-            ]
-          },
-          "shuffled": {
-            "q": 0.88,
-            "heur": 0.88,
-            "tok": 812,
-            "searchQuery": "Perform Sharpe ratio optimization for multi-asset allocation, accounting for risk-free rate selection. assess underlying assumptions credit",
-            "sourceDomains": [
-              "en.wikipedia.org",
-              "en.wikipedia.org"
-            ]
-          },
-          "liftEA": 0.03,
-          "liftEF": 0.05,
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -1526,14 +2262,14 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.71,
-            "heur": 0.71,
-            "tok": 502
+            "q": 0.62,
+            "heur": 0.62,
+            "tok": 528
           },
           "full": {
-            "q": 0.71,
-            "heur": 0.71,
-            "tok": 666,
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 514,
             "searchQuery": "Evaluate whether bond duration matching is appropriate here. assess underlying assumptions bond",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -1542,9 +2278,40 @@
             ]
           },
           "shuffled": {
-            "q": 0.71,
-            "heur": 0.71,
-            "tok": 481,
+            "q": 0.66,
+            "heur": 0.66,
+            "tok": 525,
+            "searchQuery": "Evaluate whether bond duration matching is appropriate here. analyze requirements response caching",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0.13,
+          "liftEF": 0.09,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Evaluate whether bond duration matching is appropriate here. assess underlying assumptions bond",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Evaluate whether bond duration matching is appropriate here. analyze requirements response caching",
             "sourceDomains": [
               "en.wikipedia.org"
@@ -1552,37 +2319,6 @@
           },
           "liftEA": 0,
           "liftEF": 0,
-          "judgeConsistency": 0
-        },
-        "oss20b": {
-          "model": "openai/gpt-oss-20b",
-          "baseline": {
-            "q": 0.91,
-            "heur": 0.91,
-            "tok": 689
-          },
-          "full": {
-            "q": 0.66,
-            "heur": 0.66,
-            "tok": 839,
-            "searchQuery": "Evaluate whether bond duration matching is appropriate here. assess underlying assumptions bond",
-            "sourceDomains": [
-              "en.wikipedia.org",
-              "en.wikipedia.org",
-              "en.wikipedia.org"
-            ]
-          },
-          "shuffled": {
-            "q": 0.75,
-            "heur": 0.75,
-            "tok": 798,
-            "searchQuery": "Evaluate whether bond duration matching is appropriate here. analyze requirements response caching",
-            "sourceDomains": [
-              "en.wikipedia.org"
-            ]
-          },
-          "liftEA": -0.25,
-          "liftEF": -0.09,
           "judgeConsistency": 0
         }
       }
@@ -1613,45 +2349,51 @@
           "full": {
             "q": 0.75,
             "heur": 0.75,
-            "tok": 777,
+            "tok": 859,
             "searchQuery": "Build a spreadsheet model for options pricing model. assess underlying assumptions options",
             "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.94,
-            "heur": 0.94,
-            "tok": 776,
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 835,
             "searchQuery": "Build a spreadsheet model for options pricing model. list viable options establish",
             "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
           "liftEA": 0.06,
-          "liftEF": -0.19,
+          "liftEF": 0,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.75,
-            "heur": 0.75,
-            "tok": 689
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 1,
-            "heur": 1,
-            "tok": 804,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Build a spreadsheet model for options pricing model. assess underlying assumptions options",
             "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.75,
-            "heur": 0.75,
-            "tok": 857,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Build a spreadsheet model for options pricing model. list viable options establish",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -1659,8 +2401,8 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.25,
-          "liftEF": 0.25,
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -1686,7 +2428,7 @@
           "baseline": {
             "q": 0.75,
             "heur": 0.75,
-            "tok": 551
+            "tok": 506
           },
           "full": {
             "q": 0.75,
@@ -1698,45 +2440,45 @@
             ]
           },
           "shuffled": {
-            "q": 0.7,
-            "heur": 0.7,
-            "tok": 789,
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 765,
             "searchQuery": "Explain the limitations of portfolio rebalancing to a non-technical stakeholder. gather historical data define",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "liftEA": 0,
-          "liftEF": 0.05,
+          "liftEF": 0,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.6,
-            "heur": 0.6,
-            "tok": 695
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.6,
-            "heur": 0.6,
-            "tok": 759,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Explain the limitations of portfolio rebalancing to a non-technical stakeholder. assess underlying assumptions portfolio",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.65,
-            "heur": 0.65,
-            "tok": 826,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Explain the limitations of portfolio rebalancing to a non-technical stakeholder. gather historical data define",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "liftEA": 0,
-          "liftEF": -0.05,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -1760,13 +2502,13 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.94,
-            "heur": 0.94,
+            "q": 1,
+            "heur": 1,
             "tok": 640
           },
           "full": {
-            "q": 1,
-            "heur": 1,
+            "q": 0.72,
+            "heur": 0.72,
             "tok": 838,
             "searchQuery": "Perform currency hedging strategy for export revenue exposure, accounting for basis risk. assess underlying assumptions currency",
             "sourceDomains": [
@@ -1776,29 +2518,29 @@
             ]
           },
           "shuffled": {
-            "q": 0.97,
-            "heur": 0.97,
-            "tok": 687,
+            "q": 0.69,
+            "heur": 0.69,
+            "tok": 717,
             "searchQuery": "Perform currency hedging strategy for export revenue exposure, accounting for basis risk. locate enabling insurance regulator",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.06,
+          "liftEA": -0.28,
           "liftEF": 0.03,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.87,
-            "heur": 0.87,
-            "tok": 695
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.94,
-            "heur": 0.94,
-            "tok": 857,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Perform currency hedging strategy for export revenue exposure, accounting for basis risk. assess underlying assumptions currency",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -1807,15 +2549,15 @@
             ]
           },
           "shuffled": {
-            "q": 0.94,
-            "heur": 0.94,
-            "tok": 756,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Perform currency hedging strategy for export revenue exposure, accounting for basis risk. locate enabling insurance regulator",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.07,
+          "liftEA": 0,
           "liftEF": 0,
           "judgeConsistency": 0
         }
@@ -1842,12 +2584,12 @@
           "baseline": {
             "q": 1,
             "heur": 1,
-            "tok": 555
+            "tok": 482
           },
           "full": {
             "q": 1,
             "heur": 1,
-            "tok": 667,
+            "tok": 726,
             "searchQuery": "Evaluate whether DCF valuation is appropriate here. structure inputs outputs clearly",
             "sourceDomains": [
               "en.wikipedia.org"
@@ -1856,7 +2598,7 @@
           "shuffled": {
             "q": 1,
             "heur": 1,
-            "tok": 777,
+            "tok": 506,
             "searchQuery": "Evaluate whether DCF valuation is appropriate here. structure inputs outputs clearly",
             "sourceDomains": [
               "en.wikipedia.org"
@@ -1869,30 +2611,270 @@
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.82,
-            "heur": 0.82,
-            "tok": 689
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.82,
-            "heur": 0.82,
-            "tok": 797,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Evaluate whether DCF valuation is appropriate here. structure inputs outputs clearly",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.69,
-            "heur": 0.69,
-            "tok": 797,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Evaluate whether DCF valuation is appropriate here. structure inputs outputs clearly",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "liftEA": 0,
-          "liftEF": 0.13,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        }
+      }
+    },
+    {
+      "taskId": "F179",
+      "workflow": "finance",
+      "retrieval": {
+        "mrr": 0.5,
+        "recallAt1": 0,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.8913,
+        "bestStratId": "S_F178",
+        "shuffledId": "S_C093",
+        "hardNegativeSim": 0.8085,
+        "hardNegativeOverlap": 0,
+        "hardNegativeRejected": true
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
+          "baseline": {
+            "q": 1,
+            "heur": 1,
+            "tok": 550
+          },
+          "full": {
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 867,
+            "searchQuery": "Build a spreadsheet model for Monte Carlo simulation. assess underlying assumptions monte",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 1,
+            "heur": 1,
+            "tok": 712,
+            "searchQuery": "Build a spreadsheet model for Monte Carlo simulation. analyze requirements health check",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": -0.25,
+          "liftEF": -0.25,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Build a spreadsheet model for Monte Carlo simulation. assess underlying assumptions monte",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Build a spreadsheet model for Monte Carlo simulation. analyze requirements health check",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        }
+      }
+    },
+    {
+      "taskId": "F184",
+      "workflow": "finance",
+      "retrieval": {
+        "mrr": 0.010526315789473684,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "bestSim": 0.8761,
+        "bestStratId": "S_F182",
+        "shuffledId": "S_R005",
+        "hardNegativeSim": 0.7727,
+        "hardNegativeOverlap": 0,
+        "hardNegativeRejected": true
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
+          "baseline": {
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 569
+          },
+          "full": {
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 807,
+            "searchQuery": "Explain the limitations of stress testing to a non-technical stakeholder. assess underlying assumptions stress",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 1,
+            "heur": 1,
+            "tok": 839,
+            "searchQuery": "Explain the limitations of stress testing to a non-technical stakeholder. search official government portal",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": -0.25,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Explain the limitations of stress testing to a non-technical stakeholder. assess underlying assumptions stress",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Explain the limitations of stress testing to a non-technical stakeholder. search official government portal",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        }
+      }
+    },
+    {
+      "taskId": "F189",
+      "workflow": "finance",
+      "retrieval": {
+        "mrr": 0,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "bestSim": 0.9106,
+        "bestStratId": "S_F190",
+        "shuffledId": "S_D126",
+        "hardNegativeSim": 0.7797,
+        "hardNegativeOverlap": 0,
+        "hardNegativeRejected": true
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
+          "baseline": {
+            "q": 1,
+            "heur": 1,
+            "tok": 640
+          },
+          "full": {
+            "q": 1,
+            "heur": 1,
+            "tok": 724,
+            "searchQuery": "Perform factor decomposition for hedge fund returns, accounting for style drift attribution. assess underlying assumptions factor",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 809,
+            "searchQuery": "Perform factor decomposition for hedge fund returns, accounting for style drift attribution. visualize distributions compute summary",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0.25,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Perform factor decomposition for hedge fund returns, accounting for style drift attribution. assess underlying assumptions factor",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Perform factor decomposition for hedge fund returns, accounting for style drift attribution. visualize distributions compute summary",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -1916,13 +2898,13 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.87,
-            "heur": 0.87,
-            "tok": 617
+            "q": 0.91,
+            "heur": 0.91,
+            "tok": 594
           },
           "full": {
-            "q": 1,
-            "heur": 1,
+            "q": 0.96,
+            "heur": 0.96,
             "tok": 794,
             "searchQuery": "Decide on database technology choice considering SQL vs NoSQL tradeoffs. profile column distribution choose",
             "sourceDomains": [
@@ -1930,44 +2912,44 @@
             ]
           },
           "shuffled": {
-            "q": 0.91,
-            "heur": 0.91,
+            "q": 0.96,
+            "heur": 0.96,
             "tok": 797,
             "searchQuery": "Decide on database technology choice considering SQL vs NoSQL tradeoffs. assess underlying assumptions credit",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.13,
-          "liftEF": 0.09,
+          "liftEA": 0.05,
+          "liftEF": 0,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.79,
-            "heur": 0.79,
-            "tok": 694
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.83,
-            "heur": 0.83,
-            "tok": 819,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Decide on database technology choice considering SQL vs NoSQL tradeoffs. profile column distribution choose",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.83,
-            "heur": 0.83,
-            "tok": 823,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Decide on database technology choice considering SQL vs NoSQL tradeoffs. assess underlying assumptions credit",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.04,
+          "liftEA": 0,
           "liftEF": 0,
           "judgeConsistency": 0
         }
@@ -1992,14 +2974,47 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.75,
-            "heur": 0.75,
-            "tok": 637
+            "q": 0.6,
+            "heur": 0.6,
+            "tok": 504
           },
           "full": {
-            "q": 0.75,
-            "heur": 0.75,
-            "tok": 790,
+            "q": 1,
+            "heur": 1,
+            "tok": 829,
+            "searchQuery": "Evaluate alternatives for make-vs-buy decision. list viable options establish",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.93,
+            "heur": 0.93,
+            "tok": 774,
+            "searchQuery": "Evaluate alternatives for make-vs-buy decision. analyze requirements response caching",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0.4,
+          "liftEF": 0.07,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 1,
+            "heur": 1,
+            "tok": 689
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Evaluate alternatives for make-vs-buy decision. list viable options establish",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -2018,41 +3033,8 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0,
-          "liftEF": 0.65,
-          "judgeConsistency": 0
-        },
-        "oss20b": {
-          "model": "openai/gpt-oss-20b",
-          "baseline": {
-            "q": 1,
-            "heur": 1,
-            "tok": 689
-          },
-          "full": {
-            "q": 1,
-            "heur": 1,
-            "tok": 849,
-            "searchQuery": "Evaluate alternatives for make-vs-buy decision. list viable options establish",
-            "sourceDomains": [
-              "en.wikipedia.org",
-              "en.wikipedia.org",
-              "en.wikipedia.org"
-            ]
-          },
-          "shuffled": {
-            "q": 0.85,
-            "heur": 0.85,
-            "tok": 844,
-            "searchQuery": "Evaluate alternatives for make-vs-buy decision. analyze requirements response caching",
-            "sourceDomains": [
-              "en.wikipedia.org",
-              "en.wikipedia.org",
-              "en.wikipedia.org"
-            ]
-          },
-          "liftEA": 0,
-          "liftEF": 0.15,
+          "liftEA": -0.9,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -2076,13 +3058,13 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.8,
-            "heur": 0.8,
-            "tok": 448
+            "q": 0.85,
+            "heur": 0.85,
+            "tok": 620
           },
           "full": {
-            "q": 0.95,
-            "heur": 0.95,
+            "q": 0.9,
+            "heur": 0.9,
             "tok": 823,
             "searchQuery": "Justify a recommendation about programming language selection. gather evidence supporting position",
             "sourceDomains": [
@@ -2092,9 +3074,9 @@
             ]
           },
           "shuffled": {
-            "q": 0.95,
-            "heur": 0.95,
-            "tok": 664,
+            "q": 0.6,
+            "heur": 0.6,
+            "tok": 643,
             "searchQuery": "Justify a recommendation about programming language selection. list viable options establish",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -2102,37 +3084,41 @@
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.15,
-          "liftEF": 0,
+          "liftEA": 0.05,
+          "liftEF": 0.3,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.35,
-            "heur": 0.35,
-            "tok": 689
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.6,
-            "heur": 0.6,
-            "tok": 799,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Justify a recommendation about programming language selection. gather evidence supporting position",
             "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.85,
-            "heur": 0.85,
-            "tok": 800,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Justify a recommendation about programming language selection. list viable options establish",
             "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.25,
-          "liftEF": -0.25,
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -2156,49 +3142,49 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.69,
-            "heur": 0.69,
-            "tok": 524
+            "q": 0.72,
+            "heur": 0.72,
+            "tok": 617
           },
           "full": {
-            "q": 0.69,
-            "heur": 0.69,
-            "tok": 652,
+            "q": 0.91,
+            "heur": 0.91,
+            "tok": 654,
             "searchQuery": "Reverse-engineer why someone chose architecture pattern choice differently than expected.",
             "sourceDomains": []
           },
           "shuffled": {
-            "q": 0.97,
-            "heur": 0.97,
-            "tok": 784,
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 543,
             "searchQuery": "Reverse-engineer why someone chose architecture pattern choice differently than expected. gather historical data define",
             "sourceDomains": [
               "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0,
-          "liftEF": -0.28,
+          "liftEA": 0.19,
+          "liftEF": 0.16,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.94,
-            "heur": 0.94,
-            "tok": 693
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.94,
-            "heur": 0.94,
-            "tok": 705,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Reverse-engineer why someone chose architecture pattern choice differently than expected.",
             "sourceDomains": []
           },
           "shuffled": {
-            "q": 0.91,
-            "heur": 0.91,
-            "tok": 637,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Reverse-engineer why someone chose architecture pattern choice differently than expected. gather historical data define",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -2206,7 +3192,7 @@
             ]
           },
           "liftEA": 0,
-          "liftEF": 0.03,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -2230,59 +3216,59 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 0.68,
-            "heur": 0.68,
-            "tok": 490
+            "q": 0.96,
+            "heur": 0.96,
+            "tok": 461
           },
           "full": {
-            "q": 0.93,
-            "heur": 0.93,
-            "tok": 613,
+            "q": 0.71,
+            "heur": 0.71,
+            "tok": 781,
             "searchQuery": "Decide on product feature prioritization considering limited engineering capacity. profile column distribution choose",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.96,
-            "heur": 0.96,
+            "q": 0.68,
+            "heur": 0.68,
             "tok": 783,
             "searchQuery": "Decide on product feature prioritization considering limited engineering capacity. locate enabling insurance regulator",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.25,
-          "liftEF": -0.03,
+          "liftEA": -0.25,
+          "liftEF": 0.03,
           "judgeConsistency": 0
         },
         "oss20b": {
           "model": "openai/gpt-oss-20b",
           "baseline": {
-            "q": 0.85,
-            "heur": 0.85,
-            "tok": 692
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
           },
           "full": {
-            "q": 0.96,
-            "heur": 0.96,
-            "tok": 808,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Decide on product feature prioritization considering limited engineering capacity. profile column distribution choose",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
           "shuffled": {
-            "q": 0.93,
-            "heur": 0.93,
-            "tok": 811,
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Decide on product feature prioritization considering limited engineering capacity. locate enabling insurance regulator",
             "sourceDomains": [
               "en.wikipedia.org"
             ]
           },
-          "liftEA": 0.11,
-          "liftEF": 0.03,
+          "liftEA": 0,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }
@@ -2306,9 +3292,9 @@
         "allam": {
           "model": "allam-2-7b",
           "baseline": {
-            "q": 1,
-            "heur": 1,
-            "tok": 608
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 633
           },
           "full": {
             "q": 1,
@@ -2318,9 +3304,38 @@
             "sourceDomains": []
           },
           "shuffled": {
-            "q": 1,
-            "heur": 1,
-            "tok": 804,
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 824,
+            "searchQuery": "Evaluate alternatives for market entry timing. structure inputs outputs clearly",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0.25,
+          "liftEF": 0.25,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Evaluate alternatives for market entry timing.",
+            "sourceDomains": []
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
             "searchQuery": "Evaluate alternatives for market entry timing. structure inputs outputs clearly",
             "sourceDomains": [
               "en.wikipedia.org",
@@ -2331,34 +3346,241 @@
           "liftEA": 0,
           "liftEF": 0,
           "judgeConsistency": 0
-        },
-        "oss20b": {
-          "model": "openai/gpt-oss-20b",
+        }
+      }
+    },
+    {
+      "taskId": "D227",
+      "workflow": "decision",
+      "retrieval": {
+        "mrr": 0,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "bestSim": 0.8375,
+        "bestStratId": "S_D195",
+        "shuffledId": "S_C093",
+        "hardNegativeSim": 0.8207,
+        "hardNegativeOverlap": 0,
+        "hardNegativeRejected": true
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
           "baseline": {
-            "q": 0.94,
-            "heur": 0.94,
-            "tok": 687
+            "q": 0.57,
+            "heur": 0.57,
+            "tok": 631
           },
           "full": {
-            "q": 0.69,
-            "heur": 0.69,
-            "tok": 699,
-            "searchQuery": "Evaluate alternatives for market entry timing.",
-            "sourceDomains": []
-          },
-          "shuffled": {
             "q": 0.94,
             "heur": 0.94,
-            "tok": 852,
-            "searchQuery": "Evaluate alternatives for market entry timing. structure inputs outputs clearly",
+            "tok": 580,
+            "searchQuery": "Justify a recommendation about hiring strategy. gather evidence supporting position",
             "sourceDomains": [
               "en.wikipedia.org",
               "en.wikipedia.org",
               "en.wikipedia.org"
             ]
           },
-          "liftEA": -0.25,
-          "liftEF": -0.25,
+          "shuffled": {
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 603,
+            "searchQuery": "Justify a recommendation about hiring strategy. analyze requirements health check",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0.37,
+          "liftEF": 0.19,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Justify a recommendation about hiring strategy. gather evidence supporting position",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Justify a recommendation about hiring strategy. analyze requirements health check",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        }
+      }
+    },
+    {
+      "taskId": "D232",
+      "workflow": "decision",
+      "retrieval": {
+        "mrr": 0,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "bestSim": 0,
+        "bestStratId": null,
+        "shuffledId": "S_R005",
+        "hardNegativeSim": 0.8146,
+        "hardNegativeOverlap": 0,
+        "hardNegativeRejected": true
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
+          "baseline": {
+            "q": 0.69,
+            "heur": 0.69,
+            "tok": 640
+          },
+          "full": {
+            "q": 0.94,
+            "heur": 0.94,
+            "tok": 654,
+            "searchQuery": "Reverse-engineer why someone chose security investment level differently than expected.",
+            "sourceDomains": []
+          },
+          "shuffled": {
+            "q": 0.72,
+            "heur": 0.72,
+            "tok": 678,
+            "searchQuery": "Reverse-engineer why someone chose security investment level differently than expected. search official government portal",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0.25,
+          "liftEF": 0.22,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Reverse-engineer why someone chose security investment level differently than expected.",
+            "sourceDomains": []
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Reverse-engineer why someone chose security investment level differently than expected. search official government portal",
+            "sourceDomains": [
+              "en.wikipedia.org",
+              "en.wikipedia.org",
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0,
+          "liftEF": 0,
+          "judgeConsistency": 0
+        }
+      }
+    },
+    {
+      "taskId": "D237",
+      "workflow": "decision",
+      "retrieval": {
+        "mrr": 0.010752688172043012,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "bestSim": 0.8496,
+        "bestStratId": "S_D129",
+        "shuffledId": "S_D126",
+        "hardNegativeSim": 0.7994,
+        "hardNegativeOverlap": 0,
+        "hardNegativeRejected": true
+      },
+      "providers": {
+        "allam": {
+          "model": "allam-2-7b",
+          "baseline": {
+            "q": 0.75,
+            "heur": 0.75,
+            "tok": 634
+          },
+          "full": {
+            "q": 0.96,
+            "heur": 0.96,
+            "tok": 525,
+            "searchQuery": "Decide on geographic expansion considering adjacent market entry. profile column distribution choose",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 1,
+            "heur": 1,
+            "tok": 777,
+            "searchQuery": "Decide on geographic expansion considering adjacent market entry. visualize distributions compute summary",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": 0.21,
+          "liftEF": -0.04,
+          "judgeConsistency": 0
+        },
+        "oss20b": {
+          "model": "openai/gpt-oss-20b",
+          "baseline": {
+            "q": 0.83,
+            "heur": 0.83,
+            "tok": 690
+          },
+          "full": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Decide on geographic expansion considering adjacent market entry. profile column distribution choose",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "shuffled": {
+            "q": 0.1,
+            "heur": 0.1,
+            "tok": 0,
+            "searchQuery": "Decide on geographic expansion considering adjacent market entry. visualize distributions compute summary",
+            "sourceDomains": [
+              "en.wikipedia.org"
+            ]
+          },
+          "liftEA": -0.73,
+          "liftEF": 0,
           "judgeConsistency": 0
         }
       }

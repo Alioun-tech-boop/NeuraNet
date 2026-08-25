@@ -4,9 +4,22 @@ import { pipeline } from '@xenova/transformers';
 import { WebSearchProvider } from '../../src/searchProvider/webSearch.js';
 
 const _wsp = new WebSearchProvider();
+// File-based search cache: same query -> same results, avoids burning API quota on re-runs
+import { createHash } from 'node:crypto';
+import { existsSync } from 'node:fs';
+const CACHE_DIR = new URL('./results/search-cache/', import.meta.url).pathname.replace(/^\/([A-Z]):/, '$1:');
+mkdirSync(CACHE_DIR, { recursive: true });
 async function webSearch(query, max=3) {
-  try { return await _wsp.search(query, { maxResults:max }); }
-  catch(e) { return { results:[] }; }
+  const key = createHash('sha256').update(query+'|'+max).digest('hex').slice(0,24);
+  const f = CACHE_DIR + key + '.json';
+  try {
+    if (existsSync(f)) return JSON.parse(readFileSync(f,'utf8'));
+  } catch {}
+  try {
+    const r = await _wsp.search(query, { maxResults:max });
+    writeFileSync(f, JSON.stringify(r));
+    return r;
+  } catch(e) { return { results:[] }; }
 }
 
 const ds = JSON.parse(readFileSync(new URL('./dataset_v_final.json', import.meta.url)));
