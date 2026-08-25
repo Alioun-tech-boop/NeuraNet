@@ -6,84 +6,84 @@
     "min_effect_size": 0.05,
     "temporal_rule": "strategy.created_at < target.execution_time",
     "seed": 42,
-    "n_per_wf": 3,
+    "n_per_wf": 6,
     "judge": "openai/gpt-oss-120b",
-    "analyzed_at": "2026-08-25T04:06:10.395Z",
-    "n_tasks": 15
+    "analyzed_at": "2026-08-25T18:52:37.588Z",
+    "n_tasks": 30
   },
   "analyses": {
     "allam": {
       "e_vs_a": {
         "label": "FullNeuraNet - Baseline",
-        "n": 15,
-        "mean": 0.0467,
-        "median": 0.04,
-        "sd": 0.1343,
+        "n": 30,
+        "mean": 0.0597,
+        "median": 0,
+        "sd": 0.1562,
         "ci95": [
-          -0.0167,
-          0.112
+          0.0043,
+          0.1207
         ],
-        "cohensD": 1.346,
-        "posRate": 0.333,
-        "negRate": 0.2,
-        "significant": false
+        "cohensD": 2.093,
+        "posRate": 0.367,
+        "negRate": 0.1,
+        "significant": true
       },
       "e_vs_f": {
         "label": "FullNeuraNet - Shuffled",
-        "n": 15,
-        "mean": 0.0087,
+        "n": 30,
+        "mean": 0.0583,
         "median": 0,
-        "sd": 0.0901,
+        "sd": 0.2267,
         "ci95": [
-          -0.0327,
-          0.052
+          -0.0123,
+          0.1363
         ],
-        "cohensD": 0.372,
-        "posRate": 0.133,
-        "negRate": 0.067,
+        "cohensD": 1.409,
+        "posRate": 0.2,
+        "negRate": 0.1,
         "significant": false
       },
       "baseline_q": {
         "label": "Baseline Quality",
-        "n": 15,
-        "mean": 0.872,
-        "median": 0.87,
-        "sd": 0.1022,
+        "n": 30,
+        "mean": 0.844,
+        "median": 0.885,
+        "sd": 0.1459,
         "ci95": [
-          0.822,
-          0.9207
+          0.788,
+          0.8937
         ],
-        "cohensD": 33.044,
+        "cohensD": 31.695,
         "posRate": 1,
         "negRate": 0,
         "significant": true
       },
       "neuranet_q": {
         "label": "NeuraNet Quality",
-        "n": 15,
-        "mean": 0.9187,
-        "median": 0.94,
-        "sd": 0.0953,
+        "n": 30,
+        "mean": 0.9037,
+        "median": 0.955,
+        "sd": 0.1163,
         "ci95": [
-          0.872,
-          0.9633
+          0.8613,
+          0.942
         ],
-        "cohensD": 37.331,
+        "cohensD": 42.567,
         "posRate": 1,
         "negRate": 0,
         "significant": true
       },
       "shuffled_q": {
         "label": "Shuffled Quality",
-        "n": 15,
-        "mean": 0.91,
-        "median": 0.95,
-        "sd": 0.104,
+        "n": 30,
+        "mean": 0.8453,
+        "median": 0.945,
+        "sd": 0.2287,
         "ci95": [
-          0.8587,
-          0.958
+          0.766,
+          0.9147
         ],
-        "cohensD": 33.891,
+        "cohensD": 20.247,
         "posRate": 1,
         "negRate": 0,
         "significant": true
@@ -92,75 +92,75 @@
     "oss20b": {
       "e_vs_a": {
         "label": "FullNeuraNet - Baseline",
-        "n": 15,
-        "mean": -0.0107,
-        "median": 0,
-        "sd": 0.3909,
+        "n": 30,
+        "mean": 0.0457,
+        "median": 0.02,
+        "sd": 0.2568,
         "ci95": [
-          -0.2113,
-          0.1747
+          -0.0423,
+          0.1323
         ],
-        "cohensD": -0.106,
-        "posRate": 0.333,
-        "negRate": 0.267,
+        "cohensD": 0.974,
+        "posRate": 0.4,
+        "negRate": 0.233,
         "significant": false
       },
       "e_vs_f": {
         "label": "FullNeuraNet - Shuffled",
-        "n": 15,
-        "mean": -0.016,
+        "n": 30,
+        "mean": 0.0157,
         "median": 0,
-        "sd": 0.278,
+        "sd": 0.2706,
         "ci95": [
-          -0.158,
-          0.11
+          -0.078,
+          0.1177
         ],
-        "cohensD": -0.223,
-        "posRate": 0.2,
-        "negRate": 0.2,
+        "cohensD": 0.317,
+        "posRate": 0.3,
+        "negRate": 0.233,
         "significant": false
       },
       "baseline_q": {
         "label": "Baseline Quality",
-        "n": 15,
-        "mean": 0.714,
-        "median": 0.85,
-        "sd": 0.2847,
+        "n": 30,
+        "mean": 0.7247,
+        "median": 0.845,
+        "sd": 0.2808,
         "ci95": [
-          0.5707,
-          0.844
+          0.6317,
+          0.8163
         ],
-        "cohensD": 9.714,
+        "cohensD": 14.137,
         "posRate": 1,
         "negRate": 0,
         "significant": true
       },
       "neuranet_q": {
         "label": "NeuraNet Quality",
-        "n": 15,
-        "mean": 0.7033,
-        "median": 0.82,
-        "sd": 0.3032,
+        "n": 30,
+        "mean": 0.7703,
+        "median": 0.855,
+        "sd": 0.236,
         "ci95": [
-          0.54,
-          0.838
+          0.6823,
+          0.8527
         ],
-        "cohensD": 8.984,
+        "cohensD": 17.877,
         "posRate": 1,
         "negRate": 0,
         "significant": true
       },
       "shuffled_q": {
         "label": "Shuffled Quality",
-        "n": 15,
-        "mean": 0.7193,
-        "median": 0.83,
-        "sd": 0.2831,
+        "n": 30,
+        "mean": 0.7547,
+        "median": 0.85,
+        "sd": 0.2756,
         "ci95": [
-          0.5747,
-          0.848
+          0.6503,
+          0.843
         ],
-        "cohensD": 9.84,
+        "cohensD": 14.998,
         "posRate": 1,
         "negRate": 0,
         "significant": true
@@ -170,263 +170,263 @@
   "retrieval": {
     "mrr": {
       "label": "MRR",
-      "n": 15,
-      "mean": 0.4025,
-      "median": 0.0156,
-      "sd": 0.505,
+      "n": 30,
+      "mean": 0.2458,
+      "median": 0,
+      "sd": 0.4246,
       "ci95": [
-        0.2015,
-        0.6677
+        0.111,
+        0.3859
       ],
-      "cohensD": 3.087,
-      "posRate": 0.4,
+      "cohensD": 3.171,
+      "posRate": 0.3,
       "negRate": 0,
       "significant": true
     },
-    "recallAt1": 0.4,
-    "recallAt3": 0.4,
-    "recallAt5": 0.4,
-    "hardNegRejRate": 0.8
+    "recallAt1": 0.233,
+    "recallAt3": 0.233,
+    "recallAt5": 0.233,
+    "hardNegRejRate": 0.833
   },
   "byWorkflow": {
     "research": {
-      "n": 3,
+      "n": 6,
       "allam_lift": {
         "label": "research groq E-A",
-        "n": 3,
-        "mean": 0.07,
-        "median": 0.04,
-        "sd": 0.0608,
+        "n": 6,
+        "mean": 0.1033,
+        "median": 0,
+        "sd": 0.1665,
         "ci95": [
-          0.03,
-          0.14
+          -0.0033,
+          0.225
         ],
-        "cohensD": 1.993,
+        "cohensD": 1.521,
         "posRate": 0.333,
         "negRate": 0,
-        "significant": true
+        "significant": false
       },
       "oss_lift": {
         "label": "research oss E-A",
-        "n": 3,
-        "mean": 0.0367,
-        "median": 0,
-        "sd": 0.7257,
+        "n": 6,
+        "mean": 0.05,
+        "median": 0.105,
+        "sd": 0.418,
         "ci95": [
-          -0.67,
-          0.78
+          -0.26,
+          0.365
         ],
-        "cohensD": 0.088,
-        "posRate": 0.333,
+        "cohensD": 0.293,
+        "posRate": 0.5,
         "negRate": 0.333,
         "significant": false
       },
       "mrr": {
         "label": "research MRR",
-        "n": 3,
-        "mean": 1,
+        "n": 6,
+        "mean": 0.6667,
         "median": 1,
-        "sd": 0,
+        "sd": 0.5164,
         "ci95": [
-          1,
+          0.3333,
           1
         ],
-        "cohensD": 0,
-        "posRate": 1,
+        "cohensD": 3.162,
+        "posRate": 0.667,
         "negRate": 0,
         "significant": true
       }
     },
     "code": {
-      "n": 3,
+      "n": 6,
       "allam_lift": {
         "label": "code groq E-A",
-        "n": 3,
-        "mean": 0.1833,
-        "median": 0.25,
-        "sd": 0.1607,
+        "n": 6,
+        "mean": 0.0067,
+        "median": 0,
+        "sd": 0.1711,
         "ci95": [
-          0,
-          0.3
+          -0.125,
+          0.145
         ],
-        "cohensD": 1.976,
-        "posRate": 0.667,
-        "negRate": 0,
+        "cohensD": 0.095,
+        "posRate": 0.167,
+        "negRate": 0.167,
         "significant": false
       },
       "oss_lift": {
         "label": "code oss E-A",
-        "n": 3,
-        "mean": -0.2667,
-        "median": 0,
-        "sd": 0.4619,
+        "n": 6,
+        "mean": 0.0917,
+        "median": 0.03,
+        "sd": 0.3011,
         "ci95": [
-          -0.8,
-          0
+          -0.1033,
+          0.335
         ],
-        "cohensD": -1,
-        "posRate": 0,
-        "negRate": 0.333,
+        "cohensD": 0.746,
+        "posRate": 0.5,
+        "negRate": 0.167,
         "significant": false
       },
       "mrr": {
         "label": "code MRR",
-        "n": 3,
-        "mean": 0.3333,
+        "n": 6,
+        "mean": 0.1667,
         "median": 0,
-        "sd": 0.5774,
+        "sd": 0.4082,
         "ci95": [
           0,
-          1
+          0.5
         ],
         "cohensD": 1,
-        "posRate": 0.333,
+        "posRate": 0.167,
         "negRate": 0,
         "significant": false
       }
     },
     "data": {
-      "n": 3,
+      "n": 6,
       "allam_lift": {
         "label": "data groq E-A",
-        "n": 3,
-        "mean": 0,
-        "median": 0,
-        "sd": 0.19,
+        "n": 6,
+        "mean": 0.0717,
+        "median": 0.125,
+        "sd": 0.254,
         "ci95": [
-          -0.19,
-          0.19
+          -0.115,
+          0.2483
         ],
-        "cohensD": 0,
-        "posRate": 0.333,
+        "cohensD": 0.691,
+        "posRate": 0.5,
         "negRate": 0.333,
         "significant": false
       },
       "oss_lift": {
         "label": "data oss E-A",
-        "n": 3,
-        "mean": 0.1433,
-        "median": 0.04,
-        "sd": 0.1877,
+        "n": 6,
+        "mean": 0.045,
+        "median": 0.02,
+        "sd": 0.2455,
         "ci95": [
-          0.03,
-          0.36
+          -0.13,
+          0.2233
         ],
-        "cohensD": 1.323,
+        "cohensD": 0.449,
         "posRate": 0.333,
-        "negRate": 0,
-        "significant": true
-      },
-      "mrr": {
-        "label": "data MRR",
-        "n": 3,
-        "mean": 0.3385,
-        "median": 0.0156,
-        "sd": 0.5729,
-        "ci95": [
-          0,
-          1
-        ],
-        "cohensD": 1.024,
-        "posRate": 0.333,
-        "negRate": 0,
-        "significant": false
-      }
-    },
-    "finance": {
-      "n": 3,
-      "allam_lift": {
-        "label": "finance groq E-A",
-        "n": 3,
-        "mean": -0.05,
-        "median": -0.06,
-        "sd": 0.1153,
-        "ci95": [
-          -0.16,
-          0.07
-        ],
-        "cohensD": -0.751,
-        "posRate": 0.333,
-        "negRate": 0.667,
-        "significant": false
-      },
-      "oss_lift": {
-        "label": "finance oss E-A",
-        "n": 3,
-        "mean": 0.09,
-        "median": 0.09,
-        "sd": 0.33,
-        "ci95": [
-          -0.24,
-          0.42
-        ],
-        "cohensD": 0.472,
-        "posRate": 0.667,
         "negRate": 0.333,
         "significant": false
       },
       "mrr": {
+        "label": "data MRR",
+        "n": 6,
+        "mean": 0.2137,
+        "median": 0.0578,
+        "sd": 0.3909,
+        "ci95": [
+          0.0193,
+          0.5444
+        ],
+        "cohensD": 1.339,
+        "posRate": 0.5,
+        "negRate": 0,
+        "significant": true
+      }
+    },
+    "finance": {
+      "n": 6,
+      "allam_lift": {
+        "label": "finance groq E-A",
+        "n": 6,
+        "mean": 0.0283,
+        "median": 0.025,
+        "sd": 0.0313,
+        "ci95": [
+          0.0083,
+          0.05
+        ],
+        "cohensD": 2.221,
+        "posRate": 0.333,
+        "negRate": 0,
+        "significant": true
+      },
+      "oss_lift": {
+        "label": "finance oss E-A",
+        "n": 6,
+        "mean": 0.0167,
+        "median": 0.015,
+        "sd": 0.1607,
+        "ci95": [
+          -0.1133,
+          0.135
+        ],
+        "cohensD": 0.254,
+        "posRate": 0.333,
+        "negRate": 0.167,
+        "significant": false
+      },
+      "mrr": {
         "label": "finance MRR",
-        "n": 3,
-        "mean": 0.3333,
+        "n": 6,
+        "mean": 0.1731,
         "median": 0,
-        "sd": 0.5774,
+        "sd": 0.4054,
         "ci95": [
           0,
-          1
+          0.5064
         ],
-        "cohensD": 1,
-        "posRate": 0.333,
+        "cohensD": 1.046,
+        "posRate": 0.167,
         "negRate": 0,
         "significant": false
       }
     },
     "decision": {
-      "n": 3,
+      "n": 6,
       "allam_lift": {
         "label": "decision groq E-A",
-        "n": 3,
-        "mean": 0.03,
-        "median": 0.04,
-        "sd": 0.0265,
+        "n": 6,
+        "mean": 0.0883,
+        "median": 0.065,
+        "sd": 0.105,
         "ci95": [
-          0,
-          0.05
+          0.0217,
+          0.1683
         ],
-        "cohensD": 1.964,
-        "posRate": 0,
+        "cohensD": 2.061,
+        "posRate": 0.5,
         "negRate": 0,
-        "significant": false
+        "significant": true
       },
       "oss_lift": {
         "label": "decision oss E-A",
-        "n": 3,
-        "mean": -0.0567,
-        "median": 0,
-        "sd": 0.1721,
+        "n": 6,
+        "mean": 0.025,
+        "median": 0.02,
+        "sd": 0.1643,
         "ci95": [
-          -0.25,
-          0.08
+          -0.1,
+          0.1433
         ],
-        "cohensD": -0.57,
+        "cohensD": 0.373,
         "posRate": 0.333,
-        "negRate": 0.333,
+        "negRate": 0.167,
         "significant": false
       },
       "mrr": {
         "label": "decision MRR",
-        "n": 3,
-        "mean": 0.0075,
-        "median": 0.0068,
-        "sd": 0.0078,
+        "n": 6,
+        "mean": 0.0089,
+        "median": 0.0034,
+        "sd": 0.0125,
         "ci95": [
-          0,
-          0.0156
+          0.0011,
+          0.0182
         ],
-        "cohensD": 1.649,
+        "cohensD": 1.745,
         "posRate": 0,
         "negRate": 0,
-        "significant": false
+        "significant": true
       }
     }
   }
