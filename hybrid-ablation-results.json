@@ -1,0 +1,37 @@
+{
+  "trigram": {
+    "recallAt1": "0.500",
+    "recallAt3": "0.708",
+    "recallAt5": "0.792",
+    "mrr": "0.637",
+    "ftrRate": "0.000"
+  },
+  "e5_only": {
+    "recallAt1": "0.708",
+    "recallAt3": "0.833",
+    "recallAt5": "0.917",
+    "mrr": "0.793",
+    "ftrRate": "0.000"
+  },
+  "e5_hard": {
+    "recallAt1": "0.708",
+    "recallAt3": "0.833",
+    "recallAt5": "1.000",
+    "mrr": "0.801",
+    "ftrRate": "0.000"
+  },
+  "e5_hard_quality": {
+    "recallAt1": "0.708",
+    "recallAt3": "0.833",
+    "recallAt5": "1.000",
+    "mrr": "0.801",
+    "ftrRate": "0.000"
+  },
+  "e5_hard_quality_reuse": {
+    "recallAt1": "0.708",
+    "recallAt3": "0.833",
+    "recallAt5": "1.000",
+    "mrr": "0.801",
+    "ftrRate": "0.000"
+  }
+}
