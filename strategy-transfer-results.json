@@ -1,0 +1,261 @@
+{
+  "results": [
+    {
+      "taskId": 1,
+      "task": "Determine which Ghanaian authority regulates commercial bank",
+      "control": {
+        "condition": "CONTROL",
+        "quality": 0.77,
+        "latencyMs": 10594,
+        "tokens": 438,
+        "llmCalls": 1,
+        "answerLength": 1045
+      },
+      "transfer": {
+        "condition": "TRANSFER",
+        "strategyRetrieved": false,
+        "strategyUsed": false,
+        "quality": 0.77,
+        "latencyMs": 2322,
+        "tokens": 0,
+        "llmCalls": 1,
+        "semanticScore": 0,
+        "influenceScore": 0
+      },
+      "qualityLift": 0,
+      "latencyDelta": -8272
+    },
+    {
+      "taskId": 2,
+      "task": "Find the Kenyan institution responsible for enforcing data p",
+      "control": {
+        "condition": "CONTROL",
+        "quality": 0.77,
+        "latencyMs": 5654,
+        "tokens": 402,
+        "llmCalls": 1,
+        "answerLength": 828
+      },
+      "transfer": {
+        "condition": "TRANSFER",
+        "strategyRetrieved": false,
+        "strategyUsed": false,
+        "quality": 0.77,
+        "latencyMs": 871,
+        "tokens": 0,
+        "llmCalls": 1,
+        "semanticScore": 0,
+        "influenceScore": 0
+      },
+      "qualityLift": 0,
+      "latencyDelta": -4783
+    },
+    {
+      "taskId": 3,
+      "task": "Identify the Nigerian agency managing telecommunications sec",
+      "control": {
+        "condition": "CONTROL",
+        "quality": 0.77,
+        "latencyMs": 8957,
+        "tokens": 410,
+        "llmCalls": 1,
+        "answerLength": 890
+      },
+      "transfer": {
+        "condition": "TRANSFER",
+        "strategyRetrieved": false,
+        "strategyUsed": false,
+        "quality": 0.77,
+        "latencyMs": 810,
+        "tokens": 0,
+        "llmCalls": 1,
+        "semanticScore": 0,
+        "influenceScore": 0
+      },
+      "qualityLift": 0,
+      "latencyDelta": -8147
+    },
+    {
+      "taskId": 4,
+      "task": "What regulatory requirements must a fintech satisfy to opera",
+      "control": {
+        "condition": "CONTROL",
+        "quality": 0.77,
+        "latencyMs": 5785,
+        "tokens": 483,
+        "llmCalls": 1,
+        "answerLength": 1217
+      },
+      "transfer": {
+        "condition": "TRANSFER",
+        "strategyRetrieved": false,
+        "strategyUsed": false,
+        "quality": 0.77,
+        "latencyMs": 791,
+        "tokens": 0,
+        "llmCalls": 1,
+        "semanticScore": 0,
+        "influenceScore": 0
+      },
+      "qualityLift": 0,
+      "latencyDelta": -4994
+    },
+    {
+      "taskId": 5,
+      "task": "Compare the financial regulatory frameworks of Ghana and Nig",
+      "control": {
+        "condition": "CONTROL",
+        "quality": 0.78,
+        "latencyMs": 4808,
+        "tokens": 499,
+        "llmCalls": 1,
+        "answerLength": 1300
+      },
+      "transfer": {
+        "condition": "TRANSFER",
+        "strategyRetrieved": false,
+        "strategyUsed": false,
+        "quality": 0.78,
+        "latencyMs": 778,
+        "tokens": 0,
+        "llmCalls": 1,
+        "semanticScore": 0,
+        "influenceScore": 0
+      },
+      "qualityLift": 0,
+      "latencyDelta": -4030
+    },
+    {
+      "taskId": 6,
+      "task": "Which official sources provide reliable economic indicators ",
+      "control": {
+        "condition": "CONTROL",
+        "quality": 0.72,
+        "latencyMs": 4413,
+        "tokens": 462,
+        "llmCalls": 1,
+        "answerLength": 1142
+      },
+      "transfer": {
+        "condition": "TRANSFER",
+        "strategyRetrieved": false,
+        "strategyUsed": false,
+        "quality": 0.72,
+        "latencyMs": 730,
+        "tokens": 0,
+        "llmCalls": 1,
+        "semanticScore": 0,
+        "influenceScore": 0
+      },
+      "qualityLift": 0,
+      "latencyDelta": -3683
+    },
+    {
+      "taskId": 7,
+      "task": "Verify whether a recent economic claim about Ghana is suppor",
+      "control": {
+        "condition": "CONTROL",
+        "quality": 0.77,
+        "latencyMs": 5109,
+        "tokens": 481,
+        "llmCalls": 1,
+        "answerLength": 1210
+      },
+      "transfer": {
+        "condition": "TRANSFER",
+        "strategyRetrieved": false,
+        "strategyUsed": false,
+        "quality": 0.77,
+        "latencyMs": 766,
+        "tokens": 0,
+        "llmCalls": 1,
+        "semanticScore": 0,
+        "influenceScore": 0
+      },
+      "qualityLift": 0,
+      "latencyDelta": -4343
+    },
+    {
+      "taskId": 8,
+      "task": "Find the Ghanaian institution responsible for electricity ma",
+      "control": {
+        "condition": "CONTROL",
+        "quality": 0.78,
+        "latencyMs": 5494,
+        "tokens": 401,
+        "llmCalls": 1,
+        "answerLength": 938
+      },
+      "transfer": {
+        "condition": "TRANSFER",
+        "strategyRetrieved": false,
+        "strategyUsed": false,
+        "quality": 0.78,
+        "latencyMs": 821,
+        "tokens": 0,
+        "llmCalls": 1,
+        "semanticScore": 0,
+        "influenceScore": 0
+      },
+      "qualityLift": 0,
+      "latencyDelta": -4673
+    },
+    {
+      "taskId": 9,
+      "task": "Compare fintech regulatory requirements between two African ",
+      "control": {
+        "condition": "CONTROL",
+        "quality": 0.77,
+        "latencyMs": 5050,
+        "tokens": 505,
+        "llmCalls": 1,
+        "answerLength": 1385
+      },
+      "transfer": {
+        "condition": "TRANSFER",
+        "strategyRetrieved": false,
+        "strategyUsed": false,
+        "quality": 0.77,
+        "latencyMs": 784,
+        "tokens": 0,
+        "llmCalls": 1,
+        "semanticScore": 0,
+        "influenceScore": 0
+      },
+      "qualityLift": 0,
+      "latencyDelta": -4266
+    },
+    {
+      "taskId": 10,
+      "task": "Research stock exchange listing requirements for a Ghanaian ",
+      "control": {
+        "condition": "CONTROL",
+        "quality": 0.77,
+        "latencyMs": 4558,
+        "tokens": 460,
+        "llmCalls": 1,
+        "answerLength": 1177
+      },
+      "transfer": {
+        "condition": "TRANSFER",
+        "strategyRetrieved": false,
+        "strategyUsed": false,
+        "quality": 0.77,
+        "latencyMs": 852,
+        "tokens": 0,
+        "llmCalls": 1,
+        "semanticScore": 0,
+        "influenceScore": 0
+      },
+      "qualityLift": 0,
+      "latencyDelta": -3706
+    }
+  ],
+  "summary": {
+    "ctrlMean": 0.767,
+    "transferMean": 0.767,
+    "lift": 0,
+    "relativeLift": 0
+  },
+  "timestamp": "2026-08-25T00:14:44.807Z"
+}
