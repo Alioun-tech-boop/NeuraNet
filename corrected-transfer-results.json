@@ -1,29 +1,112 @@
 [
   {
     "taskId": 1,
-    "latencyMs": 1220,
-    "llmLatencyMs": 449,
-    "totalTokens": 238,
-    "contextAddedTokens": 0,
-    "answer": "The authority that regulates commercial banking operations in Ghana is the Bank of Ghana, as mention",
-    "strategyApplied": false
+    "decision": "TRANSFER_EXECUTED",
+    "strategyApplied": false,
+    "searchQueryUsed": "Determine which Ghanaian authority regulates commercial banking operations.",
+    "qualityScore": null,
+    "latencyMs": 2282,
+    "tokens": 262,
+    "sourcesCount": 3,
+    "answerLength": 127
   },
   {
     "taskId": 2,
-    "latencyMs": 612,
-    "llmLatencyMs": 273,
-    "totalTokens": 246,
-    "contextAddedTokens": 0,
-    "answer": "The Kenyan institution responsible for enforcing data privacy regulations is the Office of the Infor",
-    "strategyApplied": false
+    "decision": "TRANSFER_EXECUTED",
+    "strategyApplied": false,
+    "searchQueryUsed": "Find the Kenyan institution responsible for enforcing data privacy regulations.",
+    "qualityScore": null,
+    "latencyMs": 2132,
+    "tokens": 332,
+    "sourcesCount": 3,
+    "answerLength": 292
   },
   {
     "taskId": 3,
-    "latencyMs": 1465,
-    "llmLatencyMs": 1131,
-    "totalTokens": 332,
-    "contextAddedTokens": 0,
-    "answer": "The Nigerian agency managing telecommunications sector oversight is the Nigerian Communications Comm",
-    "strategyApplied": false
+    "decision": "TRANSFER_EXECUTED",
+    "strategyApplied": false,
+    "searchQueryUsed": "Identify the Nigerian agency managing telecommunications sector oversight.",
+    "qualityScore": null,
+    "latencyMs": 2155,
+    "tokens": 296,
+    "sourcesCount": 3,
+    "answerLength": 529
+  },
+  {
+    "taskId": 4,
+    "decision": "TRANSFER_EXECUTED",
+    "strategyApplied": false,
+    "searchQueryUsed": "What regulatory requirements must a fintech satisfy to operate legally in Ghana?",
+    "qualityScore": null,
+    "latencyMs": 2380,
+    "tokens": 623,
+    "sourcesCount": 3,
+    "answerLength": 1596
+  },
+  {
+    "taskId": 5,
+    "decision": "TRANSFER_EXECUTED",
+    "strategyApplied": false,
+    "searchQueryUsed": "Compare the financial regulatory frameworks of Ghana and Nigeria.",
+    "qualityScore": null,
+    "latencyMs": 2478,
+    "tokens": 690,
+    "sourcesCount": 3,
+    "answerLength": 1942
+  },
+  {
+    "taskId": 6,
+    "decision": "TRANSFER_EXECUTED",
+    "strategyApplied": false,
+    "searchQueryUsed": "Which official sources provide reliable economic indicators for West Africa?",
+    "qualityScore": null,
+    "latencyMs": 2950,
+    "tokens": 545,
+    "sourcesCount": 3,
+    "answerLength": 958
+  },
+  {
+    "taskId": 7,
+    "decision": "TRANSFER_EXECUTED",
+    "strategyApplied": false,
+    "searchQueryUsed": "Verify whether a recent economic claim about Ghana is supported by official statistics.",
+    "qualityScore": null,
+    "latencyMs": 1933,
+    "tokens": 251,
+    "sourcesCount": 3,
+    "answerLength": 400
+  },
+  {
+    "taskId": 8,
+    "decision": "TRANSFER_EXECUTED",
+    "strategyApplied": false,
+    "searchQueryUsed": "Find the Ghanaian institution responsible for electricity market regulation.",
+    "qualityScore": null,
+    "latencyMs": 2092,
+    "tokens": 162,
+    "sourcesCount": 3,
+    "answerLength": 222
+  },
+  {
+    "taskId": 9,
+    "decision": "TRANSFER_EXECUTED",
+    "strategyApplied": false,
+    "searchQueryUsed": "Compare fintech regulatory requirements between two African jurisdictions.",
+    "qualityScore": null,
+    "latencyMs": 2186,
+    "tokens": 318,
+    "sourcesCount": 3,
+    "answerLength": 358
+  },
+  {
+    "taskId": 10,
+    "decision": "TRANSFER_EXECUTED",
+    "strategyApplied": false,
+    "searchQueryUsed": "Research stock exchange listing requirements for a Ghanaian company.",
+    "qualityScore": null,
+    "latencyMs": 2242,
+    "tokens": 539,
+    "sourcesCount": 3,
+    "answerLength": 1793
   }
 ]
