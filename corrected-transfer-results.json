@@ -1,0 +1,29 @@
+[
+  {
+    "taskId": 1,
+    "latencyMs": 1220,
+    "llmLatencyMs": 449,
+    "totalTokens": 238,
+    "contextAddedTokens": 0,
+    "answer": "The authority that regulates commercial banking operations in Ghana is the Bank of Ghana, as mention",
+    "strategyApplied": false
+  },
+  {
+    "taskId": 2,
+    "latencyMs": 612,
+    "llmLatencyMs": 273,
+    "totalTokens": 246,
+    "contextAddedTokens": 0,
+    "answer": "The Kenyan institution responsible for enforcing data privacy regulations is the Office of the Infor",
+    "strategyApplied": false
+  },
+  {
+    "taskId": 3,
+    "latencyMs": 1465,
+    "llmLatencyMs": 1131,
+    "totalTokens": 332,
+    "contextAddedTokens": 0,
+    "answer": "The Nigerian agency managing telecommunications sector oversight is the Nigerian Communications Comm",
+    "strategyApplied": false
+  }
+]

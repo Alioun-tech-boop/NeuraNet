@@ -13,6 +13,8 @@ import { knowledgeRoutes } from '../routes/knowledge.js';
 import { universalRoutes } from '../routes/universal.js';
 import { neurannetRoutes } from '../routes/neurannet.js';
 import { pathsRoutes } from '../routes/paths.js';
+// Semantic strategy transfer — uses path engine + E5 embeddings (replaces old transfer.js)
+import { transferRouter } from '../routes/neurannetTransfer.js';
 // import { auditLog } from '../middleware/audit.js'; // TODO: implement
 
 const app = express();
@@ -75,6 +77,10 @@ app.use('/v1/query', universalRoutes);
 app.use('/v1/neurannet', neurannetRoutes);
 // Path elimination & convergence APIs
 app.use('/v1/paths', pathsRoutes);
+// Semantic strategy transfer — forces new execution guided by learned strategy
+// removed: old transfer.js had null query_hash bug
+// Clean transfer endpoint using path engine
+app.use('/v1/neurannet', transferRouter);
 
 // ========================================
 // Root route
