@@ -34,7 +34,7 @@ function analyze(pairs, label) {
 
 const out = { meta:{...raw.meta, analyzed_at:new Date().toISOString(), n_tasks:R.length}, analyses:{} };
 
-for(const prov of ['groq','groq2']){
+for(const prov of ['allam','oss20b']){
   out.analyses[prov]={
     e_vs_a:analyze(R.map(r=>r.providers[prov].liftEA), 'FullNeuraNet - Baseline'),
     e_vs_f:analyze(R.map(r=>r.providers[prov].liftEF), 'FullNeuraNet - Shuffled'),
@@ -58,12 +58,13 @@ for(const wf of [...new Set(R.map(r=>r.workflow))]){
   if(sub.length===0) continue;
   out.byWorkflow[wf]={
     n:sub.length,
-    groq_lift:analyze(sub.map(r=>r.providers.groq.liftEA),`${wf} groq E-A`),
-    groq2_lift:analyze(sub.map(r=>r.providers.groq2.liftEA),`${wf} g2 E-A`),
+    allam_lift:analyze(sub.map(r=>r.providers.allam.liftEA),`${wf} groq E-A`),
+    oss_lift:analyze(sub.map(r=>r.providers.oss20b.liftEA),`${wf} oss E-A`),
     mrr:analyze(sub.map(r=>r.retrieval.mrr),`${wf} MRR`),
   };
 }
 
 console.log(JSON.stringify(out,null,2));
 writeFileSync(new URL('./results/statistics.json', import.meta.url), JSON.stringify(out,null,2));
+
 

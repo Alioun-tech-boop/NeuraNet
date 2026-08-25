@@ -2,9 +2,9 @@
 
 Task: What is the main renewable energy regulator in Ghana, and what is its role?
 
-T1 RESEARCH e709df88 quality 0.98 latency 32742
-T2 RESEARCH db725830 comparison WORSE
-T3 RESEARCH best e709df88
-T4 REUSE e709df88 LLM 0 Tavily 0
+T1 RESEARCH c769c120 quality 0.97 latency 24008
+T2 REUSE db725830 comparison WORSE
+T3 REUSE best ad76bab3
+T4 REUSE c769c120 LLM 0 Tavily 0
 
-Speedup 13.57x, Tokens saved 1028
+Speedup 19.99x, Tokens saved 1145
