@@ -1,0 +1,853 @@
+{
+  "meta": {
+    "version": "final-v1",
+    "generated_at": "2026-08-25T02:57:11.748Z",
+    "total_tasks": 240,
+    "min_effect_size": 0.05,
+    "temporal_rule": "strategy.created_at < target.execution_time",
+    "seed": 42
+  },
+  "n": 15,
+  "results": [
+    {
+      "taskId": "R005",
+      "workflow": "research",
+      "retrieval": {
+        "mrr": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.9142124122622945,
+        "bestStratId": "S_R005",
+        "shuffledId": "S_C086",
+        "hardNegativeSim": 0.819706908233402,
+        "hardNegativeRejected": false,
+        "compatiblePoolSize": 42
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 0.76,
+            "lat": 0,
+            "tok": 117
+          },
+          "full": {
+            "q": 0.74,
+            "lat": 0,
+            "tok": 146
+          },
+          "shuffled": {
+            "q": 0.54,
+            "lat": 0,
+            "tok": 141
+          },
+          "liftEA": -0.02,
+          "liftEF": 0.2
+        },
+        "groq2": {
+          "baseline": {
+            "q": 0.94,
+            "lat": 0,
+            "tok": 410
+          },
+          "full": {
+            "q": 0.88,
+            "lat": 0,
+            "tok": 610
+          },
+          "shuffled": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 617
+          },
+          "liftEA": -0.06,
+          "liftEF": 0.78
+        }
+      }
+    },
+    {
+      "taskId": "R010",
+      "workflow": "research",
+      "retrieval": {
+        "mrr": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.9478272764041876,
+        "bestStratId": "S_R010",
+        "shuffledId": "S_C095",
+        "hardNegativeSim": 0.8373252182358322,
+        "hardNegativeRejected": false,
+        "compatiblePoolSize": 42
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 1,
+            "lat": 0,
+            "tok": 538
+          },
+          "full": {
+            "q": 0.94,
+            "lat": 0,
+            "tok": 536
+          },
+          "shuffled": {
+            "q": 1,
+            "lat": 0,
+            "tok": 506
+          },
+          "liftEA": -0.06,
+          "liftEF": -0.06
+        },
+        "groq2": {
+          "baseline": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 592
+          },
+          "full": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 602
+          },
+          "shuffled": {
+            "q": 0.74,
+            "lat": 0,
+            "tok": 619
+          },
+          "liftEA": 0,
+          "liftEF": -0.64
+        }
+      }
+    },
+    {
+      "taskId": "R015",
+      "workflow": "research",
+      "retrieval": {
+        "mrr": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.8934587458860312,
+        "bestStratId": "S_R015",
+        "shuffledId": "S_R045",
+        "hardNegativeSim": 0.8161882989951573,
+        "hardNegativeRejected": false,
+        "compatiblePoolSize": 42
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 0.78,
+            "lat": 0,
+            "tok": 138
+          },
+          "full": {
+            "q": 0.79,
+            "lat": 0,
+            "tok": 177
+          },
+          "shuffled": {
+            "q": 0.88,
+            "lat": 0,
+            "tok": 254
+          },
+          "liftEA": 0.01,
+          "liftEF": -0.09
+        },
+        "groq2": {
+          "baseline": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 591
+          },
+          "full": {
+            "q": 0.88,
+            "lat": 0,
+            "tok": 1170
+          },
+          "shuffled": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 612
+          },
+          "liftEA": 0.78,
+          "liftEF": 0.78
+        }
+      }
+    },
+    {
+      "taskId": "R020",
+      "workflow": "research",
+      "retrieval": {
+        "mrr": 0,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "bestSim": 0.8980471576413626,
+        "bestStratId": "S_R018",
+        "shuffledId": "S_R036",
+        "hardNegativeSim": 0.785352619917495,
+        "hardNegativeRejected": false,
+        "compatiblePoolSize": 42
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 0.37,
+            "lat": 0,
+            "tok": 83
+          },
+          "full": {
+            "q": 1,
+            "lat": 0,
+            "tok": 304
+          },
+          "shuffled": {
+            "q": 1,
+            "lat": 0,
+            "tok": 362
+          },
+          "liftEA": 0.63,
+          "liftEF": 0
+        },
+        "groq2": {
+          "baseline": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 590
+          },
+          "full": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 599
+          },
+          "shuffled": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 608
+          },
+          "liftEA": 0,
+          "liftEF": 0
+        }
+      }
+    },
+    {
+      "taskId": "R025",
+      "workflow": "research",
+      "retrieval": {
+        "mrr": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.9095476208333372,
+        "bestStratId": "S_R025",
+        "shuffledId": "S_F161",
+        "hardNegativeSim": 0.8433924507513011,
+        "hardNegativeRejected": false,
+        "compatiblePoolSize": 42
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 0.51,
+            "lat": 0,
+            "tok": 84
+          },
+          "full": {
+            "q": 0.6,
+            "lat": 0,
+            "tok": 138
+          },
+          "shuffled": {
+            "q": 0.74,
+            "lat": 0,
+            "tok": 130
+          },
+          "liftEA": 0.09,
+          "liftEF": -0.14
+        },
+        "groq2": {
+          "baseline": {
+            "q": 0.72,
+            "lat": 0,
+            "tok": 236
+          },
+          "full": {
+            "q": 0.87,
+            "lat": 0,
+            "tok": 407
+          },
+          "shuffled": {
+            "q": 0.88,
+            "lat": 0,
+            "tok": 400
+          },
+          "liftEA": 0.15,
+          "liftEF": -0.01
+        }
+      }
+    },
+    {
+      "taskId": "R030",
+      "workflow": "research",
+      "retrieval": {
+        "mrr": 0,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "bestSim": 0.9198141709465181,
+        "bestStratId": "S_R029",
+        "shuffledId": "S_R018",
+        "hardNegativeSim": 0.8267958902696405,
+        "hardNegativeRejected": false,
+        "compatiblePoolSize": 42
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 0.94,
+            "lat": 0,
+            "tok": 537
+          },
+          "full": {
+            "q": 0.94,
+            "lat": 0,
+            "tok": 570
+          },
+          "shuffled": {
+            "q": 0.94,
+            "lat": 0,
+            "tok": 566
+          },
+          "liftEA": 0,
+          "liftEF": 0
+        },
+        "groq2": {
+          "baseline": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 590
+          },
+          "full": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 616
+          },
+          "shuffled": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 608
+          },
+          "liftEA": 0,
+          "liftEF": 0
+        }
+      }
+    },
+    {
+      "taskId": "R035",
+      "workflow": "research",
+      "retrieval": {
+        "mrr": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.883282971794591,
+        "bestStratId": "S_R035",
+        "shuffledId": "S_R047",
+        "hardNegativeSim": 0.8240258669500656,
+        "hardNegativeRejected": false,
+        "compatiblePoolSize": 42
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 0.79,
+            "lat": 0,
+            "tok": 174
+          },
+          "full": {
+            "q": 0.56,
+            "lat": 0,
+            "tok": 154
+          },
+          "shuffled": {
+            "q": 0.85,
+            "lat": 0,
+            "tok": 224
+          },
+          "liftEA": -0.23,
+          "liftEF": -0.29
+        },
+        "groq2": {
+          "baseline": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 589
+          },
+          "full": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 601
+          },
+          "shuffled": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 601
+          },
+          "liftEA": 0,
+          "liftEF": 0
+        }
+      }
+    },
+    {
+      "taskId": "R040",
+      "workflow": "research",
+      "retrieval": {
+        "mrr": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.9048231940021315,
+        "bestStratId": "S_R040",
+        "shuffledId": "S_C067",
+        "hardNegativeSim": 0.7815851763733452,
+        "hardNegativeRejected": false,
+        "compatiblePoolSize": 42
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 1,
+            "lat": 0,
+            "tok": 381
+          },
+          "full": {
+            "q": 0.94,
+            "lat": 0,
+            "tok": 257
+          },
+          "shuffled": {
+            "q": 0.94,
+            "lat": 0,
+            "tok": 344
+          },
+          "liftEA": -0.06,
+          "liftEF": 0
+        },
+        "groq2": {
+          "baseline": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 587
+          },
+          "full": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 608
+          },
+          "shuffled": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 617
+          },
+          "liftEA": 0,
+          "liftEF": 0
+        }
+      }
+    },
+    {
+      "taskId": "R045",
+      "workflow": "research",
+      "retrieval": {
+        "mrr": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.9205990538715954,
+        "bestStratId": "S_R045",
+        "shuffledId": "S_C074",
+        "hardNegativeSim": 0.8344968262545196,
+        "hardNegativeRejected": false,
+        "compatiblePoolSize": 42
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 0.51,
+            "lat": 0,
+            "tok": 109
+          },
+          "full": {
+            "q": 0.93,
+            "lat": 0,
+            "tok": 330
+          },
+          "shuffled": {
+            "q": 0.74,
+            "lat": 0,
+            "tok": 162
+          },
+          "liftEA": 0.42,
+          "liftEF": 0.19
+        },
+        "groq2": {
+          "baseline": {
+            "q": 0.7,
+            "lat": 0,
+            "tok": 267
+          },
+          "full": {
+            "q": 0.93,
+            "lat": 0,
+            "tok": 615
+          },
+          "shuffled": {
+            "q": 0.85,
+            "lat": 0,
+            "tok": 446
+          },
+          "liftEA": 0.23,
+          "liftEF": 0.08
+        }
+      }
+    },
+    {
+      "taskId": "C053",
+      "workflow": "code",
+      "retrieval": {
+        "mrr": 0,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "bestSim": 0.869049825666191,
+        "bestStratId": "S_C054",
+        "shuffledId": "S_R036",
+        "hardNegativeSim": 0.7790223853975127,
+        "hardNegativeRejected": true,
+        "compatiblePoolSize": 38
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 1,
+            "lat": 0,
+            "tok": 516
+          },
+          "full": {
+            "q": 1,
+            "lat": 0,
+            "tok": 574
+          },
+          "shuffled": {
+            "q": 0.9,
+            "lat": 0,
+            "tok": 492
+          },
+          "liftEA": 0,
+          "liftEF": 0.1
+        },
+        "groq2": {
+          "baseline": {
+            "q": 1,
+            "lat": 0,
+            "tok": 589
+          },
+          "full": {
+            "q": 1,
+            "lat": 0,
+            "tok": 3228
+          },
+          "shuffled": {
+            "q": 0.76,
+            "lat": 0,
+            "tok": 612
+          },
+          "liftEA": 0,
+          "liftEF": 0.24
+        }
+      }
+    },
+    {
+      "taskId": "C058",
+      "workflow": "code",
+      "retrieval": {
+        "mrr": 1,
+        "recallAt1": 1,
+        "recallAt3": 1,
+        "recallAt5": 1,
+        "bestSim": 0.9024083071219213,
+        "bestStratId": "S_C058",
+        "shuffledId": "S_F168",
+        "hardNegativeSim": 0.7707490275279366,
+        "hardNegativeRejected": true,
+        "compatiblePoolSize": 38
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 0.65,
+            "lat": 0,
+            "tok": 533
+          },
+          "full": {
+            "q": 1,
+            "lat": 0,
+            "tok": 571
+          },
+          "shuffled": {
+            "q": 0.9,
+            "lat": 0,
+            "tok": 563
+          },
+          "liftEA": 0.35,
+          "liftEF": 0.1
+        },
+        "groq2": {
+          "baseline": {
+            "q": 0.8,
+            "lat": 0,
+            "tok": 589
+          },
+          "full": {
+            "q": 0.95,
+            "lat": 0,
+            "tok": 622
+          },
+          "shuffled": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 600
+          },
+          "liftEA": 0.15,
+          "liftEF": 0.85
+        }
+      }
+    },
+    {
+      "taskId": "C063",
+      "workflow": "code",
+      "retrieval": {
+        "mrr": 0,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "bestSim": 0.913366358372413,
+        "bestStratId": "S_C061",
+        "shuffledId": "S_R001",
+        "hardNegativeSim": 0.7863036201316206,
+        "hardNegativeRejected": true,
+        "compatiblePoolSize": 38
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 0.93,
+            "lat": 0,
+            "tok": 533
+          },
+          "full": {
+            "q": 0.93,
+            "lat": 0,
+            "tok": 571
+          },
+          "shuffled": {
+            "q": 1,
+            "lat": 0,
+            "tok": 565
+          },
+          "liftEA": 0,
+          "liftEF": -0.07
+        },
+        "groq2": {
+          "baseline": {
+            "q": 0.93,
+            "lat": 0,
+            "tok": 2952
+          },
+          "full": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 619
+          },
+          "shuffled": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 601
+          },
+          "liftEA": -0.83,
+          "liftEF": 0
+        }
+      }
+    },
+    {
+      "taskId": "C068",
+      "workflow": "code",
+      "retrieval": {
+        "mrr": 0,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "bestSim": 0.8971663842887796,
+        "bestStratId": "S_C065",
+        "shuffledId": "S_C070",
+        "hardNegativeSim": 0.8117386499686823,
+        "hardNegativeRejected": false,
+        "compatiblePoolSize": 38
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 0.94,
+            "lat": 0,
+            "tok": 534
+          },
+          "full": {
+            "q": 0.75,
+            "lat": 0,
+            "tok": 571
+          },
+          "shuffled": {
+            "q": 0.94,
+            "lat": 0,
+            "tok": 501
+          },
+          "liftEA": -0.19,
+          "liftEF": -0.19
+        },
+        "groq2": {
+          "baseline": {
+            "q": 0.25,
+            "lat": 0,
+            "tok": 251
+          },
+          "full": {
+            "q": 0.76,
+            "lat": 0,
+            "tok": 621
+          },
+          "shuffled": {
+            "q": 0.71,
+            "lat": 0,
+            "tok": 609
+          },
+          "liftEA": 0.51,
+          "liftEF": 0.05
+        }
+      }
+    },
+    {
+      "taskId": "C073",
+      "workflow": "code",
+      "retrieval": {
+        "mrr": 0,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "bestSim": 0.8724946894939097,
+        "bestStratId": "S_C074",
+        "shuffledId": "S_R010",
+        "hardNegativeSim": 0.8083050384852175,
+        "hardNegativeRejected": true,
+        "compatiblePoolSize": 38
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 0.94,
+            "lat": 0,
+            "tok": 537
+          },
+          "full": {
+            "q": 0.94,
+            "lat": 0,
+            "tok": 540
+          },
+          "shuffled": {
+            "q": 0.94,
+            "lat": 0,
+            "tok": 567
+          },
+          "liftEA": 0,
+          "liftEF": 0
+        },
+        "groq2": {
+          "baseline": {
+            "q": 0.82,
+            "lat": 0,
+            "tok": 576
+          },
+          "full": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 608
+          },
+          "shuffled": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 607
+          },
+          "liftEA": -0.72,
+          "liftEF": 0
+        }
+      }
+    },
+    {
+      "taskId": "C078",
+      "workflow": "code",
+      "retrieval": {
+        "mrr": 0,
+        "recallAt1": 0,
+        "recallAt3": 0,
+        "recallAt5": 0,
+        "bestSim": 0.8728014608467611,
+        "bestStratId": "S_C079",
+        "shuffledId": "S_D207",
+        "hardNegativeSim": 0.7807332204438254,
+        "hardNegativeRejected": false,
+        "compatiblePoolSize": 38
+      },
+      "providers": {
+        "groq": {
+          "baseline": {
+            "q": 0.94,
+            "lat": 0,
+            "tok": 534
+          },
+          "full": {
+            "q": 0.69,
+            "lat": 0,
+            "tok": 568
+          },
+          "shuffled": {
+            "q": 0.69,
+            "lat": 0,
+            "tok": 553
+          },
+          "liftEA": -0.25,
+          "liftEF": 0
+        },
+        "groq2": {
+          "baseline": {
+            "q": 0.94,
+            "lat": 0,
+            "tok": 3416
+          },
+          "full": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 611
+          },
+          "shuffled": {
+            "q": 0.1,
+            "lat": 0,
+            "tok": 604
+          },
+          "liftEA": -0.84,
+          "liftEF": 0
+        }
+      }
+    }
+  ]
+}

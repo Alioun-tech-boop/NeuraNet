@@ -1,0 +1,287 @@
+{
+  "meta": {
+    "version": "final-v1",
+    "generated_at": "2026-08-25T02:57:11.748Z",
+    "total_tasks": 240,
+    "min_effect_size": 0.05,
+    "temporal_rule": "strategy.created_at < target.execution_time",
+    "seed": 42,
+    "analyzed_at": "2026-08-25T03:37:19.062Z",
+    "n_tasks": 15
+  },
+  "analyses": {
+    "groq": {
+      "e_vs_a": {
+        "label": "FullNeuraNet - Baseline",
+        "n": 15,
+        "mean": 0.046,
+        "median": 0,
+        "sd": 0.2437,
+        "ci95": [
+          -0.0667,
+          0.178
+        ],
+        "cohensD": 0.731,
+        "posRate": 0.267,
+        "negRate": 0.333,
+        "significant": false
+      },
+      "e_vs_f": {
+        "label": "FullNeuraNet - Shuffled",
+        "n": 15,
+        "mean": -0.0167,
+        "median": 0,
+        "sd": 0.1332,
+        "ci95": [
+          -0.0853,
+          0.05
+        ],
+        "cohensD": -0.485,
+        "posRate": 0.267,
+        "negRate": 0.4,
+        "significant": false
+      },
+      "baseline_q": {
+        "label": "Baseline Quality",
+        "n": 15,
+        "mean": 0.804,
+        "median": 0.93,
+        "sd": 0.2058,
+        "ci95": [
+          0.6893,
+          0.8933
+        ],
+        "cohensD": 15.133,
+        "posRate": 1,
+        "negRate": 0,
+        "significant": true
+      },
+      "neuranet_q": {
+        "label": "NeuraNet Quality",
+        "n": 15,
+        "mean": 0.85,
+        "median": 0.93,
+        "sd": 0.1489,
+        "ci95": [
+          0.7713,
+          0.9153
+        ],
+        "cohensD": 22.102,
+        "posRate": 1,
+        "negRate": 0,
+        "significant": true
+      },
+      "shuffled_q": {
+        "label": "Shuffled Quality",
+        "n": 15,
+        "mean": 0.8667,
+        "median": 0.9,
+        "sd": 0.133,
+        "ci95": [
+          0.7953,
+          0.9253
+        ],
+        "cohensD": 25.243,
+        "posRate": 1,
+        "negRate": 0,
+        "significant": true
+      }
+    },
+    "groq2": {
+      "e_vs_a": {
+        "label": "FullNeuraNet - Baseline",
+        "n": 15,
+        "mean": -0.042,
+        "median": 0,
+        "sd": 0.4517,
+        "ci95": [
+          -0.2527,
+          0.1673
+        ],
+        "cohensD": -0.36,
+        "posRate": 0.333,
+        "negRate": 0.267,
+        "significant": false
+      },
+      "e_vs_f": {
+        "label": "FullNeuraNet - Shuffled",
+        "n": 15,
+        "mean": 0.142,
+        "median": 0,
+        "sd": 0.3885,
+        "ci95": [
+          -0.0313,
+          0.3453
+        ],
+        "cohensD": 1.416,
+        "posRate": 0.333,
+        "negRate": 0.067,
+        "significant": false
+      },
+      "baseline_q": {
+        "label": "Baseline Quality",
+        "n": 15,
+        "mean": 0.5133,
+        "median": 0.7,
+        "sd": 0.3894,
+        "ci95": [
+          0.322,
+          0.6987
+        ],
+        "cohensD": 5.106,
+        "posRate": 1,
+        "negRate": 0,
+        "significant": true
+      },
+      "neuranet_q": {
+        "label": "NeuraNet Quality",
+        "n": 15,
+        "mean": 0.4713,
+        "median": 0.1,
+        "sd": 0.4139,
+        "ci95": [
+          0.2633,
+          0.6773
+        ],
+        "cohensD": 4.41,
+        "posRate": 1,
+        "negRate": 0,
+        "significant": true
+      },
+      "shuffled_q": {
+        "label": "Shuffled Quality",
+        "n": 15,
+        "mean": 0.3293,
+        "median": 0.1,
+        "sd": 0.338,
+        "ci95": [
+          0.152,
+          0.504
+        ],
+        "cohensD": 3.774,
+        "posRate": 1,
+        "negRate": 0,
+        "significant": true
+      }
+    }
+  },
+  "retrieval": {
+    "mrr": {
+      "label": "MRR",
+      "n": 15,
+      "mean": 0.5333,
+      "median": 1,
+      "sd": 0.5164,
+      "ci95": [
+        0.2667,
+        0.8
+      ],
+      "cohensD": 4,
+      "posRate": 0.533,
+      "negRate": 0,
+      "significant": true
+    },
+    "recallAt1": 0.533,
+    "recallAt3": 0.533,
+    "recallAt5": 0.533,
+    "hardNegRejRate": 0.267
+  },
+  "byWorkflow": {
+    "research": {
+      "n": 9,
+      "groq_lift": {
+        "label": "research groq E-A",
+        "n": 9,
+        "mean": 0.0867,
+        "median": 0,
+        "sd": 0.268,
+        "ci95": [
+          -0.0633,
+          0.2711
+        ],
+        "cohensD": 0.97,
+        "posRate": 0.333,
+        "negRate": 0.333,
+        "significant": false
+      },
+      "groq2_lift": {
+        "label": "research g2 E-A",
+        "n": 9,
+        "mean": 0.1222,
+        "median": 0,
+        "sd": 0.2629,
+        "ci95": [
+          -0.0033,
+          0.3044
+        ],
+        "cohensD": 1.395,
+        "posRate": 0.333,
+        "negRate": 0.111,
+        "significant": false
+      },
+      "mrr": {
+        "label": "research MRR",
+        "n": 9,
+        "mean": 0.7778,
+        "median": 1,
+        "sd": 0.441,
+        "ci95": [
+          0.4444,
+          1
+        ],
+        "cohensD": 5.292,
+        "posRate": 0.778,
+        "negRate": 0,
+        "significant": true
+      }
+    },
+    "code": {
+      "n": 6,
+      "groq_lift": {
+        "label": "code groq E-A",
+        "n": 6,
+        "mean": -0.015,
+        "median": 0,
+        "sd": 0.2096,
+        "ci95": [
+          -0.1467,
+          0.1433
+        ],
+        "cohensD": -0.175,
+        "posRate": 0.167,
+        "negRate": 0.333,
+        "significant": false
+      },
+      "groq2_lift": {
+        "label": "code g2 E-A",
+        "n": 6,
+        "mean": -0.2883,
+        "median": -0.36,
+        "sd": 0.5825,
+        "ci95": [
+          -0.6767,
+          0.135
+        ],
+        "cohensD": -1.212,
+        "posRate": 0.333,
+        "negRate": 0.5,
+        "significant": false
+      },
+      "mrr": {
+        "label": "code MRR",
+        "n": 6,
+        "mean": 0.1667,
+        "median": 0,
+        "sd": 0.4082,
+        "ci95": [
+          0,
+          0.5
+        ],
+        "cohensD": 1,
+        "posRate": 0.167,
+        "negRate": 0,
+        "significant": false
+      }
+    }
+  }
+}
