@@ -238,18 +238,23 @@ export function getApiKey() {
   return localStorage.getItem('nn_api_key') || ENV_KEY;
 }
 export function getApiBase() {
-  return localStorage.getItem('nn_api_base') ?? ENV_BASE;
+  // legacy cleanup: the console is same-origin now; drop stale absolute bases
+  const stored = localStorage.getItem('nn_api_base');
+  if (stored && /localhost:3000/.test(stored)) {
+    localStorage.removeItem('nn_api_base');
+    return ENV_BASE ?? '';
+  }
+  return stored ?? ENV_BASE;
 }
 
+/** Transport = official @neuranet/sdk (aliased to ../../sdk by Vite),
+ *  same-origin through the /v1 proxy. Falls back to the scripted mock
+ *  when unreachable, so a recorded demo never breaks. */
 export async function runLive(task) {
   try {
-    const res = await fetch(`${getApiBase()}/v1/demo/run`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-API-Key': getApiKey() },
-      body: JSON.stringify({ task }),
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const j = await res.json();
+    const { default: NeuraNet } = await import('@neuranet/sdk');
+    const client = new NeuraNet({ apiKey: getApiKey(), baseUrl: getApiBase() || undefined });
+    const j = await client.demo.run(task);
     return { ...j, live: true };
   } catch {
     return { ...(await api.runExecution(task.includes('supervises') || task.includes('institution') ? 'second' : 'first')), live: false };

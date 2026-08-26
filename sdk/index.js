@@ -57,7 +57,14 @@ export class NeuraNet {
    */
   constructor({ baseUrl, apiKey, timeoutMs = 30_000, maxRetries = 3, retryOnRateLimit = true } = {}) {
     if (!apiKey) throw new NeuraNetError(0, 'apiKey is required');
-    this.baseUrl = (baseUrl || DEFAULT_BASE).replace(/\/+$/, '');
+    /* Empty baseUrl = same-origin mode (browser apps behind a proxy).
+       Node without an explicit baseUrl falls back to localhost. */
+    if (baseUrl === undefined || baseUrl === null) {
+      const isBrowser = typeof window !== 'undefined';
+      this.baseUrl = String(isBrowser ? window.location.origin : DEFAULT_BASE).replace(/\/+$/, '');
+    } else {
+      this.baseUrl = String(baseUrl).replace(/\/+$/, '');
+    }
     this.apiKey = apiKey;
     this.timeoutMs = timeoutMs;
     this.maxRetries = maxRetries;
