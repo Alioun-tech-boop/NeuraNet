@@ -1,12 +1,20 @@
-import { useEffect, useMemo, useState } from 'react';
+﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
 } from 'recharts';
 import {
   Play, RotateCcw, TrendingUp, TrendingDown, Minus, AlertTriangle, Sparkles, Layers,
+  Plus, CheckCircle2, History as HistoryIcon, ChevronLeft,
 } from 'lucide-react';
 import { runLive } from '../data/neuranetDemo.js';
+
+/* â”€â”€ persistent batch history (localStorage) â”€â”€ */
+const HKEY = 'nn_batch_history';
+const loadHistory = () => {
+  try { return JSON.parse(localStorage.getItem(HKEY) || '[]'); } catch { return []; }
+};
+const persistHistory = (h) => localStorage.setItem(HKEY, JSON.stringify(h.slice(0, 20)));
 
 const SAMPLE = [
   'Identify the banking regulator of Ghana and verify it using official sources.',
@@ -19,18 +27,18 @@ const classify = (delta) => (delta >= 0.03 ? 'improvement' : delta <= -0.03 ? 'd
 
 function explain(r) {
   const d = r.delta;
-  if (r.error) return `execution failed (${r.error}) — excluded from averages`;
+  if (r.error) return `execution failed (${r.error}) â€” excluded from averages`;
   if (r.variant === 'transfer') {
     if (d >= 0.03) return `semantic transfer at ${r.sim.toFixed(2)} guided execution: +${d.toFixed(2)} over baseline`;
-    if (d <= -0.03) return `strategy matched (${r.sim.toFixed(2)}) but hurt this phrasing (−${Math.abs(d).toFixed(2)}) — stored procedure may not fit`;
+    if (d <= -0.03) return `strategy matched (${r.sim.toFixed(2)}) but hurt this phrasing (âˆ’${Math.abs(d).toFixed(2)}) â€” stored procedure may not fit`;
     return `transferred at ${r.sim.toFixed(2)}; answer parity with baseline (${d >= 0 ? '+' : ''}${d.toFixed(2)})`;
   }
   if (d >= 0.03) return `fresh strategy + targeted sources beat baseline (+${d.toFixed(2)})`;
-  if (d <= -0.03) return `no stored strategy for this class; retrieved web context added noise (−${Math.abs(d).toFixed(2)})`;
-  return `no prior strategy; baseline parity (${d >= 0 ? '+' : ''}${d.toFixed(2)}) — experience now stored for next time`;
+  if (d <= -0.03) return `no stored strategy for this class; retrieved web context added noise (âˆ’${Math.abs(d).toFixed(2)})`;
+  return `no prior strategy; baseline parity (${d >= 0 ? '+' : ''}${d.toFixed(2)}) â€” experience now stored for next time`;
 }
 
-/* ── micro-components ─────────────────────────────────────────────── */
+/* â”€â”€ micro-components â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 function CountUp({ target, decimals = 2, signed = false }) {
   const [v, setV] = useState(0);
@@ -91,13 +99,29 @@ const Pill = ({ kind }) => {
   );
 };
 
-/* ── page ─────────────────────────────────────────────────────────── */
+/* â”€â”€ page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export default function BatchAnalysis() {
-  const [raw, setRaw] = useState(''); // deliberately empty — the user asks
+  const [raw, setRaw] = useState(''); // deliberately empty â€” the user asks
   const [running, setRunning] = useState(false);
   const [progress, setProgress] = useState({ done: 0, total: 0 });
   const [results, setResults] = useState([]);
+  const [history, setHistory] = useState(loadHistory);
+  const [viewRunId, setViewRunId] = useState(null); // null â†’ live batch
+  const composerRef = useRef(null);
+
+  /* the run being displayed: historical or the live one */
+  const viewedRun = viewRunId != null ? history.find((h) => h.id === viewRunId) : null;
+  const shownResults = viewedRun ? viewedRun.results : results;
+  const isHistorical = !!viewedRun;
+
+  function startNewBatch() {
+    setResults([]);
+    setRaw('');
+    setProgress({ done: 0, total: 0 });
+    setViewRunId(null);
+    composerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 
   const questions = useMemo(
     () => raw.split('\n').map((s) => s.trim()).filter((s) => s.length > 7),
@@ -136,9 +160,21 @@ export default function BatchAnalysis() {
       await sleep(400);
     }
     setRunning(false);
+
+    /* persist this completed run to history (localStorage, capped at 20) */
+    const run = {
+      id: Date.now(),
+      date: new Date().toISOString(),
+      questions: [...questions].slice(0, MAX_Q),
+      results: acc,
+    };
+    const h = [run, ...loadHistory()].slice(0, 20);
+    setHistory(h);
+    persistHistory(h);
+    setViewRunId(null); // stay on the live batch
   }
 
-  const valid = results.filter((r) => !r.error && r.delta != null);
+  const valid = shownResults.filter((r) => !r.error && r.delta != null);
   const stats = useMemo(() => {
     if (!valid.length) return null;
     const avg = (f) => valid.reduce((a, r) => a + f(r), 0) / valid.length;
@@ -154,9 +190,9 @@ export default function BatchAnalysis() {
       improvements, deficiencies, neutral,
       best: sorted[0], worst: sorted[sorted.length - 1],
     };
-  }, [results]);
+  }, [shownResults]);
 
-  const chartData = results.map((r, i) => ({
+  const chartData = shownResults.map((r, i) => ({
     name: `Q${i + 1}`,
     guided: r.quality ?? 0,
     baseline: r.baselineQuality ?? 0,
@@ -172,13 +208,13 @@ export default function BatchAnalysis() {
       {/* ambient accent */}
       <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-64 w-[720px] -translate-x-1/2 rounded-full bg-sem/[0.07] blur-[110px]" />
 
-      {/* ── Header ── */}
+      {/* â”€â”€ Header â”€â”€ */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
         <div className="flex items-center gap-2.5">
           <span className={`flex h-2 w-2 rounded-full ${running ? 'animate-pulse bg-sem' : 'bg-ok'}`} />
           <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-mid">Batch Analysis</span>
           <span className="mono-num rounded-full border border-line bg-ink-850 px-2.5 py-0.5 text-[10.5px] text-low">
-            PRODUCTION · CALLER-MODEL
+            PRODUCTION Â· CALLER-MODEL
           </span>
         </div>
         <h1 className="mt-3 max-w-3xl text-[34px] font-extrabold leading-[1.12] tracking-tight">
@@ -189,11 +225,11 @@ export default function BatchAnalysis() {
         </h1>
         <p className="mt-3 max-w-2xl text-[14.5px] leading-relaxed text-mid">
           Every question runs the full real pipeline, then the identical model answers again alone.
-          The gap is the infrastructure's contribution — measured per question, honestly classified.
+          The gap is the infrastructure's contribution â€” measured per question, honestly classified.
         </p>
       </motion.div>
 
-      {/* ── Composer ── */}
+      {/* â”€â”€ Composer â”€â”€ */}
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08, duration: 0.35 }} className="mt-8">
         <Glass>
           <div className="p-6">
@@ -201,7 +237,7 @@ export default function BatchAnalysis() {
               <div className="flex items-center gap-2.5">
                 <Layers size={14} className="text-sem" />
                 <span className="text-[13px] font-semibold text-hi">Your questions</span>
-                <span className="text-[11.5px] text-low">one per line · min 8 chars</span>
+                <span className="text-[11.5px] text-low">one per line Â· min 8 chars</span>
               </div>
               <div className="flex items-center gap-3">
                 <button
@@ -225,7 +261,7 @@ export default function BatchAnalysis() {
               value={raw}
               onChange={(e) => setRaw(e.target.value)}
               disabled={running}
-              placeholder={'Ask anything…\ne.g. Identify the central bank of Senegal using primary sources'}
+              placeholder={'Ask anythingâ€¦\ne.g. Identify the central bank of Senegal using primary sources'}
               className="w-full resize-y rounded-xl border border-line bg-ink-900/70 px-5 py-4 text-[14px] leading-relaxed text-hi shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] placeholder:text-low/70 focus:border-sem/40 focus:outline-none focus:ring-4 focus:ring-sem/[0.07] disabled:opacity-60"
             />
 
@@ -233,11 +269,11 @@ export default function BatchAnalysis() {
               {running ? (
                 <span className="flex items-center gap-2 text-[12.5px] text-mid">
                   <Sparkles size={13} className="animate-pulse text-sem" />
-                  Executing real pipeline — question {progress.done} of {progress.total}
+                  Executing real pipeline â€” question {progress.done} of {progress.total}
                 </span>
               ) : (
                 <span className="text-[12px] text-low">
-                  Each run stores its strategy — rerunning an unfamiliar class usually flips it to TRANSFER.
+                  Each run stores its strategy â€” rerunning an unfamiliar class usually flips it to TRANSFER.
                 </span>
               )}
               <button
@@ -246,7 +282,7 @@ export default function BatchAnalysis() {
                 className="group relative flex items-center gap-2 overflow-hidden rounded-xl bg-gradient-to-b from-[#6b82f3] to-semdeep px-6 py-2.5 text-[13.5px] font-semibold text-white shadow-[0_4px_24px_rgba(85,112,241,0.35)] transition-all hover:shadow-[0_6px_32px_rgba(85,112,241,0.5)] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
               >
                 <Play size={14} className="transition-transform group-hover:scale-110" />
-                {running ? `Running… ${progress.done}/${progress.total}` : `Run batch`}
+                {running ? `Runningâ€¦ ${progress.done}/${progress.total}` : `Run batch`}
               </button>
             </div>
 
@@ -268,19 +304,58 @@ export default function BatchAnalysis() {
         </Glass>
       </motion.div>
 
-      {/* ── Empty state ── */}
-      {!results.length && !running && (
+      {/* â”€â”€ Completion banner â”€â”€ */}
+      {!running && progress.total > 0 && results.length === progress.total && !isHistorical && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+          className="mt-6 flex flex-wrap items-center justify-between gap-4 rounded-[16px] border border-ok/25 bg-ok/[0.06] px-6 py-4"
+        >
+          <span className="flex items-center gap-2.5 text-[13.5px] font-medium text-hi">
+            <CheckCircle2 size={16} className="text-ok" />
+            Batch complete â€” {progress.total} question{progress.total > 1 ? 's' : ''} scored and saved to history.
+          </span>
+          <div className="flex items-center gap-2.5">
+            <button
+              onClick={startNewBatch}
+              className="flex items-center gap-2 rounded-lg bg-gradient-to-b from-[#6b82f3] to-semdeep px-5 py-2 text-[12.5px] font-semibold text-white shadow-[0_4px_20px_rgba(85,112,241,0.35)] transition-shadow hover:shadow-[0_6px_28px_rgba(85,112,241,0.5)]"
+            >
+              <Plus size={13} /> New batch
+            </button>
+          </div>
+        </motion.div>
+      )}
+
+      {/* â”€â”€ Historical banner â”€â”€ */}
+      {isHistorical && (
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-[16px] border border-sem/25 bg-sem/[0.05] px-6 py-4">
+          <span className="flex items-center gap-2.5 text-[13px] text-mid">
+            <HistoryIcon size={14} className="text-sem" />
+            Viewing batch from{' '}
+            <b className="text-hi">{new Date(viewedRun.date).toLocaleString()}</b>
+            {' '}Â· {viewedRun.results.length} questions
+          </span>
+          <button
+            onClick={() => setViewRunId(null)}
+            className="flex items-center gap-1.5 rounded-lg border border-line px-4 py-2 text-[12.5px] font-medium text-mid hover:text-hi"
+          >
+            <ChevronLeft size={13} /> Back to current
+          </button>
+        </div>
+      )}
+
+      {/* â”€â”€ Empty state â”€â”€ */}
+      {!shownResults.length && !running && !isHistorical && (
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
           className="mt-8 flex h-44 items-center justify-center rounded-[16px] border border-dashed border-line"
         >
           <p className="text-[13px] text-low">
-            No batch yet. Add your questions above — the comparison appears here.
+            No batch yet. Add your questions above â€” the comparison appears here.
           </p>
         </motion.div>
       )}
 
-      {/* ── Global scores ── */}
+      {/* â”€â”€ Global scores â”€â”€ */}
       {stats && (
         <motion.div
           initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
@@ -288,28 +363,28 @@ export default function BatchAnalysis() {
         >
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-[17px] font-bold tracking-tight">Global scorecard</h2>
-            <span className="mono-num text-[11.5px] text-low">n = {stats.n} scored · paired per question</span>
+            <span className="mono-num text-[11.5px] text-low">n = {stats.n} scored Â· paired per question</span>
           </div>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <Stat label="Avg quality — guided" tone="ok" count
+            <Stat label="Avg quality â€” guided" tone="ok" count
               value={<CountUp target={stats.avgQ} />}
               sub={`baseline alone averages ${stats.avgB.toFixed(2)}`} />
-            <Stat label="Infrastructure Δ" tone={globalTone === 'ok' ? 'ok' : globalTone === 'err' ? 'err' : 'neutral'} count signed
+            <Stat label="Infrastructure Î”" tone={globalTone === 'ok' ? 'ok' : globalTone === 'err' ? 'err' : 'neutral'} count signed
               value={<CountUp target={stats.avgDelta} decimals={3} signed />}
               sub={classify(stats.avgDelta) === 'improvement' ? 'net positive contribution'
-                : classify(stats.avgDelta) === 'deficiency' ? 'net regression — see deficiencies'
+                : classify(stats.avgDelta) === 'deficiency' ? 'net regression â€” see deficiencies'
                   : 'parity across the batch'} />
             <Stat label="Improvements" tone={stats.improvements.length ? 'ok' : 'neutral'}
               value={<span>{stats.improvements.length}<span className="text-low text-[18px]"> / {stats.n}</span></span>}
-              sub="Δ ≥ +0.03 vs baseline" />
+              sub="Î” â‰¥ +0.03 vs baseline" />
             <Stat label="Deficiencies" tone={stats.deficiencies.length ? 'err' : 'ok'}
               value={<span>{stats.deficiencies.length}<span className="text-low text-[18px]"> / {stats.n}</span></span>}
-              sub={stats.deficiencies.length ? 'Δ ≤ −0.03 — diagnosed below' : 'none detected ✓'} />
+              sub={stats.deficiencies.length ? 'Î” â‰¤ âˆ’0.03 â€” diagnosed below' : 'none detected âœ“'} />
           </div>
         </motion.div>
       )}
 
-      {/* ── Chart ── */}
+      {/* â”€â”€ Chart â”€â”€ */}
       {chartData.length > 0 && (
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="mt-6">
           <Glass>
@@ -357,8 +432,8 @@ export default function BatchAnalysis() {
         </motion.div>
       )}
 
-      {/* ── Table ── */}
-      {results.length > 0 && (
+      {/* â”€â”€ Table â”€â”€ */}
+      {shownResults.length > 0 && (
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="mt-6">
           <Glass>
             <div className="overflow-x-auto">
@@ -370,12 +445,12 @@ export default function BatchAnalysis() {
                     <th className="px-3 py-3.5 font-semibold">Mode</th>
                     <th className="px-3 py-3.5 text-right font-semibold">Guided</th>
                     <th className="px-3 py-3.5 text-right font-semibold">Baseline</th>
-                    <th className="px-3 py-3.5 text-right font-semibold">Δ infra</th>
+                    <th className="px-3 py-3.5 text-right font-semibold">Î” infra</th>
                     <th className="px-6 py-3.5 font-semibold">Verdict</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {results.map((r, i) => {
+                  {shownResults.map((r, i) => {
                     const cls = r.error ? 'failed' : classify(r.delta ?? 0);
                     return (
                       <tr key={i} className="group border-b border-white/[0.04] transition-colors last:border-0 hover:bg-white/[0.02]">
@@ -394,14 +469,14 @@ export default function BatchAnalysis() {
                             }`}>
                               {r.variant === 'transfer' ? `transfer ${r.sim.toFixed(2)}` : 'new path'}
                             </span>
-                          ) : <span className="text-low">—</span>}
+                          ) : <span className="text-low">â€”</span>}
                         </td>
-                        <td className="mono-num py-4 pr-3 text-right align-top font-semibold text-hi">{r.quality?.toFixed(2) ?? '—'}</td>
-                        <td className="mono-num py-4 pr-3 text-right align-top text-mid">{r.baselineQuality?.toFixed(2) ?? '—'}</td>
+                        <td className="mono-num py-4 pr-3 text-right align-top font-semibold text-hi">{r.quality?.toFixed(2) ?? 'â€”'}</td>
+                        <td className="mono-num py-4 pr-3 text-right align-top text-mid">{r.baselineQuality?.toFixed(2) ?? 'â€”'}</td>
                         <td className={`mono-num py-4 pr-3 text-right align-top text-[14px] font-bold ${
                           cls === 'improvement' ? 'text-ok' : cls === 'deficiency' ? 'text-err' : 'text-mid'
                         }`}>
-                          {r.delta != null ? `${r.delta >= 0 ? '+' : ''}${r.delta.toFixed(2)}` : '—'}
+                          {r.delta != null ? `${r.delta >= 0 ? '+' : ''}${r.delta.toFixed(2)}` : 'â€”'}
                         </td>
                         <td className="py-4 pl-3 align-top"><Pill kind={cls} /></td>
                       </tr>
@@ -414,7 +489,7 @@ export default function BatchAnalysis() {
         </motion.div>
       )}
 
-      {/* ── Diagnosis ── */}
+      {/* â”€â”€ Diagnosis â”€â”€ */}
       {stats && (
         <div className="mt-6 grid gap-5 lg:grid-cols-2">
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
@@ -431,7 +506,7 @@ export default function BatchAnalysis() {
                   ].map(({ r, why }, i) => (
                     <li key={i} className="flex gap-3 rounded-lg border border-white/[0.04] bg-white/[0.02] p-3">
                       <span className="mono-num shrink-0 rounded-md bg-ink-900 px-2 py-1 text-[10.5px] font-bold text-low">
-                        Q{results.indexOf(r) + 1}
+                        Q{shownResults.indexOf(r) + 1}
                       </span>
                       <span className="text-[12.5px] leading-relaxed text-mid">{why}</span>
                     </li>
@@ -453,9 +528,9 @@ export default function BatchAnalysis() {
                 </div>
                 <ul className="mt-4 space-y-3">
                   {stats.deficiencies.map((r) => (
-                    <li key={results.indexOf(r)} className="flex gap-3 rounded-lg border border-white/[0.04] bg-white/[0.02] p-3">
+                    <li key={shownResults.indexOf(r)} className="flex gap-3 rounded-lg border border-white/[0.04] bg-white/[0.02] p-3">
                       <span className="mono-num shrink-0 rounded-md bg-ink-900 px-2 py-1 text-[10.5px] font-bold text-low">
-                        Q{results.indexOf(r) + 1}
+                        Q{shownResults.indexOf(r) + 1}
                       </span>
                       <span className="text-[12.5px] leading-relaxed text-mid">{explain(r)}</span>
                     </li>
@@ -468,9 +543,9 @@ export default function BatchAnalysis() {
                 </ul>
                 {stats.best && stats.worst && stats.best !== stats.worst && stats.deficiencies.length > 0 && (
                   <p className="mt-4 border-t border-white/[0.06] pt-3 text-[11.5px] leading-relaxed text-low">
-                    Spread: best Q{results.indexOf(stats.best) + 1} ({stats.best.delta >= 0 ? '+' : ''}{stats.best.delta.toFixed(2)})
-                    → worst Q{results.indexOf(stats.worst) + 1} ({stats.worst.delta.toFixed(2)}).
-                    Deficiencies on unstored phrasings are expected — each run stores its strategy, so rerun once to compare.
+                    Spread: best Q{shownResults.indexOf(stats.best) + 1} ({stats.best.delta >= 0 ? '+' : ''}{stats.best.delta.toFixed(2)})
+                    â†’ worst Q{shownResults.indexOf(stats.worst) + 1} ({stats.worst.delta.toFixed(2)}).
+                    Deficiencies on unstored phrasings are expected â€” each run stores its strategy, so rerun once to compare.
                   </p>
                 )}
               </div>
@@ -478,6 +553,58 @@ export default function BatchAnalysis() {
           </motion.div>
         </div>
       )}
+
+      {/* ── History ── */}
+      {history.length > 0 && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-10">
+          <div className="mb-3 flex items-center gap-2.5">
+            <HistoryIcon size={14} className="text-low" />
+            <h3 className="text-[14px] font-bold tracking-tight">Batch history</h3>
+            <span className="mono-num text-[11px] text-low">{history.length} saved · local to this browser</span>
+          </div>
+          <Glass>
+            <div className="divide-y divide-white/[0.04]">
+              {history.map((h) => {
+                const scored = h.results.filter((r) => !r.error && r.delta != null);
+                const avgD = scored.length ? scored.reduce((a, r) => a + r.delta, 0) / scored.length : null;
+                const imp = scored.filter((r) => classify(r.delta) === 'improvement').length;
+                const def = scored.filter((r) => classify(r.delta) === 'deficiency').length;
+                const active = viewRunId === h.id;
+                return (
+                  <button
+                    key={h.id}
+                    onClick={() => setViewRunId(active ? null : h.id)}
+                    className={`flex w-full items-center justify-between gap-4 px-6 py-4 text-left transition-colors hover:bg-white/[0.02] ${active ? 'bg-sem/[0.05]' : ''}`}
+                  >
+                    <div className="flex min-w-0 items-center gap-4">
+                      {active
+                        ? <ChevronLeft size={14} className="shrink-0 text-sem" />
+                        : <HistoryIcon size={13} className="shrink-0 text-low" />}
+                      <div className="min-w-0">
+                        <div className="truncate text-[13px] font-medium text-hi">
+                          {new Date(h.date).toLocaleString()} · {h.results.length} questions
+                        </div>
+                        <div className="truncate text-[11.5px] text-low">{h.questions[0]}</div>
+                      </div>
+                    </div>
+                    <div className="flex shrink-0 items-center gap-3">
+                      <span className={`mono-num rounded-full px-2.5 py-1 text-[11px] font-bold ${
+                        avgD == null ? 'text-low'
+                          : classify(avgD) === 'improvement' ? 'bg-ok/10 text-ok'
+                            : classify(avgD) === 'deficiency' ? 'bg-err/10 text-err' : 'bg-sem/10 text-sem'
+                      }`}>
+                        {avgD == null ? '—' : `${avgD >= 0 ? '+' : ''}${avgD.toFixed(3)} Δ`}
+                      </span>
+                      <span className="hidden text-[11px] text-low sm:inline">{imp}↑ · {def}↓</span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </Glass>
+        </motion.div>
+      )}
     </div>
   );
 }
+
