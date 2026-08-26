@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Database, SearchCode, ArrowDown } from 'lucide-react';
+import { Database, SearchCode } from 'lucide-react';
 import { RETRIEVAL } from '../data/neuranetDemo.js';
 
 function SimBar({ sim, dominant, label }) {
@@ -24,15 +24,21 @@ function SimBar({ sim, dominant, label }) {
   );
 }
 
-export default function RetrievalPanel({ active = true }) {
+export default function RetrievalPanel({ data, active = true }) {
+  const d = {
+    dims: RETRIEVAL.embedding.dims,
+    store: RETRIEVAL.store,
+    topMatch: data?.topMatch ?? RETRIEVAL.topMatch,
+    alternatives: data?.alternatives?.length ? data.alternatives : RETRIEVAL.alternatives,
+  };
   return (
     <section className="panel p-5" aria-label="Semantic retrieval">
       <div className="panel-title">Semantic Retrieval</div>
 
       <div className="mt-4 space-y-1.5">
-        <FlowRow icon={Database} title="E5 EMBEDDING" sub={`${RETRIEVAL.embedding.dims} dimensions · ${RETRIEVAL.embedding.model}`} done={active} />
+        <FlowRow icon={Database} title="E5 EMBEDDING" sub={`${d.dims} dimensions · live`} done={active} />
         <Connector />
-        <FlowRow icon={SearchCode} title="VECTOR SEARCH" sub={RETRIEVAL.store + ' · cosine'} done={active} />
+        <FlowRow icon={SearchCode} title="VECTOR SEARCH" sub={`${d.store} · cosine`} done={active} />
         <Connector />
       </div>
 
@@ -43,12 +49,12 @@ export default function RetrievalPanel({ active = true }) {
         className="rounded-lg border border-sem/30 bg-sem/[0.06] px-4 py-3"
       >
         <div className="text-[10.5px] font-semibold uppercase tracking-[0.15em] text-sem">Top match</div>
-        <div className="mono-num mt-1 text-[14px] font-semibold text-hi">{RETRIEVAL.topMatch.path}</div>
+        <div className="mono-num mt-1 break-all text-[13.5px] font-semibold text-hi">{d.topMatch.path}</div>
       </motion.div>
 
       <div className="mt-4 space-y-2.5">
-        <SimBar sim={RETRIEVAL.topMatch.similarity} dominant label={RETRIEVAL.topMatch.path} />
-        {RETRIEVAL.alternatives.map((a) => (
+        <SimBar sim={d.topMatch.similarity} dominant label={d.topMatch.path} />
+        {d.alternatives.slice(0, 3).map((a) => (
           <SimBar key={a.path} sim={a.similarity} label={a.path} />
         ))}
       </div>
@@ -71,7 +77,5 @@ function FlowRow({ icon: Icon, title, sub, done }) {
 }
 
 function Connector() {
-  return (
-    <div className="ml-4 h-3 border-l border-dashed border-low/40" aria-hidden="true" />
-  );
+  return <div className="ml-4 h-3 border-l border-dashed border-low/40" aria-hidden="true" />;
 }

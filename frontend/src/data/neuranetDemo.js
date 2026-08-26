@@ -226,6 +226,26 @@ export const STAGE_TIMINGS = { TASK: 350, EMBED: 550, RETRIEVAL: 800, COMPATIBIL
 /* ─────────────────────────────────────────────────────────────────────────────
    API-shaped adapters — swap these bodies with real fetch calls later.
    ───────────────────────────────────────────────────────────────────────────── */
+
+/** Live backend call: arbitrary question through the real pipeline.
+ *  Falls back to the scripted mock when the API is unreachable, so the
+ *  recorded demo never breaks. */
+export async function runLive(task) {
+  const base = localStorage.getItem('nn_api_base') || '';
+  try {
+    const res = await fetch(`${base}/v1/demo/run`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': localStorage.getItem('nn_api_key') || '' },
+      body: JSON.stringify({ task }),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const j = await res.json();
+    return { ...j, live: true };
+  } catch {
+    return { ...(await api.runExecution(task.includes('supervises') || task.includes('institution') ? 'second' : 'first')), live: false };
+  }
+}
+
 export const api = {
   async getMetrics() {
     await delay(120);
