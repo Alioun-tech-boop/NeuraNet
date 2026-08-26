@@ -1,23 +1,21 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, ReferenceLine,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
 } from 'recharts';
-import { Play, RotateCcw, TrendingUp, TrendingDown, Minus, AlertTriangle } from 'lucide-react';
-import MetricCard from '../components/MetricCard.jsx';
+import {
+  Play, RotateCcw, TrendingUp, TrendingDown, Minus, AlertTriangle, Sparkles, Layers,
+} from 'lucide-react';
 import { runLive } from '../data/neuranetDemo.js';
 
 const SAMPLE = [
   'Identify the banking regulator of Ghana and verify it using official sources.',
   'Determine which institution supervises banking establishments operating in Ghana.',
   'Which central bank oversees commercial lenders in Ghana?',
-  'Find the enforcement powers of the Ghanaian central bank over commercial banks.',
 ];
 const MAX_Q = 10;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-const classify = (delta) =>
-  delta >= 0.03 ? 'improvement' : delta <= -0.03 ? 'deficiency' : 'neutral';
+const classify = (delta) => (delta >= 0.03 ? 'improvement' : delta <= -0.03 ? 'deficiency' : 'neutral');
 
 function explain(r) {
   const d = r.delta;
@@ -32,8 +30,71 @@ function explain(r) {
   return `no prior strategy; baseline parity (${d >= 0 ? '+' : ''}${d.toFixed(2)}) — experience now stored for next time`;
 }
 
+/* ── micro-components ─────────────────────────────────────────────── */
+
+function CountUp({ target, decimals = 2, signed = false }) {
+  const [v, setV] = useState(0);
+  useEffect(() => {
+    if (!Number.isFinite(target)) return;
+    let raf; const t0 = performance.now(); const dur = 650;
+    const tick = (t) => {
+      const p = Math.min(1, (t - t0) / dur);
+      setV(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target]);
+  const n = Number.isFinite(target) ? v : 0;
+  return <span className="mono-num">{signed && n > 0 ? '+' : ''}{n.toFixed(decimals)}</span>;
+}
+
+function Glass({ children, className = '', glow = null }) {
+  /* 1px gradient hairline + deep glass surface */
+  const ring =
+    glow === 'ok' ? 'from-ok/50 via-ok/[0.08] to-transparent'
+      : glow === 'err' ? 'from-err/40 via-err/[0.06] to-transparent'
+        : 'from-white/[0.14] via-white/[0.04] to-transparent';
+  return (
+    <div className={`rounded-[16px] bg-gradient-to-br p-[1px] ${ring}`}>
+      <div className={`h-full rounded-[15px] bg-ink-850/90 backdrop-blur-sm ${className}`}>{children}</div>
+    </div>
+  );
+}
+
+function Stat({ label, value, sub, tone = 'neutral', count = false }) {
+  const toneCls = tone === 'ok' ? 'text-ok' : tone === 'err' ? 'text-err' : 'text-hi';
+  return (
+    <Glass glow={tone === 'ok' ? 'ok' : tone === 'err' ? 'err' : null}>
+      <div className="px-5 py-4">
+        <div className="text-[10.5px] font-semibold uppercase tracking-[0.16em] text-low">{label}</div>
+        <div className={`mt-1.5 text-[30px] font-bold leading-none tracking-tight ${toneCls}`}>
+          {count ? value : <span>{value}</span>}
+        </div>
+        {sub && <div className="mt-2 text-[11.5px] leading-snug text-low">{sub}</div>}
+      </div>
+    </Glass>
+  );
+}
+
+const Pill = ({ kind }) => {
+  const map = {
+    improvement: { c: 'bg-ok/[0.12] text-ok border-ok/30', I: TrendingUp, t: 'improvement' },
+    deficiency: { c: 'bg-err/[0.12] text-err border-err/30', I: TrendingDown, t: 'deficiency' },
+    neutral: { c: 'bg-sem/[0.12] text-sem border-sem/30', I: Minus, t: 'neutral' },
+    failed: { c: 'bg-white/[0.05] text-low border-line', I: Minus, t: 'failed' },
+  }[kind];
+  return (
+    <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold capitalize ${map.c}`}>
+      <map.I size={11} strokeWidth={2.4} /> {map.t}
+    </span>
+  );
+};
+
+/* ── page ─────────────────────────────────────────────────────────── */
+
 export default function BatchAnalysis() {
-  const [raw, setRaw] = useState(SAMPLE.join('\n'));
+  const [raw, setRaw] = useState(''); // deliberately empty — the user asks
   const [running, setRunning] = useState(false);
   const [progress, setProgress] = useState({ done: 0, total: 0 });
   const [results, setResults] = useState([]);
@@ -72,7 +133,7 @@ export default function BatchAnalysis() {
       }
       setResults([...acc]);
       setProgress({ done: i + 1, total: questions.length });
-      await sleep(400); // lisse la charge API
+      await sleep(400);
     }
     setRunning(false);
   }
@@ -84,14 +145,14 @@ export default function BatchAnalysis() {
     const improvements = valid.filter((r) => classify(r.delta) === 'improvement');
     const deficiencies = valid.filter((r) => classify(r.delta) === 'deficiency');
     const neutral = valid.filter((r) => classify(r.delta) === 'neutral');
-    const best = [...valid].sort((a, b) => b.delta - a.delta)[0];
-    const worst = [...valid].sort((a, b) => a.delta - b.delta)[0];
+    const sorted = [...valid].sort((a, b) => b.delta - a.delta);
     return {
       n: valid.length,
       avgQ: avg((r) => r.quality),
       avgB: avg((r) => r.baselineQuality),
       avgDelta: avg((r) => r.delta),
-      improvements, deficiencies, neutral, best, worst,
+      improvements, deficiencies, neutral,
+      best: sorted[0], worst: sorted[sorted.length - 1],
     };
   }, [results]);
 
@@ -102,218 +163,319 @@ export default function BatchAnalysis() {
     delta: r.delta ?? 0,
   }));
 
-  return (
-    <div className="mx-auto max-w-[1500px] px-8 pb-16 pt-8">
-      {/* Header */}
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-low">Batch Analysis</div>
-          <h1 className="mt-1 text-[24px] font-bold tracking-tight">Compare NeuraNet against its own baseline</h1>
-          <p className="mt-1 max-w-2xl text-[13.5px] text-mid">
-            Run up to {MAX_Q} questions sequentially. Every question executes the full real pipeline and is scored
-            against the same model answering without strategy or sources.
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setRaw(SAMPLE.join('\n'))}
-            disabled={running}
-            className="rounded-lg border border-line bg-ink-850 px-4 py-2 text-[12.5px] text-mid hover:text-hi disabled:opacity-40"
-          >
-            <RotateCcw size={12} className="mr-1.5 inline" /> Sample set
-          </button>
-          <button
-            onClick={runBatch}
-            disabled={running || questions.length === 0}
-            className="flex items-center gap-2 rounded-lg bg-semdeep px-5 py-2.5 text-[13px] font-semibold text-white hover:bg-[#6b82f3] disabled:cursor-wait disabled:opacity-50"
-          >
-            <Play size={13} /> {running ? `Running ${progress.done}/${progress.total}…` : `Run batch (${Math.min(questions.length, MAX_Q)})`}
-          </button>
-        </div>
-      </div>
+  const globalTone = !stats ? 'neutral'
+    : classify(stats.avgDelta) === 'improvement' ? 'ok'
+      : classify(stats.avgDelta) === 'deficiency' ? 'err' : 'neutral';
 
-      {/* Question input */}
-      <div className="panel p-5">
-        <div className="mb-2 flex items-center justify-between">
-          <label htmlFor="batch-input" className="text-[11px] font-semibold uppercase tracking-[0.14em] text-low">
-            Questions — one per line
-          </label>
-          <span className={`mono-num text-[12px] ${questions.length > MAX_Q ? 'text-warn' : 'text-low'}`}>
-            {questions.length} / {MAX_Q} accepted
+  return (
+    <div className="relative mx-auto max-w-[1500px] px-8 pb-20 pt-10">
+      {/* ambient accent */}
+      <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 h-64 w-[720px] -translate-x-1/2 rounded-full bg-sem/[0.07] blur-[110px]" />
+
+      {/* ── Header ── */}
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
+        <div className="flex items-center gap-2.5">
+          <span className={`flex h-2 w-2 rounded-full ${running ? 'animate-pulse bg-sem' : 'bg-ok'}`} />
+          <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-mid">Batch Analysis</span>
+          <span className="mono-num rounded-full border border-line bg-ink-850 px-2.5 py-0.5 text-[10.5px] text-low">
+            PRODUCTION · CALLER-MODEL
           </span>
         </div>
-        <textarea
-          id="batch-input"
-          rows={Math.min(Math.max(questions.length, 4), 10)}
-          value={raw}
-          onChange={(e) => setRaw(e.target.value)}
-          disabled={running}
-          className="w-full resize-y rounded-lg border border-line bg-ink-900 px-4 py-3 text-[13.5px] leading-relaxed text-hi focus:border-sem/50 focus:outline-none disabled:opacity-60"
-          placeholder={'One question per line…'}
-        />
-        {questions.length > MAX_Q && (
-          <p className="mt-2 flex items-center gap-1.5 text-[12px] text-warn">
-            <AlertTriangle size={12} /> Only the first {MAX_Q} will run (API quota protection).
-          </p>
-        )}
-        {running && (
-          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-ink-700">
-            <motion.div
-              animate={{ width: `${(progress.done / progress.total) * 100}%` }}
-              transition={{ duration: 0.3 }}
-              className="h-full rounded-full bg-gradient-to-r from-semdeep to-sem"
-            />
-          </div>
-        )}
-      </div>
+        <h1 className="mt-3 max-w-3xl text-[34px] font-extrabold leading-[1.12] tracking-tight">
+          Measure NeuraNet against{' '}
+          <span className="bg-gradient-to-r from-sem via-[#9b8bfb] to-semdeep bg-clip-text text-transparent">
+            its own absence
+          </span>
+        </h1>
+        <p className="mt-3 max-w-2xl text-[14.5px] leading-relaxed text-mid">
+          Every question runs the full real pipeline, then the identical model answers again alone.
+          The gap is the infrastructure's contribution — measured per question, honestly classified.
+        </p>
+      </motion.div>
 
-      {/* Global scores */}
+      {/* ── Composer ── */}
+      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08, duration: 0.35 }} className="mt-8">
+        <Glass>
+          <div className="p-6">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <Layers size={14} className="text-sem" />
+                <span className="text-[13px] font-semibold text-hi">Your questions</span>
+                <span className="text-[11.5px] text-low">one per line · min 8 chars</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setRaw(SAMPLE.join('\n'))}
+                  disabled={running}
+                  className="flex items-center gap-1.5 rounded-lg border border-line px-3 py-1.5 text-[12px] font-medium text-mid transition-colors hover:border-white/20 hover:text-hi disabled:opacity-40"
+                >
+                  <RotateCcw size={11.5} /> Load samples
+                </button>
+                <span className={`mono-num rounded-full px-3 py-1 text-[11.5px] ${
+                  questions.length > MAX_Q ? 'bg-warn/10 text-warn' : 'bg-white/[0.05] text-mid'
+                }`}>
+                  {Math.min(questions.length, MAX_Q)} / {MAX_Q}
+                </span>
+              </div>
+            </div>
+
+            <textarea
+              id="batch-input"
+              rows={questions.length ? Math.min(Math.max(questions.length, 3), 8) : 3}
+              value={raw}
+              onChange={(e) => setRaw(e.target.value)}
+              disabled={running}
+              placeholder={'Ask anything…\ne.g. Identify the central bank of Senegal using primary sources'}
+              className="w-full resize-y rounded-xl border border-line bg-ink-900/70 px-5 py-4 text-[14px] leading-relaxed text-hi shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] placeholder:text-low/70 focus:border-sem/40 focus:outline-none focus:ring-4 focus:ring-sem/[0.07] disabled:opacity-60"
+            />
+
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+              {running ? (
+                <span className="flex items-center gap-2 text-[12.5px] text-mid">
+                  <Sparkles size={13} className="animate-pulse text-sem" />
+                  Executing real pipeline — question {progress.done} of {progress.total}
+                </span>
+              ) : (
+                <span className="text-[12px] text-low">
+                  Each run stores its strategy — rerunning an unfamiliar class usually flips it to TRANSFER.
+                </span>
+              )}
+              <button
+                onClick={runBatch}
+                disabled={running || questions.length === 0}
+                className="group relative flex items-center gap-2 overflow-hidden rounded-xl bg-gradient-to-b from-[#6b82f3] to-semdeep px-6 py-2.5 text-[13.5px] font-semibold text-white shadow-[0_4px_24px_rgba(85,112,241,0.35)] transition-all hover:shadow-[0_6px_32px_rgba(85,112,241,0.5)] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+              >
+                <Play size={14} className="transition-transform group-hover:scale-110" />
+                {running ? `Running… ${progress.done}/${progress.total}` : `Run batch`}
+              </button>
+            </div>
+
+            {running && (
+              <div className="mt-4 h-1 overflow-hidden rounded-full bg-ink-700">
+                <motion.div
+                  animate={{ width: `${(progress.done / Math.max(progress.total, 1)) * 100}%` }}
+                  transition={{ duration: 0.35 }}
+                  className="h-full rounded-full bg-gradient-to-r from-semdeep via-sem to-ok"
+                />
+              </div>
+            )}
+            {questions.length > MAX_Q && (
+              <p className="mt-3 flex items-center gap-1.5 text-[12px] text-warn">
+                <AlertTriangle size={12} /> Only the first {MAX_Q} will run (API quota protection).
+              </p>
+            )}
+          </div>
+        </Glass>
+      </motion.div>
+
+      {/* ── Empty state ── */}
+      {!results.length && !running && (
+        <motion.div
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
+          className="mt-8 flex h-44 items-center justify-center rounded-[16px] border border-dashed border-line"
+        >
+          <p className="text-[13px] text-low">
+            No batch yet. Add your questions above — the comparison appears here.
+          </p>
+        </motion.div>
+      )}
+
+      {/* ── Global scores ── */}
       {stats && (
-        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-8">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
+          className="mt-10"
+        >
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-[17px] font-bold tracking-tight">Global scorecard</h2>
+            <span className="mono-num text-[11.5px] text-low">n = {stats.n} scored · paired per question</span>
+          </div>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            <MetricCard label="Questions scored" value={`${stats.n}/${progress.total}`} sub={`${results.filter((r) => r.error).length} failed`} />
-            <MetricCard label="Avg quality · guided" value={stats.avgQ.toFixed(2)} accent sub={`baseline alone: ${stats.avgB.toFixed(2)}`} />
-            <MetricCard label="Average Δ vs baseline" value={`${stats.avgDelta >= 0 ? '+' : ''}${stats.avgDelta.toFixed(3)}`}
-              sub={classify(stats.avgDelta) === 'improvement' ? 'global improvement' : classify(stats.avgDelta) === 'deficiency' ? 'global regression' : 'parity overall'} />
-            <MetricCard label="Improvements / Deficiencies"
-              value={<span><span className="text-ok">{stats.improvements.length} ↑</span> <span className="text-low">·</span> <span className={stats.deficiencies.length ? 'text-err' : ''}>{stats.deficiencies.length} ↓</span></span>}
-              sub={`${stats.neutral.length} neutral`} />
+            <Stat label="Avg quality — guided" tone="ok" count
+              value={<CountUp target={stats.avgQ} />}
+              sub={`baseline alone averages ${stats.avgB.toFixed(2)}`} />
+            <Stat label="Infrastructure Δ" tone={globalTone === 'ok' ? 'ok' : globalTone === 'err' ? 'err' : 'neutral'} count signed
+              value={<CountUp target={stats.avgDelta} decimals={3} signed />}
+              sub={classify(stats.avgDelta) === 'improvement' ? 'net positive contribution'
+                : classify(stats.avgDelta) === 'deficiency' ? 'net regression — see deficiencies'
+                  : 'parity across the batch'} />
+            <Stat label="Improvements" tone={stats.improvements.length ? 'ok' : 'neutral'}
+              value={<span>{stats.improvements.length}<span className="text-low text-[18px]"> / {stats.n}</span></span>}
+              sub="Δ ≥ +0.03 vs baseline" />
+            <Stat label="Deficiencies" tone={stats.deficiencies.length ? 'err' : 'ok'}
+              value={<span>{stats.deficiencies.length}<span className="text-low text-[18px]"> / {stats.n}</span></span>}
+              sub={stats.deficiencies.length ? 'Δ ≤ −0.03 — diagnosed below' : 'none detected ✓'} />
           </div>
         </motion.div>
       )}
 
-      {/* Comparison chart */}
+      {/* ── Chart ── */}
       {chartData.length > 0 && (
-        <div className="panel mt-6 p-6">
-          <div className="panel-title mb-3">Per-question comparison — guided vs baseline</div>
-          <div className="h-[300px]" role="img" aria-label="Guided versus baseline quality per question">
-            <ResponsiveContainer>
-              <BarChart data={chartData} margin={{ top: 8, right: 12, bottom: 4, left: -18 }}>
-                <CartesianGrid stroke="#1a1f2b" vertical={false} />
-                <XAxis dataKey="name" tick={{ fill: '#9AA3B0', fontSize: 12 }} axisLine={{ stroke: '#212733' }} tickLine={false} />
-                <YAxis domain={[0, 1]} tick={{ fill: '#5B6472', fontSize: 11 }} axisLine={false} tickLine={false} />
-                <Tooltip
-                  cursor={{ fill: '#ffffff06' }}
-                  contentStyle={{ background: '#131720', border: '1px solid #212733', borderRadius: 10, fontSize: 12 }}
-                  formatter={(v, k) => [Number(v).toFixed(2), k === 'guided' ? 'With NeuraNet' : 'Baseline']}
-                />
-                <ReferenceLine y={stats?.avgDelta == null ? 0 : undefined} stroke="transparent" />
-                <Bar dataKey="baseline" fill="#39414f" radius={[5, 5, 0, 0]} maxBarSize={34} />
-                <Bar dataKey="guided" radius={[5, 5, 0, 0]} maxBarSize={34}>
-                  {chartData.map((d, i) => (
-                    <Cell key={i} fill={classify(d.delta) === 'improvement' ? '#3ECF8E' : classify(d.delta) === 'deficiency' ? '#F0655A' : '#5570F1'} />
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="mt-6">
+          <Glass>
+            <div className="p-6">
+              <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+                <h3 className="text-[15px] font-semibold tracking-tight">Per-question comparison</h3>
+                <div className="flex flex-wrap gap-2">
+                  {[['Improvement', '#3ECF8E'], ['Neutral', '#5570F1'], ['Deficiency', '#F0655A'], ['Baseline', '#39414f']].map(([l, c]) => (
+                    <span key={l} className="flex items-center gap-1.5 rounded-full border border-line bg-ink-900/60 px-2.5 py-1 text-[10.5px] font-medium text-mid">
+                      <span className="h-1.5 w-1.5 rounded-full" style={{ background: c }} /> {l}
+                    </span>
                   ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-            <div className="mt-1 flex flex-wrap gap-4 px-1 text-[11.5px]">
-              <span className="flex items-center gap-1.5 text-ok"><span className="h-2 w-2 rounded-sm bg-ok" /> Improvement (Δ ≥ +0.03)</span>
-              <span className="flex items-center gap-1.5 text-sem"><span className="h-2 w-2 rounded-sm bg-semdeep" /> Neutral</span>
-              <span className="flex items-center gap-1.5 text-err"><span className="h-2 w-2 rounded-sm bg-err" /> Deficiency (Δ ≤ −0.03)</span>
-              <span className="flex items-center gap-1.5 text-low"><span className="h-2 w-2 rounded-sm bg-[#39414f]" /> Baseline</span>
+                </div>
+              </div>
+              <div className="h-[320px]" role="img" aria-label="Guided versus baseline quality per question">
+                <ResponsiveContainer>
+                  <BarChart data={chartData} margin={{ top: 8, right: 8, bottom: 4, left: -18 }} barGap={5}>
+                    <CartesianGrid stroke="#171c26" vertical={false} />
+                    <XAxis dataKey="name" tick={{ fill: '#9AA3B0', fontSize: 12 }} axisLine={{ stroke: '#212733' }} tickLine={false} />
+                    <YAxis domain={[0, 1]} ticks={[0, 0.25, 0.5, 0.75, 1]} tick={{ fill: '#5B6472', fontSize: 11 }} axisLine={false} tickLine={false} />
+                    <Tooltip
+                      cursor={{ fill: '#ffffff05' }}
+                      contentStyle={{
+                        background: 'rgba(19,23,32,0.96)', border: '1px solid rgba(255,255,255,0.09)',
+                        borderRadius: 12, fontSize: 12, boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
+                      }}
+                      formatter={(v, k) => [Number(v).toFixed(2), k === 'guided' ? 'With NeuraNet' : 'Baseline']}
+                      labelFormatter={(l) => `Question ${l.slice(1)}`}
+                    />
+                    <Bar dataKey="baseline" fill="#39414f" radius={[6, 6, 0, 0]} maxBarSize={30} />
+                    <Bar dataKey="guided" radius={[6, 6, 0, 0]} maxBarSize={30}>
+                      {chartData.map((d, i) => (
+                        <Cell key={i} fill={
+                          d.delta == null ? '#39414f'
+                            : classify(d.delta) === 'improvement' ? '#3ECF8E'
+                              : classify(d.delta) === 'deficiency' ? '#F0655A' : '#5570F1'
+                        } />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-          </div>
-        </div>
+          </Glass>
+        </motion.div>
       )}
 
-      {/* Table */}
+      {/* ── Table ── */}
       {results.length > 0 && (
-        <div className="panel mt-6 overflow-x-auto p-0">
-          <table className="w-full text-[13px]">
-            <thead>
-              <tr className="border-b border-line text-left text-[10.5px] uppercase tracking-[0.12em] text-low">
-                <th className="px-5 py-3 font-medium">#</th>
-                <th className="px-3 py-3 font-medium">Question</th>
-                <th className="px-3 py-3 font-medium">Mode</th>
-                <th className="px-3 py-3 font-medium">Sim</th>
-                <th className="px-3 py-3 text-right font-medium">Guided</th>
-                <th className="px-3 py-3 text-right font-medium">Baseline</th>
-                <th className="px-3 py-3 text-right font-medium">Δ</th>
-                <th className="px-5 py-3 font-medium">Verdict</th>
-              </tr>
-            </thead>
-            <tbody>
-              {results.map((r, i) => {
-                const cls = r.error ? 'neutral' : classify(r.delta ?? 0);
-                return (
-                  <tr key={i} className="border-b border-line last:border-0 align-top">
-                    <td className="mono-num px-5 py-3.5 text-low">Q{i + 1}</td>
-                    <td className="max-w-[340px] px-3 py-3.5">
-                      <span className="line-clamp-2 text-hi">{r.task}</span>
-                      {!r.error && r.path && <span className="mono-num block break-all text-[10.5px] text-low">{r.path}</span>}
-                    </td>
-                    <td className="px-3 py-3.5">
-                      <span className={`mono-num rounded border px-1.5 py-0.5 text-[10px] font-bold uppercase ${
-                        r.variant === 'transfer' ? 'border-ok/40 bg-ok/10 text-ok' : 'border-sem/30 bg-sem/10 text-sem'
-                      }`}>
-                        {r.variant === 'transfer' ? 'TRANSFER' : r.variant === '?' ? '—' : 'NEW PATH'}
-                      </span>
-                    </td>
-                    <td className="mono-num px-3 py-3.5 text-mid">{r.variant === 'transfer' ? r.sim.toFixed(2) : '—'}</td>
-                    <td className="mono-num px-3 py-3.5 text-right font-semibold text-hi">{r.quality?.toFixed(2) ?? '—'}</td>
-                    <td className="mono-num px-3 py-3.5 text-right text-mid">{r.baselineQuality?.toFixed(2) ?? '—'}</td>
-                    <td className={`mono-num px-3 py-3.5 text-right font-bold ${
-                      cls === 'improvement' ? 'text-ok' : cls === 'deficiency' ? 'text-err' : 'text-mid'
-                    }`}>
-                      {r.delta != null ? `${r.delta >= 0 ? '+' : ''}${r.delta.toFixed(2)}` : '—'}
-                    </td>
-                    <td className="px-5 py-3.5">
-                      <span className={`inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-[11px] font-semibold ${
-                        r.error ? 'bg-ink-800 text-low'
-                          : cls === 'improvement' ? 'bg-ok/10 text-ok'
-                          : cls === 'deficiency' ? 'bg-err/10 text-err' : 'bg-sem/10 text-sem'
-                      }`}>
-                        {cls === 'improvement' ? <TrendingUp size={11} /> : cls === 'deficiency' ? <TrendingDown size={11} /> : <Minus size={11} />}
-                        {r.error ? 'failed' : cls}
-                      </span>
-                    </td>
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="mt-6">
+          <Glass>
+            <div className="overflow-x-auto">
+              <table className="w-full text-[13px]">
+                <thead>
+                  <tr className="border-b border-white/[0.06] text-left text-[10px] uppercase tracking-[0.14em] text-low">
+                    <th className="px-6 py-3.5 font-semibold">#</th>
+                    <th className="px-3 py-3.5 font-semibold">Question</th>
+                    <th className="px-3 py-3.5 font-semibold">Mode</th>
+                    <th className="px-3 py-3.5 text-right font-semibold">Guided</th>
+                    <th className="px-3 py-3.5 text-right font-semibold">Baseline</th>
+                    <th className="px-3 py-3.5 text-right font-semibold">Δ infra</th>
+                    <th className="px-6 py-3.5 font-semibold">Verdict</th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+                </thead>
+                <tbody>
+                  {results.map((r, i) => {
+                    const cls = r.error ? 'failed' : classify(r.delta ?? 0);
+                    return (
+                      <tr key={i} className="group border-b border-white/[0.04] transition-colors last:border-0 hover:bg-white/[0.02]">
+                        <td className="mono-num px-6 py-4 align-top text-low">Q{i + 1}</td>
+                        <td className="max-w-[380px] py-4 pr-3 align-top">
+                          <span className="block truncate text-hi" title={r.task}>{r.task}</span>
+                          {!r.error && r.path && (
+                            <span className="mono-num block truncate text-[10.5px] text-low/80">{r.path}</span>
+                          )}
+                          {r.error && <span className="block text-[10.5px] text-err">{r.error}</span>}
+                        </td>
+                        <td className="py-4 pr-3 align-top">
+                          {r.variant !== '?' ? (
+                            <span className={`mono-num inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+                              r.variant === 'transfer' ? 'border-ok/30 bg-ok/[0.08] text-ok' : 'border-sem/30 bg-sem/[0.08] text-sem'
+                            }`}>
+                              {r.variant === 'transfer' ? `transfer ${r.sim.toFixed(2)}` : 'new path'}
+                            </span>
+                          ) : <span className="text-low">—</span>}
+                        </td>
+                        <td className="mono-num py-4 pr-3 text-right align-top font-semibold text-hi">{r.quality?.toFixed(2) ?? '—'}</td>
+                        <td className="mono-num py-4 pr-3 text-right align-top text-mid">{r.baselineQuality?.toFixed(2) ?? '—'}</td>
+                        <td className={`mono-num py-4 pr-3 text-right align-top text-[14px] font-bold ${
+                          cls === 'improvement' ? 'text-ok' : cls === 'deficiency' ? 'text-err' : 'text-mid'
+                        }`}>
+                          {r.delta != null ? `${r.delta >= 0 ? '+' : ''}${r.delta.toFixed(2)}` : '—'}
+                        </td>
+                        <td className="py-4 pl-3 align-top"><Pill kind={cls} /></td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </Glass>
+        </motion.div>
       )}
 
-      {/* Auto analysis */}
+      {/* ── Diagnosis ── */}
       {stats && (
         <div className="mt-6 grid gap-5 lg:grid-cols-2">
-          <section className="panel p-6">
-            <div className="panel-title flex items-center gap-2"><TrendingUp size={13} className="text-ok" /> Improvements</div>
-            <ul className="mt-3 space-y-2">
-              {[...stats.improvements.map((r) => ({ r, why: explain(r) })),
-                ...(stats.neutral.length ? [{ r: stats.neutral[0], why: `${explain(stats.neutral[0])}${stats.neutral.length > 1 ? ` (+${stats.neutral.length - 1} other neutral runs)` : ''}` }] : [])]
-                .map(({ r, why }, i) => (
-                  <li key={i} className="flex items-start gap-2.5 border-l-2 border-ok/50 pl-3 text-[13px]">
-                    <span className="mono-num shrink-0 text-low">Q{results.indexOf(r) + 1}</span>
-                    <span className="text-mid">{why}</span>
-                  </li>
-                ))}
-              {!stats.improvements.length && !stats.neutral.length && <li className="text-[13px] text-low">None observed.</li>}
-            </ul>
-          </section>
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}>
+            <Glass glow={stats.improvements.length ? 'ok' : null}>
+              <div className="p-6">
+                <div className="flex items-center gap-2.5">
+                  <TrendingUp size={14} className="text-ok" />
+                  <h3 className="text-[14px] font-bold tracking-tight">What improved</h3>
+                </div>
+                <ul className="mt-4 space-y-3">
+                  {[
+                    ...stats.improvements.map((r) => ({ r, why: explain(r) })),
+                    ...(stats.neutral.length ? [{ r: stats.neutral[0], why: `${explain(stats.neutral[0])}${stats.neutral.length > 1 ? ` (+${stats.neutral.length - 1} other neutral runs)` : ''}` }] : []),
+                  ].map(({ r, why }, i) => (
+                    <li key={i} className="flex gap-3 rounded-lg border border-white/[0.04] bg-white/[0.02] p-3">
+                      <span className="mono-num shrink-0 rounded-md bg-ink-900 px-2 py-1 text-[10.5px] font-bold text-low">
+                        Q{results.indexOf(r) + 1}
+                      </span>
+                      <span className="text-[12.5px] leading-relaxed text-mid">{why}</span>
+                    </li>
+                  ))}
+                  {!stats.improvements.length && !stats.neutral.length && (
+                    <li className="text-[13px] text-low">None observed in this batch.</li>
+                  )}
+                </ul>
+              </div>
+            </Glass>
+          </motion.div>
 
-          <section className="panel p-6">
-            <div className="panel-title flex items-center gap-2"><TrendingDown size={13} className="text-err" /> Deficiencies</div>
-            <ul className="mt-3 space-y-2">
-              {stats.deficiencies.map((r) => (
-                <li key={results.indexOf(r)} className="flex items-start gap-2.5 border-l-2 border-err/50 pl-3 text-[13px]">
-                  <span className="mono-num shrink-0 text-low">Q{results.indexOf(r) + 1}</span>
-                  <span className="text-mid">{explain(r)}</span>
-                </li>
-              ))}
-              {!stats.deficiencies.length && (
-                <li className="flex items-center gap-2 text-[13px] text-ok"><TrendingUp size={13} /> No deficiency detected in this batch.</li>
-              )}
-            </ul>
-            {stats.best && stats.worst && stats.best !== stats.worst && stats.deficiencies.length > 0 && (
-              <p className="mt-4 border-t border-line pt-3 text-[11.5px] leading-relaxed text-low">
-                Best: Q{results.indexOf(stats.best) + 1} ({stats.best.delta >= 0 ? '+' : ''}{stats.best.delta.toFixed(2)}) ·
-                Worst: Q{results.indexOf(stats.worst) + 1} ({stats.worst.delta.toFixed(2)}).
-                Deficiencies on rephrased-but-unstored classes are expected until a first run stores their strategy — rerun them once to compare.
-              </p>
-            )}
-          </section>
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: 0.06 }}>
+            <Glass glow={stats.deficiencies.length ? 'err' : null}>
+              <div className="p-6">
+                <div className="flex items-center gap-2.5">
+                  <TrendingDown size={14} className="text-err" />
+                  <h3 className="text-[14px] font-bold tracking-tight">Deficiencies & diagnosis</h3>
+                </div>
+                <ul className="mt-4 space-y-3">
+                  {stats.deficiencies.map((r) => (
+                    <li key={results.indexOf(r)} className="flex gap-3 rounded-lg border border-white/[0.04] bg-white/[0.02] p-3">
+                      <span className="mono-num shrink-0 rounded-md bg-ink-900 px-2 py-1 text-[10.5px] font-bold text-low">
+                        Q{results.indexOf(r) + 1}
+                      </span>
+                      <span className="text-[12.5px] leading-relaxed text-mid">{explain(r)}</span>
+                    </li>
+                  ))}
+                  {!stats.deficiencies.length && (
+                    <li className="flex items-center gap-2 rounded-lg border border-ok/20 bg-ok/[0.05] p-3 text-[13px] text-ok">
+                      <TrendingUp size={13} /> No deficiency detected in this batch.
+                    </li>
+                  )}
+                </ul>
+                {stats.best && stats.worst && stats.best !== stats.worst && stats.deficiencies.length > 0 && (
+                  <p className="mt-4 border-t border-white/[0.06] pt-3 text-[11.5px] leading-relaxed text-low">
+                    Spread: best Q{results.indexOf(stats.best) + 1} ({stats.best.delta >= 0 ? '+' : ''}{stats.best.delta.toFixed(2)})
+                    → worst Q{results.indexOf(stats.worst) + 1} ({stats.worst.delta.toFixed(2)}).
+                    Deficiencies on unstored phrasings are expected — each run stores its strategy, so rerun once to compare.
+                  </p>
+                )}
+              </div>
+            </Glass>
+          </motion.div>
         </div>
       )}
     </div>
