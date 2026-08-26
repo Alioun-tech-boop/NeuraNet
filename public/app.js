@@ -37,12 +37,36 @@ function setConnStatus(state) {
   const el = $('#conn-status');
   el.className = `status-pill ${state === 'ok' ? 'ok' : state === 'err' ? 'err' : 'unknown'}`;
   el.textContent = state === 'ok' ? 'Connecté' : state === 'err' ? 'Erreur' : 'Non connecté';
+  const ks = $('#key-state');
+  if (ks) {
+    const has = !!apiKey();
+    ks.textContent = has ? 'Clé : configurée' : 'Clé : non configurée';
+    ks.style.color = has ? 'var(--green)' : 'var(--amber)';
+  }
 }
 
 /* ── Render helpers ── */
 function esc(v) {
   return String(v ?? '').replace(/[&<>"']/g, (c) =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function ensureKeyBanner() {
+  let banner = document.getElementById('key-banner');
+  if (!apiKey()) {
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'key-banner';
+      banner.innerHTML = '<strong>Aucune clé API configurée.</strong> ' +
+        'Allez dans <a href="#/settings" style="color:var(--accent)">Paramètres</a> et collez votre clé NeuraNet pour afficher les données.';
+      banner.style.cssText = 'background:#f8514922;border:1px solid #f8514988;color:#ffb4ad;padding:12px 16px;border-radius:10px;margin-bottom:18px;';
+      const main = document.querySelector('.main');
+      main.insertBefore(banner, main.firstChild);
+    }
+    return false;
+  }
+  if (banner) banner.remove();
+  return true;
 }
 
 function card(label, value, sub) {
@@ -75,6 +99,7 @@ function genericRows(obj, depth = 0) {
 
 /* ── Views ── */
 async function viewOverview() {
+  if (!ensureKeyBanner()) { setConnStatus('unknown'); $('#overview-cards').innerHTML = ''; return; }
   const cardsEl = $('#overview-cards');
   const evoEl = $('#overview-evolution');
   try {
@@ -92,11 +117,14 @@ async function viewOverview() {
   } catch (e) {
     setConnStatus('err');
     cardsEl.innerHTML = '';
-    evoEl.innerHTML = `<p class="muted">${esc(e.message)} — vérifiez la clé API dans Paramètres.</p>`;
+    evoEl.innerHTML =
+      `<div style="background:#f8514922;border:1px solid #f8514988;color:#ffb4ad;padding:12px 16px;border-radius:10px">` +
+      `Erreur API : ${esc(e.message)}<br><small>Vérifiez que le serveur tourne et que la clé est valide (vue Paramètres).</small></div>`;
   }
 }
 
 async function viewPaths() {
+  if (!ensureKeyBanner()) { setConnStatus('unknown'); return; }
   const statsEl = $('#paths-stats'), frontierEl = $('#paths-frontier'),
         regretEl = $('#paths-regret'), cardsEl = $('#paths-cards');
   frontierEl.innerHTML = regretEl.innerHTML = statsEl.innerHTML = '<p class="muted">Chargement…</p>';
