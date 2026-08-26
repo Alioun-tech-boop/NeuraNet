@@ -39,15 +39,22 @@ const Jaccardish = (task, strat) => {
 const TRANSFER_SIM_THRESHOLD = 0.80;
 const COMPAT_OVERLAP_MIN = 0.12;
 
+const LANG_RULE = ' ALWAYS respond in the SAME LANGUAGE as the user question.';
+
 const heuristicQuality = (output, task) => {
-  if (!output || output.length < 50) return 0.1;
-  const len = Math.min(output.length / 800, 1);
-  const struct = /\d+\.|[-*•]|\n\n/.test(output) ? 1 : 0;
-  const spec = /[A-Z]{2,}|\d+(\.\d+)?%|https?:\/\//.test(output) ? 1 : 0;
+  /* Transparent 0–1 proxy — measures FORM and RELEVANCE, not factual truth.
+     Components are returned so the UI can explain the number. */
+  if (!output || output.length < 50) {
+    return { score: 0.1, parts: { length: 0.1, structure: 0, specificity: 0, relevance: 0 } };
+  }
+  const length = Math.min(output.length / 800, 1);
+  const structure = /\d+\.|[-*•]|\n\n/.test(output) ? 1 : 0;
+  const specificity = /[A-Z]{2,}|\d+(\.\d+)?%|https?:\/\//.test(output) ? 1 : 0;
   const words = [...new Set(contentWords(task))];
   const lo = output.toLowerCase();
-  const ov = words.filter((w) => lo.includes(w)).length / Math.max(words.length, 1);
-  return Math.round(((len * 0.25) + (struct * 0.2) + (spec * 0.25) + (ov * 0.3)) * 100) / 100;
+  const relevance = words.filter((w) => lo.includes(w)).length / Math.max(words.length, 1);
+  const score = Math.round(((length * 0.25) + (structure * 0.2) + (specificity * 0.25) + (relevance * 0.3)) * 100) / 100;
+  return { score, parts: { length: +length.toFixed(2), structure, specificity, relevance: +relevance.toFixed(2) } };
 };
 
 const slugKey = (task) => {
@@ -143,7 +150,7 @@ router.post('/run', authenticateApiKey, async (req, res) => {
       ? '\n\nSOURCES:\n' + sources.map((r, i) => `[${i+1}] ${r.title || ''}: ${(r.snippet || '').slice(0, 220)} (${r.url})`).join('\n')
       : '';
     const groq = new GroqProvider();
-    const guidedSys = 'You are a helpful research assistant. Answer using the provided sources when relevant. Be concise and factual.';
+    const guidedSys = 'You are a helpful research assistant. Answer using the provided sources when relevant. Be concise and factual.' + LANG_RULE;
     const guided = await groq.complete(
       [{ role: 'system', content: guidedSys }, { role: 'user', content: task + sourceBlock }],
       { temperature: 0.4, maxTokens: 500 });
@@ -152,13 +159,15 @@ router.post('/run', authenticateApiKey, async (req, res) => {
     /* baseline run — no strategy, no sources (same model, same question) */
     const tBase = Date.now();
     const baseline = await groq.complete(
-      [{ role: 'system', content: 'You are a helpful assistant.' }, { role: 'user', content: task }],
+      [{ role: 'system', content: 'You are a helpful assistant.' + LANG_RULE }, { role: 'user', content: task }],
       { temperature: 0.4, maxTokens: 500 });
 
     /* 7 ─ EVALUATION */
     t = Date.now();
-    const quality = heuristicQuality(guided.text, task);
-    const baselineQuality = heuristicQuality(baseline.text, task);
+    const qG = heuristicQuality(guided.text, task);
+    const qB = heuristicQuality(baseline.text, task);
+    const quality = qG.score;
+    const baselineQuality = qB.score;
     stageMs.EVALUATION = Date.now() - t;
 
     /* persist learned strategy (procedural only — never the answer text) */
@@ -216,6 +225,7 @@ router.post('/run', authenticateApiKey, async (req, res) => {
         answer: guided.text,
         baselineAnswer: baseline.text,
         quality,
+        qualityBreakdown: qG.parts,
         baselineQuality,
         delta: +(quality - baselineQuality).toFixed(2),
       },
