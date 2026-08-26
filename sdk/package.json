@@ -1,0 +1,15 @@
+{
+  "name": "@neuranet/sdk",
+  "version": "0.1.0",
+  "description": "Official Node.js SDK for NeuraNet — Procedural Experience Infrastructure for AI Agents",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": ["index.js", "index.d.ts", "README.md"],
+  "engines": { "node": ">=18" },
+  "keywords": ["ai-agents", "infrastructure", "semantic-retrieval", "strategy-transfer", "neuranet"],
+  "license": "MIT"
+}
