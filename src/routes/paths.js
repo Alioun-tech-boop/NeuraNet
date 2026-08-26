@@ -47,9 +47,10 @@ router.post('/select', authenticateApiKey, async (req, res) => {
 /** GET /v1/paths/statistics — per-path execution statistics */
 router.get('/statistics', authenticateApiKey, async (req, res) => {
   const { familyId } = req.query;
-  const paths = await pool.query(
-    `SELECT id FROM resolution_paths WHERE organization_id=$1 AND family_id=$2`,
-    [req.organization_id, familyId]);
+  // familyId optional: without it, aggregate across the whole organization
+  const paths = familyId
+    ? await pool.query(`SELECT id FROM resolution_paths WHERE organization_id=$1 AND family_id=$2`, [req.organization_id, familyId])
+    : await pool.query(`SELECT id FROM resolution_paths WHERE organization_id=$1`, [req.organization_id]);
   const statsMap = await selectorEngine.getStats(req.organization_id, paths.rows.map(p=>p.id));
   const out = {};
   for (const [pid, s] of statsMap) out[pid] = s;
@@ -59,12 +60,20 @@ router.get('/statistics', authenticateApiKey, async (req, res) => {
 /** GET /v1/paths/regret — estimated regret of past selections */
 router.get('/regret', authenticateApiKey, async (req, res) => {
   const { familyId } = req.query;
-  const rows = await pool.query(
-    `SELECT pe.path_id, AVG(pe.quality_score) AS avg_q, COUNT(*) AS n
-     FROM path_executions pe JOIN resolution_paths rp ON rp.id=pe.path_id
-     WHERE rp.organization_id=$1 AND rp.family_id=$2 AND pe.quality_score IS NOT NULL
-     GROUP BY pe.path_id ORDER BY avg_q DESC`,
-    [req.organization_id, familyId]);
+  // familyId optional: org-wide regret when absent
+  const rows = familyId
+    ? await pool.query(
+      `SELECT pe.path_id, AVG(pe.quality_score) AS avg_q, COUNT(*) AS n
+       FROM path_executions pe JOIN resolution_paths rp ON rp.id=pe.path_id
+       WHERE rp.organization_id=$1 AND rp.family_id=$2 AND pe.quality_score IS NOT NULL
+       GROUP BY pe.path_id ORDER BY avg_q DESC`,
+      [req.organization_id, familyId])
+    : await pool.query(
+      `SELECT pe.path_id, AVG(pe.quality_score) AS avg_q, COUNT(*) AS n
+       FROM path_executions pe JOIN resolution_paths rp ON rp.id=pe.path_id
+       WHERE rp.organization_id=$1 AND pe.quality_score IS NOT NULL
+       GROUP BY pe.path_id ORDER BY avg_q DESC`,
+      [req.organization_id]);
   if (!rows.rows.length) return res.json({ estimatedRegret: null, note: 'no observations' });
   const bestObservable = parseFloat(rows.rows[0].avg_q);
   const detail = rows.rows.map(r=>({
@@ -133,13 +142,19 @@ router.get('/frontier', authenticateApiKey, async (req, res) => {
 /** GET /v1/paths/history — elimination + version history */
 router.get('/history', authenticateApiKey, async (req, res) => {
   const { familyId } = req.query;
-  const elim = await pool.query(
-    `SELECT * FROM path_eliminations WHERE organization_id=$1 AND family_id=$2 ORDER BY created_at DESC`,
-    [req.organization_id, familyId]);
-  const versions = await pool.query(
-    `SELECT pv.* FROM path_versions pv JOIN resolution_paths rp ON rp.id=pv.path_id
-     WHERE rp.organization_id=$1 AND rp.family_id=$2 ORDER BY pv.created_at`,
-    [req.organization_id, familyId]);
+  // familyId optional: org-wide history when absent
+  const elim = familyId
+    ? await pool.query(`SELECT * FROM path_eliminations WHERE organization_id=$1 AND family_id=$2 ORDER BY created_at DESC`, [req.organization_id, familyId])
+    : await pool.query(`SELECT * FROM path_eliminations WHERE organization_id=$1 ORDER BY created_at DESC`, [req.organization_id]);
+  const versions = familyId
+    ? await pool.query(
+      `SELECT pv.* FROM path_versions pv JOIN resolution_paths rp ON rp.id=pv.path_id
+       WHERE rp.organization_id=$1 AND rp.family_id=$2 ORDER BY pv.created_at`,
+      [req.organization_id, familyId])
+    : await pool.query(
+      `SELECT pv.* FROM path_versions pv JOIN resolution_paths rp ON rp.id=pv.path_id
+       WHERE rp.organization_id=$1 ORDER BY pv.created_at`,
+      [req.organization_id]);
   res.json({ eliminations: elim.rows, versions: versions.rows, request_id: req.request_id });
 });
 

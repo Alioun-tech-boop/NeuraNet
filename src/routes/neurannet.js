@@ -37,6 +37,7 @@ router.post('/select', authenticateApiKey, async (req, res) => {
 router.post('/observe', authenticateApiKey, async (req, res) => {
   const orgId = req.organization_id;
   const { task, familyId, pathId, executionId, metrics, environment } = req.body;
+  const domainOverride = typeof req.body.domain === 'string' ? req.body.domain : undefined;
   if (!task || !familyId) return res.status(400).json({ error: 'task and familyId required', request_id: req.request_id });
   try {
     const signature = buildProblemSignature(task, domainOverride);

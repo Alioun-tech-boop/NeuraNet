@@ -117,12 +117,13 @@ export class PathEvolutionEngine {
 
   /** Full evolution snapshot for observability */
   async snapshot(orgId, familyId) {
-    const paths = await pool.query(
-      `SELECT id, version, parent_id, status, is_canonical, quality_score,
+    // familyId optional: org-wide snapshot when absent (console overview)
+    const sql = `SELECT id, version, parent_id, status, is_canonical, quality_score,
               observed_latency_ms, observed_tokens, observed_tool_calls,
               observed_failures, pareto_active
-       FROM resolution_paths WHERE organization_id=$1 AND family_id=$2 ORDER BY version`,
-      [orgId, familyId]);
+       FROM resolution_paths WHERE organization_id=$1 ${familyId ? 'AND family_id=$2' : ''} ORDER BY version`;
+    const params = familyId ? [orgId, familyId] : [orgId];
+    const paths = await pool.query(sql, params);
     const frontier = this.comparator.frontier(paths.rows.filter(p => p.status !== 'ELIMINATED'));
     const best = this.comparator.bestKnown(frontier.frontier);
     return {
