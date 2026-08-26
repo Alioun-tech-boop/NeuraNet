@@ -3,12 +3,13 @@ import Sidebar from './components/Sidebar.jsx';
 import TopBar from './components/TopBar.jsx';
 import Overview from './pages/Overview.jsx';
 import LiveExecution from './pages/LiveExecution.jsx';
+import BatchAnalysis from './pages/BatchAnalysis.jsx';
 import ExperienceGraphPage from './pages/ExperienceGraphPage.jsx';
 import Strategies from './pages/Strategies.jsx';
 import Benchmarks from './pages/Benchmarks.jsx';
 import SystemPage from './pages/SystemPage.jsx';
 
-const VIEWS = ['overview', 'live', 'graph', 'strategies', 'benchmarks', 'system', 'api', 'settings'];
+const VIEWS = ['overview', 'live', 'batch', 'graph', 'strategies', 'benchmarks', 'system', 'api', 'settings'];
 
 export default function App() {
   const [view, setView] = useState('overview');
@@ -64,6 +65,7 @@ export default function App() {
         <main>
           {view === 'overview' && <Overview onNavigate={navigate} />}
           {view === 'live' && <LiveExecution onExitDemo={() => setDemoMode(false)} />}
+          {view === 'batch' && <BatchAnalysis />}
           {view === 'graph' && <ExperienceGraphPage />}
           {view === 'strategies' && <Strategies />}
           {view === 'benchmarks' && <Benchmarks />}

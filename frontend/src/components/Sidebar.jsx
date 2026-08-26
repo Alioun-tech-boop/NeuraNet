@@ -1,8 +1,9 @@
-import { Activity, Boxes, GitBranch, LayoutDashboard, Network, Settings2, Server, Webhook } from 'lucide-react';
+import { Activity, Boxes, GitBranch, LayoutDashboard, ListChecks, Network, Settings2, Server, Webhook } from 'lucide-react';
 
 const NAV = [
   { id: 'overview', label: 'Overview', icon: LayoutDashboard },
   { id: 'live', label: 'Live Execution', icon: Activity },
+  { id: 'batch', label: 'Batch Analysis', icon: ListChecks },
   { id: 'graph', label: 'Experience Graph', icon: Network },
   { id: 'strategies', label: 'Strategies', icon: GitBranch },
   { id: 'benchmarks', label: 'Benchmarks', icon: Boxes },
