@@ -228,14 +228,24 @@ export const STAGE_TIMINGS = { TASK: 350, EMBED: 550, RETRIEVAL: 800, COMPATIBIL
    ───────────────────────────────────────────────────────────────────────────── */
 
 /** Live backend call: arbitrary question through the real pipeline.
- *  Falls back to the scripted mock when the API is unreachable, so the
- *  recorded demo never breaks. */
+ *  API key/base resolution order: localStorage (Settings) → build-time env
+ *  (.env.local, gitignored) → empty. Falls back to the scripted mock when
+ *  the API is unreachable, so the recorded demo never breaks. */
+const ENV_KEY = import.meta.env?.VITE_NEURANET_API_KEY || '';
+const ENV_BASE = import.meta.env?.VITE_API_BASE || '';
+
+export function getApiKey() {
+  return localStorage.getItem('nn_api_key') || ENV_KEY;
+}
+export function getApiBase() {
+  return localStorage.getItem('nn_api_base') ?? ENV_BASE;
+}
+
 export async function runLive(task) {
-  const base = localStorage.getItem('nn_api_base') || '';
   try {
-    const res = await fetch(`${base}/v1/demo/run`, {
+    const res = await fetch(`${getApiBase()}/v1/demo/run`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-API-Key': localStorage.getItem('nn_api_key') || '' },
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': getApiKey() },
       body: JSON.stringify({ task }),
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);

@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { Server, Webhook, Settings2, ShieldCheck } from 'lucide-react';
+import { getApiKey, getApiBase } from '../data/neuranetDemo.js';
 
 export default function SystemPage({ tab = 'system' }) {
-  const [apiBase, setApiBase] = useState(localStorage.getItem('nn_api_base') || 'http://localhost:3000');
-  const [apiKey, setApiKey] = useState(localStorage.getItem('nn_api_key') || '');
+  const [apiBase, setApiBase] = useState(getApiBase() || 'http://localhost:3000');
+  const [apiKey, setApiKey] = useState(getApiKey());
   const [saved, setSaved] = useState(false);
 
   function save() {
     localStorage.setItem('nn_api_base', apiBase);
     if (apiKey) localStorage.setItem('nn_api_key', apiKey);
+    else localStorage.removeItem('nn_api_key'); // fall back to build-time env
     setSaved(true);
     setTimeout(() => setSaved(false), 1800);
   }
