@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar.jsx';
 import TopBar from './components/TopBar.jsx';
 import Home from './pages/Home.jsx';
 import Workspace from './pages/Workspace.jsx';
+import CodeMode from './pages/CodeMode.jsx';
 import ExperiencePage from './pages/ExperiencePage.jsx';
 import ProjectsPage from './pages/ProjectsPage.jsx';
 import ModelCompare from './pages/ModelCompare.jsx';
@@ -11,6 +12,7 @@ import StrategyDetail from './components/StrategyDetail.jsx';
 import ArchitectureView from './components/ArchitectureView.jsx';
 import SystemStatus from './components/SystemStatus.jsx';
 import NeuraDemoMode from './components/NeuraDemoMode.jsx';
+import CommandPalette from './components/CommandPalette.jsx';
 import { loadConversations, saveConversations, loadProjects, saveProjects, loadSelectedModel, saveSelectedModel, newConversationId } from './lib/storage.js';
 
 const DEFAULT_MODEL = { provider: 'groq', id: 'allam-2-7b', name: 'Allam 2 7B' };
@@ -24,6 +26,9 @@ export default function App() {
   const [strategyDetail, setStrategyDetail] = useState(null);
   const [showArch, setShowArch] = useState(false);
   const [demoOpen, setDemoOpen] = useState(false);
+  const [codeTask, setCodeTask] = useState(null);
+  const [collapsed, setCollapsed] = useState(false);
+  const [cmdOpen, setCmdOpen] = useState(false);
 
   useEffect(() => { saveConversations(conversations); }, [conversations]);
   useEffect(() => { saveProjects(projects); }, [projects]);
@@ -33,7 +38,7 @@ export default function App() {
   useEffect(() => {
     const onHash = () => {
       const h = location.hash.replace('#/', '');
-      if (['home','chat','projects','experiences','compare','settings','arch'].includes(h)) setView(h);
+      if (['home','chat','code','projects','experiences','compare','settings','arch'].includes(h)) setView(h);
     };
     onHash();
     window.addEventListener('hashchange', onHash);
@@ -95,10 +100,10 @@ export default function App() {
   // Keyboard shortcuts
   useEffect(() => {
     const h = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); document.querySelector('input[placeholder*="Search"]')?.focus(); }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); setCmdOpen(v => !v); }
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'n') { e.preventDefault(); handleNewChat(); }
       if ((e.metaKey || e.ctrlKey) && e.key === ',') { e.preventDefault(); navigate('settings'); }
-      if (e.key === 'Escape') setShowArch(false);
+      if (e.key === 'Escape') { setShowArch(false); setCmdOpen(false); }
     };
     window.addEventListener('keydown', h);
     return () => window.removeEventListener('keydown', h);
@@ -112,6 +117,8 @@ export default function App() {
         conversations={conversations}
         activeId={activeId}
         onNewChat={handleNewChat}
+        collapsed={collapsed}
+        onToggleCollapse={() => setCollapsed(v => !v)}
       />
       <div className="flex min-w-0 flex-1 flex-col">
         <TopBar model={selectedModel} onModelChange={setSelectedModel} onDemo={() => setDemoOpen(true)} />
@@ -131,6 +138,7 @@ export default function App() {
                 projectId={activeConversation.projectId}
                 pendingMessage={pendingMessage}
                 onClearPending={() => setPendingMessage(null)}
+                onBuildInCode={(task) => { setCodeTask(task); setView('code'); location.hash = '#/code'; }}
               />
             ) : (
               <div className="flex h-full items-center justify-center p-8">
@@ -152,6 +160,8 @@ export default function App() {
           {view === 'projects' && (
             <ProjectsPage projects={projects} onCreateProject={handleCreateProject} onOpenProject={(id) => { setView('chat'); /* filter conversations by project */ }} onSelectConversation={(id) => { setActiveId(id); setView('chat'); }} />
           )}
+
+          {view === 'code' && <CodeMode selectedModel={selectedModel} projectId={activeConversation?.projectId} initialTask={codeTask} />}
 
           {view === 'compare' && <ModelCompare />}
 
@@ -193,6 +203,16 @@ export default function App() {
             }}
           />
         )}
+
+        <CommandPalette
+          open={cmdOpen}
+          onClose={() => setCmdOpen(false)}
+          onNavigate={(action) => {
+            if (action === 'chat') handleNewChat();
+            else if (action === 'code') { setView('code'); location.hash = '#/code'; }
+            else navigate(action);
+          }}
+        />
       </div>
     </div>
   );

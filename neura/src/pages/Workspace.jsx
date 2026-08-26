@@ -5,7 +5,7 @@ import ExperienceIndicator from '../components/ExperienceIndicator.jsx';
 import ExperiencePanel from '../components/ExperiencePanel.jsx';
 import { chat as neuraChat } from '../lib/neuraAdapter.js';
 
-export default function Workspace({ conversation, onUpdateConversation, selectedModel, projectId, pendingMessage, onClearPending }) {
+export default function Workspace({ conversation, onUpdateConversation, selectedModel, projectId, pendingMessage, onClearPending, onBuildInCode }) {
   const [streaming, setStreaming] = useState(false);
   const [showExp, setShowExp] = useState(false);
   const [lastExperience, setLastExperience] = useState(null);
@@ -94,6 +94,11 @@ export default function Workspace({ conversation, onUpdateConversation, selected
                   <AssistantBubble text={m.content} streaming={m.streaming} sources={m.sources} />
                   {m.experience && (
                     <ExperienceIndicator experience={m.experience} onExpand={() => setShowExp(v => !v)} />
+                  )}
+                  {m.role === 'assistant' && !m.streaming && !m.error && (
+                    <button onClick={() => onBuildInCode?.(conversation.messages.find(x => x.role === 'user')?.content || m.content.slice(0, 80))} className="inline-flex items-center gap-1.5 rounded-full border border-neura-border bg-neura-panel px-3 py-1.5 text-[12px] font-medium text-neura-accent hover:bg-neura-accent/10">
+                      Build this in Code →
+                    </button>
                   )}
                 </>
               )}

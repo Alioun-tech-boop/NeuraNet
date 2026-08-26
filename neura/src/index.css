@@ -4,10 +4,30 @@
 
 :root { color-scheme: dark; }
 html, body, #root { height: 100%; }
-body { @apply bg-neura-bg text-neura-hi antialiased; font-feature-settings: 'cv02','ss01'; }
-*::-webkit-scrollbar { width: 9px; height: 9px; }
-*::-webkit-scrollbar-thumb { background: #222838; border-radius: 6px; border: 2px solid #090A0E; }
+body {
+  @apply bg-neura-bg text-neura-hi antialiased;
+  font-feature-settings: 'cv02','ss01','cv01';
+  letter-spacing: -0.01em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+/* Subtle noise texture for depth — barely perceptible */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: #1E2535; border-radius: 99px; border: 2px solid #090A0E; }
+*::-webkit-scrollbar-thumb:hover { background: #2A344A; }
 *::-webkit-scrollbar-track { background: transparent; }
-:focus-visible { outline: 2px solid #6C7CFF; outline-offset: 2px; border-radius: 4px; }
-::selection { background: rgba(108,124,255,0.22); }
+:focus-visible { outline: 1.5px solid #6C7CFF; outline-offset: 2px; border-radius: 6px; }
+::selection { background: rgba(108,124,255,0.18); }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+}
