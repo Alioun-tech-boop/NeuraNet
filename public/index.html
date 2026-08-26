@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeuraNet Console</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">◈</span>
+        <span class="brand-name">NeuraNet</span>
+        <span class="brand-sub">Console</span>
+      </div>
+      <nav id="nav">
+        <a href="#/overview" class="nav-item active">Vue d'ensemble</a>
+        <a href="#/paths" class="nav-item">Chemins &amp; Pareto</a>
+        <a href="#/execute" class="nav-item">Exécuter une tâche</a>
+        <a href="#/knowledge" class="nav-item">Connaissance</a>
+        <a href="#/settings" class="nav-item">Paramètres</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div id="conn-status" class="status-pill unknown">Non connecté</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h1 id="view-title">Vue d'ensemble</h1>
+        <span id="request-id" class="request-id"></span>
+      </header>
+
+      <section id="view-overview" class="view">
+        <div class="cards" id="overview-cards"></div>
+        <div class="panel">
+          <h2>Activité récente — évolution du moteur de chemins</h2>
+          <div id="overview-evolution" class="table-wrap"><p class="muted">—</p></div>
+        </div>
+      </section>
+
+      <section id="view-paths" class="view hidden">
+        <div class="toolbar">
+          <button id="btn-refresh-paths" class="btn">Rafraîchir</button>
+        </div>
+        <div class="cards" id="paths-cards"></div>
+        <div class="panel">
+          <h2>Frontière de Pareto</h2>
+          <p class="hint">Chemins non-dominés (qualité / latence / coût) — les candidats conservés par le moteur.</p>
+          <div id="paths-frontier" class="table-wrap"><p class="muted">—</p></div>
+        </div>
+        <div class="panel">
+          <h2>Statistiques par famille</h2>
+          <div id="paths-stats" class="table-wrap"><p class="muted">—</p></div>
+        </div>
+        <div class="panel">
+          <h2>Regret cumulé</h2>
+          <div id="paths-regret" class="table-wrap"><p class="muted">—</p></div>
+        </div>
+      </section>
+
+      <section id="view-execute" class="view hidden">
+        <div class="grid-2">
+          <div class="panel">
+            <h2>Nouvelle tâche</h2>
+            <form id="form-execute">
+              <label>Tâche (objectif)</label>
+              <textarea id="exec-task" rows="4" placeholder="ex : Identifier l'autorité bancaire du Ghana" required></textarea>
+              <div class="form-row">
+                <div>
+                  <label>Workflow</label>
+                  <select id="exec-workflow">
+                    <option value="research">research</option>
+                    <option value="code">code</option>
+                    <option value="data">data</option>
+                    <option value="finance">finance</option>
+                    <option value="decision">decision</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Domaine (optionnel)</label>
+                  <input id="exec-domain" placeholder="banking" />
+                </div>
+                <div>
+                  <label>Juridiction (optionnel)</label>
+                  <input id="exec-jurisdiction" placeholder="ghana" />
+                </div>
+              </div>
+              <button type="submit" class="btn primary">Sélectionner le chemin optimal</button>
+            </form>
+            <div id="exec-result" class="result-box hidden"></div>
+          </div>
+          <div class="panel">
+            <h2>Observation de résultat</h2>
+            <p class="hint">Retour d'exécution qui alimente l'élimination Pareto et la convergence.</p>
+            <form id="form-observe">
+              <label>ID du chemin</label>
+              <input id="obs-path-id" placeholder="uuid du chemin" required />
+              <div class="form-row">
+                <div>
+                  <label>Succès</label>
+                  <select id="obs-success"><option value="true">true</option><option value="false">false</option></select>
+                </div>
+                <div>
+                  <label>Qualité (0–1)</label>
+                  <input id="obs-quality" type="number" step="0.01" min="0" max="1" placeholder="0.85" />
+                </div>
+                <div>
+                  <label>Latence (ms)</label>
+                  <input id="obs-latency" type="number" min="0" placeholder="1200" />
+                </div>
+              </div>
+              <button type="submit" class="btn">Envoyer l'observation</button>
+            </form>
+            <div id="obs-result" class="result-box hidden"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-knowledge" class="view hidden">
+        <div class="panel">
+          <h2>Requête universelle</h2>
+          <form id="form-knowledge">
+            <label>Question</label>
+            <textarea id="kq-input" rows="3" placeholder="Quelle stratégie pour comparer deux distributions ?" required></textarea>
+            <button type="submit" class="btn primary">Interroger la mémoire collective</button>
+          </form>
+          <div id="knowledge-result" class="result-box hidden"></div>
+        </div>
+      </section>
+
+      <section id="view-settings" class="view hidden">
+        <div class="panel narrow">
+          <h2>Clé API NeuraNet</h2>
+          <p class="hint">
+            La console appelle l'API locale <code>/v1/*</code> avec votre clé.
+            Elle est stockée uniquement dans <code>localStorage</code> de ce navigateur,
+            jamais transmise ailleurs ni journalisée côté serveur.
+          </p>
+          <form id="form-settings">
+            <label>X-API-Key</label>
+            <input id="set-api-key" type="password" placeholder="nn_..." autocomplete="off" />
+            <button type="submit" class="btn primary">Enregistrer</button>
+          </form>
+          <div id="settings-status" class="result-box hidden"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

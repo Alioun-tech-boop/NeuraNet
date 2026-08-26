@@ -1,4 +1,6 @@
 import 'dotenv/config';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -19,11 +21,23 @@ import { transferRouter } from '../routes/neurannetTransfer.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+// Console frontend — static assets served same-origin (no CORS exposure, CSP-safe)
+const PUBLIC_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'public');
 
 // ========================================
 // Security middleware
 // ========================================
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'"],
+      imgSrc: ["'self'", 'data:'],
+      connectSrc: ["'self'"],
+    },
+  },
+}));
 app.use(cors({
   origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
   credentials: true
@@ -58,6 +72,11 @@ app.get('/health', (req, res) => {
 });
 
 // ========================================
+// Console frontend (static, unauthenticated; data routes remain auth-protected)
+// ========================================
+app.use(express.static(PUBLIC_DIR, { index: 'index.html', maxAge: '1h' }));
+
+// ========================================
 // API v1 routes (authenticated)
 // ========================================
 app.use('/v1', authenticateApiKey);
@@ -83,13 +102,14 @@ app.use('/v1/paths', pathsRoutes);
 app.use('/v1/neurannet', transferRouter);
 
 // ========================================
-// Root route
+// Root route — API info (console served at /index.html)
 // ========================================
 app.get('/', (req, res) => {
   res.json({
     name: 'NeuraNet API',
     version: '0.1.0',
     status: 'operational',
+    console: '/index.html',
     request_id: req.request_id
   });
 });
