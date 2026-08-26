@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+html, body, #root { height: 100%; }
+body { @apply bg-neura-bg text-neura-hi antialiased; font-feature-settings: 'cv02','ss01'; }
+*::-webkit-scrollbar { width: 9px; height: 9px; }
+*::-webkit-scrollbar-thumb { background: #222838; border-radius: 6px; border: 2px solid #090A0E; }
+*::-webkit-scrollbar-track { background: transparent; }
+:focus-visible { outline: 2px solid #6C7CFF; outline-offset: 2px; border-radius: 4px; }
+::selection { background: rgba(108,124,255,0.22); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }

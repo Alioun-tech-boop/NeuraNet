@@ -17,6 +17,8 @@ import { neurannetRoutes } from '../routes/neurannet.js';
 import { pathsRoutes } from '../routes/paths.js';
 // Semantic strategy transfer — uses path engine + E5 embeddings (replaces old transfer.js)
 import { transferRouter } from '../routes/neurannetTransfer.js';
+// NEURA application layer — thin adapter over existing NeuraNet engines
+import { neuraRouter } from '../routes/neura.js';
 // API key lifecycle: mint / list / revoke (admin-scoped)
 import { apiKeysRouter } from '../routes/apiKeys.js';
 // YC live-demo orchestrator: arbitrary question → real pipeline end to end
@@ -104,8 +106,11 @@ app.use('/v1/paths', pathsRoutes);
 // removed: old transfer.js had null query_hash bug
 // Clean transfer endpoint using path engine
 app.use('/v1/neurannet', transferRouter);
+app.use('/v1/neurannet', transferRouter);
 // Live demo: real E5 retrieval + hard compatibility + strategy-guided execution
 app.use('/v1/demo', demoRouter);
+// NEURA application layer — thin adapter over existing NeuraNet engines
+app.use('/v1/neura', neuraRouter);
 // API key management (admin)
 app.use('/v1/api-keys', apiKeysRouter);
 
